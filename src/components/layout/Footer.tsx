@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Stethoscope, Instagram, Linkedin } from "lucide-react";
+import { useSocialLinks } from "@/hooks/useSocialLinks";
 
 const quickLinks = [
   { href: "/", label: "Home" },
@@ -10,11 +11,6 @@ const quickLinks = [
   { href: "/ethics", label: "Ethics" },
   { href: "/contact", label: "Contact" },
   { href: "/privacy", label: "Privacy" },
-];
-
-const socialLinks = [
-  { icon: Instagram, label: "Instagram", href: "#" },
-  { icon: Linkedin, label: "LinkedIn", href: "#" },
 ];
 
 // TikTok icon component since lucide doesn't have one
@@ -31,6 +27,12 @@ function TikTokIcon({ className }: { className?: string }) {
 }
 
 export function Footer() {
+  const { data: socialLinks } = useSocialLinks();
+
+  const isValidUrl = (url: string | undefined) => {
+    return url && url !== "UPDATE_ME" && url.startsWith("http");
+  };
+
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="container py-12 lg:py-16">
@@ -48,20 +50,27 @@ export function Footer() {
               Your safety and success are our priority.
             </p>
             <div className="flex items-center gap-4">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-colors"
-                  aria-label={social.label}
-                >
-                  <social.icon className="h-5 w-5" />
-                </a>
-              ))}
               <a
-                href="#"
+                href={isValidUrl(socialLinks?.instagram_url) ? socialLinks.instagram_url : "#"}
+                className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-colors"
+                aria-label="Instagram"
+                onClick={(e) => !isValidUrl(socialLinks?.instagram_url) && e.preventDefault()}
+              >
+                <Instagram className="h-5 w-5" />
+              </a>
+              <a
+                href={isValidUrl(socialLinks?.linkedin_url) ? socialLinks.linkedin_url : "#"}
+                className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-colors"
+                aria-label="LinkedIn"
+                onClick={(e) => !isValidUrl(socialLinks?.linkedin_url) && e.preventDefault()}
+              >
+                <Linkedin className="h-5 w-5" />
+              </a>
+              <a
+                href={isValidUrl(socialLinks?.tiktok_url) ? socialLinks.tiktok_url : "#"}
                 className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-colors"
                 aria-label="TikTok"
+                onClick={(e) => !isValidUrl(socialLinks?.tiktok_url) && e.preventDefault()}
               >
                 <TikTokIcon className="h-5 w-5" />
               </a>
