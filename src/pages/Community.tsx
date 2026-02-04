@@ -1,17 +1,19 @@
 import { Link } from "react-router-dom";
-import { MessageCircle, Users, Globe, Shield, ArrowRight, CheckCircle, Heart } from "lucide-react";
+import { MessageCircle, Users, Shield, ArrowRight, CheckCircle, XCircle, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/layout/Layout";
 import { useWhatsAppGroups } from "@/hooks/useWhatsAppGroups";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 
-const benefits = [
-  "Real-time answers from nurses who've been through the process",
-  "Job alerts and opportunity notifications",
-  "Study group partners for exams",
-  "Settlement tips from nurses in your destination country",
-  "Emotional support during the journey",
-  "Networking with healthcare professionals worldwide",
+const guidelines = [
+  { type: "do", text: "Be respectful and supportive of all members" },
+  { type: "do", text: "Share your experiences to help others" },
+  { type: "do", text: "Ask questions—no question is too basic" },
+  { type: "do", text: "Report suspicious activity to admins" },
+  { type: "dont", text: "No recruitment fees or money requests" },
+  { type: "dont", text: "No spam, self-promotion, or MLM schemes" },
+  { type: "dont", text: "No sharing personal info of others without consent" },
+  { type: "dont", text: "No discrimination or harassment of any kind" },
 ];
 
 export default function Community() {
@@ -20,7 +22,7 @@ export default function Community() {
 
   return (
     <Layout>
-      {/* Hero */}
+      {/* A) Hero */}
       <section className="gradient-hero py-12 lg:py-20">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
@@ -29,16 +31,12 @@ export default function Community() {
               Growing Community
             </div>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary-foreground mb-4">
-              Join Our Global <br />Nursing Community
+              Join the Nurse Community
             </h1>
             <p className="text-lg text-primary-foreground/90 mb-8">
               Connect with nurses worldwide. Get real advice, find study partners, and never feel alone on your journey.
             </p>
-            <Button 
-              variant="hero" 
-              size="xl" 
-              onClick={handleWhatsAppClick}
-            >
+            <Button variant="hero" size="xl" onClick={handleWhatsAppClick}>
               <MessageCircle className="h-5 w-5" />
               Join WhatsApp Community
             </Button>
@@ -46,48 +44,8 @@ export default function Community() {
         </div>
       </section>
 
-      {/* Benefits */}
+      {/* B) Segment Cards */}
       <section className="py-12 lg:py-16">
-        <div className="container">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            <div>
-              <h2 className="text-2xl lg:text-3xl font-extrabold text-foreground mb-6">
-                Why Join Our Community?
-              </h2>
-              <ul className="space-y-4">
-                {benefits.map((benefit) => (
-                  <li key={benefit} className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
-                    <span className="text-foreground">{benefit}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="bg-card rounded-xl p-8 shadow-card border border-border">
-              <div className="text-center">
-                <div className="h-16 w-16 rounded-full bg-accent mx-auto flex items-center justify-center mb-4">
-                  <Heart className="h-8 w-8 text-accent-foreground" />
-                </div>
-                <h3 className="text-xl font-bold text-foreground mb-2">Free to Join</h3>
-                <p className="text-muted-foreground mb-6">
-                  Our community is completely free. No hidden fees, no premium tiers. Just nurses helping nurses.
-                </p>
-                <Button 
-                  variant="whatsapp" 
-                  className="w-full"
-                  onClick={handleWhatsAppClick}
-                >
-                  <MessageCircle className="h-5 w-5" />
-                  Join Now
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Community Groups */}
-      <section className="py-12 lg:py-16 bg-muted">
         <div className="container">
           <div className="text-center mb-12">
             <h2 className="text-2xl lg:text-3xl font-extrabold text-foreground mb-4">
@@ -97,64 +55,122 @@ export default function Community() {
               Find your niche. Join groups focused on your interests and needs.
             </p>
           </div>
+
           {isLoading ? (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
               {[...Array(3)].map((_, i) => (
                 <div key={i} className="bg-card rounded-xl p-6 shadow-card border border-border animate-pulse">
-                  <div className="h-12 w-12 bg-muted rounded-lg mb-4"></div>
-                  <div className="h-6 w-32 bg-muted rounded mb-2"></div>
-                  <div className="h-4 w-full bg-muted rounded"></div>
+                  <div className="h-14 w-14 bg-muted rounded-lg mb-4" />
+                  <div className="h-6 w-32 bg-muted rounded mb-2" />
+                  <div className="h-4 w-full bg-muted rounded mb-4" />
+                  <div className="h-10 w-full bg-muted rounded" />
                 </div>
               ))}
             </div>
           ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {groups?.map((group) => (
-                <div
-                  key={group.id}
-                  className="bg-card rounded-xl p-6 shadow-card border border-border hover:shadow-lg transition-shadow"
-                >
-                  <div className="h-12 w-12 rounded-lg bg-mint flex items-center justify-center mb-4">
-                    <MessageCircle className="h-6 w-6 text-mint-foreground" />
-                  </div>
-                  <h3 className="text-lg font-bold text-foreground mb-2">{group.segment_name}</h3>
-                  <p className="text-sm text-muted-foreground mb-4">{group.description}</p>
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    onClick={(e) => handleGroupClick(group.join_link, e)}
-                    asChild
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+              {groups?.map((group) => {
+                const valid = isValidLink(group.join_link);
+                
+                return (
+                  <div
+                    key={group.id}
+                    className="bg-card rounded-xl p-6 shadow-card border border-border hover:shadow-lg transition-shadow"
                   >
-                    <a href={isValidLink(group.join_link) ? group.join_link : "#"} target="_blank" rel="noopener noreferrer">
-                      Join
-                      <ArrowRight className="h-4 w-4" />
-                    </a>
-                  </Button>
-                </div>
-              ))}
+                    <div className="h-14 w-14 rounded-lg bg-mint flex items-center justify-center mb-4">
+                      <MessageCircle className="h-7 w-7 text-mint-foreground" />
+                    </div>
+                    <h3 className="text-lg font-bold text-foreground mb-2">{group.segment_name}</h3>
+                    <p className="text-sm text-muted-foreground mb-4">{group.description}</p>
+                    
+                    {valid ? (
+                      <Button variant="whatsapp" className="w-full" asChild>
+                        <a href={group.join_link} target="_blank" rel="noopener noreferrer">
+                          <MessageCircle className="h-4 w-4" />
+                          Join Group
+                        </a>
+                      </Button>
+                    ) : (
+                      <div className="space-y-2">
+                        <Button variant="ghost" className="w-full" disabled>
+                          Coming Soon
+                        </Button>
+                        <p className="text-xs text-muted-foreground text-center">
+                          Contact: <a href="mailto:globalparo@gmail.com" className="text-primary hover:underline">globalparo@gmail.com</a>
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>
       </section>
 
-      {/* Guidelines */}
-      <section className="py-12 lg:py-16">
+      {/* C) Community Guidelines */}
+      <section className="py-12 lg:py-16 bg-muted">
         <div className="container">
-          <div className="max-w-2xl mx-auto text-center">
-            <Shield className="h-12 w-12 text-primary mx-auto mb-4" />
-            <h2 className="text-2xl lg:text-3xl font-extrabold text-foreground mb-4">
-              Community Guidelines
-            </h2>
-            <p className="text-muted-foreground mb-6">
-              Our community is a safe space. We expect all members to be respectful, supportive, and honest. 
-              No recruitment fees, no scams, no spam. Violations result in immediate removal.
-            </p>
-            <Button variant="outline" asChild>
-              <Link to="/ethics">
-                Read Our Ethics Policy
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
+          <div className="max-w-3xl mx-auto">
+            <div className="text-center mb-10">
+              <Shield className="h-12 w-12 text-primary mx-auto mb-4" />
+              <h2 className="text-2xl lg:text-3xl font-extrabold text-foreground mb-4">
+                Community Guidelines
+              </h2>
+              <p className="text-muted-foreground">
+                Our community is a safe space. Please follow these guidelines to keep it that way.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Do's */}
+              <div className="bg-accent/10 rounded-xl p-6 border border-accent/20">
+                <h3 className="font-bold text-foreground mb-4 flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-accent" />
+                  Do's
+                </h3>
+                <ul className="space-y-3">
+                  {guidelines
+                    .filter((g) => g.type === "do")
+                    .map((guideline) => (
+                      <li key={guideline.text} className="flex items-start gap-2">
+                        <CheckCircle className="h-4 w-4 text-accent flex-shrink-0 mt-0.5" />
+                        <span className="text-sm text-foreground">{guideline.text}</span>
+                      </li>
+                    ))}
+                </ul>
+              </div>
+
+              {/* Don'ts */}
+              <div className="bg-destructive/10 rounded-xl p-6 border border-destructive/20">
+                <h3 className="font-bold text-foreground mb-4 flex items-center gap-2">
+                  <XCircle className="h-5 w-5 text-destructive" />
+                  Don'ts
+                </h3>
+                <ul className="space-y-3">
+                  {guidelines
+                    .filter((g) => g.type === "dont")
+                    .map((guideline) => (
+                      <li key={guideline.text} className="flex items-start gap-2">
+                        <XCircle className="h-4 w-4 text-destructive flex-shrink-0 mt-0.5" />
+                        <span className="text-sm text-foreground">{guideline.text}</span>
+                      </li>
+                    ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="mt-8 text-center">
+              <p className="text-sm text-muted-foreground mb-4">
+                Violations result in immediate removal. Your privacy and safety are our priority.
+              </p>
+              <Button variant="outline" asChild>
+                <Link to="/ethics">
+                  Read Our Full Ethics Policy
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
       </section>
@@ -169,11 +185,7 @@ export default function Community() {
             Join nurses who are supporting each other on their international career journeys.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              variant="hero" 
-              size="lg"
-              onClick={handleWhatsAppClick}
-            >
+            <Button variant="hero" size="lg" onClick={handleWhatsAppClick}>
               <MessageCircle className="h-5 w-5" />
               Join WhatsApp Community
             </Button>

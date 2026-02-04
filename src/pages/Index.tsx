@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, MessageCircle, Award, Heart } from "lucide-react";
+import { ArrowRight, MessageCircle, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/layout/Layout";
 import {
@@ -10,14 +10,9 @@ import {
   FeaturedContentGrid,
   CommunityInviteBlock,
   EthicsSafetyStrip,
+  EligibilityQuickCheck,
+  SocialStrip,
 } from "@/components/campaign";
-
-const stats = [
-  { value: "5,000+", label: "Nurses Placed" },
-  { value: "25+", label: "Partner Countries" },
-  { value: "98%", label: "Success Rate" },
-  { value: "0", label: "Fees to Nurses" },
-];
 
 const testimonials = [
   {
@@ -43,37 +38,40 @@ const testimonials = [
 export default function Index() {
   return (
     <Layout>
-      {/* Hero Section */}
-      <HeroCampaign />
+      {/* A) HeroCampaign */}
+      <HeroCampaign
+        headline={
+          <>
+            Work Abroad as a Nurse —<br />
+            <span className="text-mint">Safely & Ethically</span>
+          </>
+        }
+        subheadline="Verified pathways, supportive community, and step-by-step preparation."
+      />
 
-      {/* Trust Badges */}
+      {/* B) TrustBadgesStrip */}
       <TrustBadgesStrip />
 
-      {/* Stats Bar */}
-      <section className="bg-muted">
-        <div className="container py-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-            {stats.map((stat) => (
-              <div key={stat.label} className="text-center">
-                <p className="text-3xl lg:text-4xl font-extrabold text-primary mb-1">{stat.value}</p>
-                <p className="text-sm text-muted-foreground">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Process Steps */}
+      {/* C) ProcessSteps */}
       <ProcessSteps />
 
-      {/* Pathways */}
-      <PathwayCardGrid limit={4} />
+      {/* D) EligibilityQuickCheck */}
+      <EligibilityQuickCheck />
 
-      {/* Ethics Strip */}
-      <EthicsSafetyStrip variant="compact" />
+      {/* E) Featured Pathways (6) */}
+      <PathwayCardGrid limit={6} />
 
-      {/* Featured Content */}
+      {/* F) Featured Content (6) */}
       <FeaturedContentGrid limit={6} />
+
+      {/* G) CommunityInviteBlock */}
+      <CommunityInviteBlock />
+
+      {/* H) EthicsSafetyStrip */}
+      <EthicsSafetyStrip />
+
+      {/* I) Social Strip */}
+      <SocialStrip />
 
       {/* Testimonials */}
       <section className="py-16 lg:py-24 bg-muted">
@@ -116,9 +114,6 @@ export default function Index() {
           </div>
         </div>
       </section>
-
-      {/* Community Invite */}
-      <CommunityInviteBlock />
 
       {/* Final CTA */}
       <section className="py-16 lg:py-24 gradient-hero">

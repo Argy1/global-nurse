@@ -1,10 +1,15 @@
+import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, MapPin, Clock, DollarSign } from "lucide-react";
+import { ArrowRight, MapPin, Clock, Filter, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Layout } from "@/components/layout/Layout";
 import { usePathways } from "@/hooks/usePathways";
+import { Constants } from "@/integrations/supabase/types";
 
-// Country flag mapping
+const licenseStatusOptions = Constants.public.Enums.license_status_type;
+const englishLevelOptions = Constants.public.Enums.english_level_type;
+
 const countryFlags: Record<string, string> = {
   "United Kingdom": "🇬🇧",
   "United States": "🇺🇸",
@@ -16,6 +21,31 @@ const countryFlags: Record<string, string> = {
 
 export default function Pathways() {
   const { data: pathways, isLoading, error } = usePathways();
+  const [countryFilter, setCountryFilter] = useState<string>("all");
+  const [licenseFilter, setLicenseFilter] = useState<string>("all");
+  const [englishFilter, setEnglishFilter] = useState<string>("all");
+
+  const countries = useMemo(() => {
+    if (!pathways) return [];
+    return [...new Set(pathways.map((p) => p.country))];
+  }, [pathways]);
+
+  const filteredPathways = useMemo(() => {
+    if (!pathways) return [];
+    return pathways.filter((pathway) => {
+      if (countryFilter !== "all" && pathway.country !== countryFilter) return false;
+      // License and English filters are informational only (no data in pathway)
+      return true;
+    });
+  }, [pathways, countryFilter]);
+
+  const hasActiveFilters = countryFilter !== "all" || licenseFilter !== "all" || englishFilter !== "all";
+
+  const clearFilters = () => {
+    setCountryFilter("all");
+    setLicenseFilter("all");
+    setEnglishFilter("all");
+  };
 
   return (
     <Layout>
@@ -29,6 +59,63 @@ export default function Pathways() {
             <p className="text-lg text-primary-foreground/90">
               Verified opportunities in top healthcare destinations worldwide. Find your perfect match.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Filters */}
+      <section className="py-6 bg-card border-b border-border">
+        <div className="container">
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+              <Filter className="h-4 w-4" />
+              Filters:
+            </div>
+
+            <Select value={countryFilter} onValueChange={setCountryFilter}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="All Countries" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Countries</SelectItem>
+                {countries.map((country) => (
+                  <SelectItem key={country} value={country}>
+                    {countryFlags[country] || "🌍"} {country}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <Select value={licenseFilter} onValueChange={setLicenseFilter}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="License Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All License Status</SelectItem>
+                {licenseStatusOptions.map((opt) => (
+                  <SelectItem key={opt} value={opt}>{opt}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <Select value={englishFilter} onValueChange={setEnglishFilter}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="English Level" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All English Levels</SelectItem>
+                {englishLevelOptions.map((opt) => (
+                  <SelectItem key={opt} value={opt}>{opt}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            {hasActiveFilters && (
+              <Button variant="ghost" size="sm" onClick={clearFilters}>
+                <X className="h-4 w-4" />
+                Clear
+              </Button>
+            )}
           </div>
         </div>
       </section>
@@ -50,9 +137,14 @@ export default function Pathways() {
             <div className="text-center py-12">
               <p className="text-muted-foreground">Failed to load pathways. Please try again later.</p>
             </div>
+          ) : filteredPathways.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground mb-4">No pathways match your filters.</p>
+              <Button variant="outline" onClick={clearFilters}>Clear Filters</Button>
+            </div>
           ) : (
             <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
-              {pathways?.map((pathway) => {
+              {filteredPathways.map((pathway) => {
                 const requirements = (pathway.requirements as string[]) || [];
                 const timelineSteps = (pathway.timeline_steps as string[]) || [];
                 
@@ -84,12 +176,17 @@ export default function Pathways() {
                         </div>
                       </div>
 
-                      <Button variant="outline" className="w-full" asChild>
-                        <Link to={`/pathways/${pathway.slug}`}>
-                          View Full Details
-                          <ArrowRight className="h-4 w-4" />
-                        </Link>
-                      </Button>
+                      <div className="flex gap-3">
+                        <Button variant="outline" className="flex-1" asChild>
+                          <Link to={`/pathways/${pathway.slug}`}>
+                            View Details
+                            <ArrowRight className="h-4 w-4" />
+                          </Link>
+                        </Button>
+                        <Button variant="cta" className="flex-1" asChild>
+                          <Link to="/apply">Apply</Link>
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 );

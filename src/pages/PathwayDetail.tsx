@@ -1,11 +1,11 @@
 import { useParams, Link } from "react-router-dom";
-import { ArrowRight, ArrowLeft, Clock, FileCheck, CheckCircle, MapPin, Users, HelpCircle } from "lucide-react";
+import { ArrowRight, ArrowLeft, Clock, FileCheck, CheckCircle, MapPin, Users, HelpCircle, Shield, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Layout } from "@/components/layout/Layout";
 import { usePathway } from "@/hooks/usePathways";
 import { CTABoxSticky } from "@/components/campaign";
 
-// Country flag mapping
 const countryFlags: Record<string, string> = {
   "United Kingdom": "🇬🇧",
   "United States": "🇺🇸",
@@ -66,7 +66,7 @@ export default function PathwayDetail() {
 
   return (
     <Layout>
-      {/* Hero */}
+      {/* A) PathwayHero */}
       <section className="gradient-hero py-12 lg:py-20">
         <div className="container">
           <Link 
@@ -82,9 +82,19 @@ export default function PathwayDetail() {
               {pathway.country}
             </h1>
           </div>
-          <p className="text-xl text-primary-foreground/90 max-w-2xl">
-            {pathway.title}
+          <p className="text-xl text-primary-foreground/90 max-w-2xl mb-6">
+            {pathway.short_summary}
           </p>
+          <div className="flex flex-wrap gap-3">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-foreground/10 text-primary-foreground text-sm font-medium">
+              <Shield className="h-4 w-4" />
+              Ethical Guidance
+            </span>
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-foreground/10 text-primary-foreground text-sm font-medium">
+              <Users className="h-4 w-4" />
+              Full Support
+            </span>
+          </div>
         </div>
       </section>
 
@@ -130,13 +140,22 @@ export default function PathwayDetail() {
           <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
             {/* Main */}
             <div className="lg:col-span-2 space-y-12">
-              {/* Overview */}
-              <div>
-                <h2 className="text-2xl font-bold text-foreground mb-4">Overview</h2>
-                <p className="text-muted-foreground leading-relaxed">{pathway.short_summary}</p>
-              </div>
+              {/* B) RequirementsPanel */}
+              {requirements.length > 0 && (
+                <div>
+                  <h2 className="text-2xl font-bold text-foreground mb-4">Requirements</h2>
+                  <ul className="space-y-3">
+                    {requirements.map((req, index) => (
+                      <li key={index} className="flex items-start gap-3">
+                        <CheckCircle className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
+                        <span className="text-foreground">{req}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
-              {/* Timeline */}
+              {/* C) TimelinePanel */}
               {timelineSteps.length > 0 && (
                 <div>
                   <h2 className="text-2xl font-bold text-foreground mb-6">Your Journey</h2>
@@ -155,22 +174,7 @@ export default function PathwayDetail() {
                 </div>
               )}
 
-              {/* Requirements */}
-              {requirements.length > 0 && (
-                <div>
-                  <h2 className="text-2xl font-bold text-foreground mb-4">Requirements</h2>
-                  <ul className="space-y-3">
-                    {requirements.map((req, index) => (
-                      <li key={index} className="flex items-start gap-3">
-                        <CheckCircle className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
-                        <span className="text-foreground">{req}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {/* Documents */}
+              {/* D) Documents Checklist */}
               {documentsChecklist.length > 0 && (
                 <div>
                   <h2 className="text-2xl font-bold text-foreground mb-4">Documents Checklist</h2>
@@ -185,26 +189,38 @@ export default function PathwayDetail() {
                 </div>
               )}
 
-              {/* FAQs */}
+              {/* E) FAQ Accordion */}
               {faqs.length > 0 && (
                 <div>
                   <h2 className="text-2xl font-bold text-foreground mb-4">Common Questions</h2>
-                  <div className="space-y-4">
+                  <Accordion type="single" collapsible className="space-y-2">
                     {faqs.map((faq, index) => (
-                      <div key={index} className="bg-muted rounded-lg p-4">
-                        <h3 className="font-bold text-foreground mb-2 flex items-start gap-2">
-                          <HelpCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-                          {faq.question}
-                        </h3>
-                        <p className="text-muted-foreground pl-7">{faq.answer}</p>
-                      </div>
+                      <AccordionItem key={index} value={`faq-${index}`} className="bg-muted rounded-lg px-4">
+                        <AccordionTrigger className="text-left font-medium">
+                          <span className="flex items-start gap-2">
+                            <HelpCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                            {faq.question}
+                          </span>
+                        </AccordionTrigger>
+                        <AccordionContent className="pl-7 text-muted-foreground">
+                          {faq.answer}
+                        </AccordionContent>
+                      </AccordionItem>
                     ))}
-                  </div>
+                  </Accordion>
                 </div>
               )}
+
+              {/* Disclaimer */}
+              <div className="bg-muted/50 border border-border rounded-lg p-4 flex items-start gap-3">
+                <AlertTriangle className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
+                <p className="text-sm text-muted-foreground">
+                  Requirements and timelines may vary. We provide guidance with transparency and consent.
+                </p>
+              </div>
             </div>
 
-            {/* Sidebar */}
+            {/* F) CTABoxSticky Sidebar */}
             <div className="lg:col-span-1">
               <CTABoxSticky
                 title="Ready to Start?"
