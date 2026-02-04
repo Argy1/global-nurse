@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Apply from "./pages/Apply";
+import ApplySuccess from "./pages/ApplySuccess";
 import Pathways from "./pages/Pathways";
 import PathwayDetail from "./pages/PathwayDetail";
 import Community from "./pages/Community";
@@ -26,6 +27,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/apply" element={<Apply />} />
+          <Route path="/apply/success" element={<ApplySuccess />} />
           <Route path="/pathways" element={<Pathways />} />
           <Route path="/pathways/:slug" element={<PathwayDetail />} />
           <Route path="/community" element={<Community />} />

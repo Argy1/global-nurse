@@ -1,54 +1,124 @@
+import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, BookOpen, Clock } from "lucide-react";
+import { ArrowRight, Clock, BookOpen, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Layout } from "@/components/layout/Layout";
-import { useContent, type Content } from "@/hooks/useContent";
+import { useContent } from "@/hooks/useContent";
+import { Constants } from "@/integrations/supabase/types";
 
-const categoryColors: Record<string, string> = {
-  "Career Abroad": "bg-primary text-primary-foreground",
-  "Licensing": "bg-accent text-accent-foreground",
-  "English": "bg-mint text-mint-foreground",
-  "Interview": "bg-cta text-cta-foreground",
-  "Mental Health": "bg-secondary text-secondary-foreground",
-  "Professional Growth": "bg-primary text-primary-foreground",
-};
+const categories = Constants.public.Enums.content_category_type;
 
 export default function ContentPage() {
-  const { data: content, isLoading, error } = useContent();
+  const { data: articles, isLoading, error } = useContent();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [visibleCount, setVisibleCount] = useState(9);
 
-  const featuredContent = content?.slice(0, 3) || [];
-  const allContent = content?.slice(3) || [];
+  const filteredArticles = useMemo(() => {
+    if (!articles) return [];
+    return articles.filter((article) => {
+      const matchesSearch =
+        searchQuery === "" ||
+        article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        article.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesCategory =
+        selectedCategory === "all" || article.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+    });
+  }, [articles, searchQuery, selectedCategory]);
+
+  const displayedArticles = filteredArticles.slice(0, visibleCount);
+  const hasMore = visibleCount < filteredArticles.length;
+
+  const loadMore = () => {
+    setVisibleCount((prev) => prev + 6);
+  };
+
+  const clearFilters = () => {
+    setSearchQuery("");
+    setSelectedCategory("all");
+    setVisibleCount(9);
+  };
 
   return (
     <Layout>
-      {/* Hero */}
+      {/* Header */}
       <section className="gradient-hero py-12 lg:py-16">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary-foreground mb-4">
               Resources & Guides
             </h1>
-            <p className="text-lg text-primary-foreground/90">
-              Free resources to help you navigate your international nursing journey with confidence.
+            <p className="text-lg text-primary-foreground/90 mb-8">
+              Free resources to help you prepare for your international nursing career.
             </p>
+
+            {/* Search Bar */}
+            <div className="relative max-w-md mx-auto">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Input
+                type="text"
+                placeholder="Search articles..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/60"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-primary-foreground/60 hover:text-primary-foreground"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Featured Content */}
+      {/* Category Chips */}
+      <section className="py-6 bg-card border-b border-border">
+        <div className="container">
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            <button
+              onClick={() => setSelectedCategory("all")}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                selectedCategory === "all"
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+              }`}
+            >
+              All
+            </button>
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  selectedCategory === category
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Content Grid */}
       <section className="py-12 lg:py-16">
         <div className="container">
-          <h2 className="text-2xl font-bold text-foreground mb-8">Featured Resources</h2>
           {isLoading ? (
-            <div className="grid md:grid-cols-3 gap-6">
-              {[...Array(3)].map((_, i) => (
-                <div key={i} className="bg-card rounded-xl overflow-hidden shadow-card border border-border animate-pulse">
-                  <div className="aspect-video bg-muted"></div>
-                  <div className="p-6">
-                    <div className="h-4 w-20 bg-muted rounded mb-3"></div>
-                    <div className="h-6 w-full bg-muted rounded mb-2"></div>
-                    <div className="h-4 w-3/4 bg-muted rounded"></div>
-                  </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[...Array(9)].map((_, i) => (
+                <div key={i} className="bg-card rounded-xl p-6 shadow-card border border-border animate-pulse">
+                  <div className="h-4 w-20 bg-muted rounded mb-3" />
+                  <div className="h-6 w-full bg-muted rounded mb-2" />
+                  <div className="h-4 w-3/4 bg-muted rounded mb-4" />
+                  <div className="h-4 w-16 bg-muted rounded" />
                 </div>
               ))}
             </div>
@@ -56,92 +126,74 @@ export default function ContentPage() {
             <div className="text-center py-12">
               <p className="text-muted-foreground">Failed to load content. Please try again later.</p>
             </div>
+          ) : filteredArticles.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground mb-4">No articles match your search.</p>
+              <Button variant="outline" onClick={clearFilters}>Clear Filters</Button>
+            </div>
           ) : (
-            <div className="grid md:grid-cols-3 gap-6">
-              {featuredContent.map((item) => (
-                <Link
-                  key={item.id}
-                  to={`/content/${item.slug}`}
-                  className="group bg-card rounded-xl overflow-hidden shadow-card border border-border hover:shadow-lg transition-all"
-                >
-                  <div className="aspect-video bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                    <BookOpen className="h-12 w-12 text-primary-foreground opacity-50" />
-                  </div>
-                  <div className="p-6">
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className={`px-2 py-1 text-xs font-medium rounded ${categoryColors[item.category] || "bg-mint text-mint-foreground"}`}>
-                        {item.category}
-                      </span>
+            <>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {displayedArticles.map((article) => (
+                  <Link
+                    key={article.id}
+                    to={`/content/${article.slug}`}
+                    className="group bg-card rounded-xl p-6 shadow-card border border-border hover:shadow-lg hover:border-primary/30 transition-all"
+                  >
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary text-secondary-foreground text-xs font-medium mb-3">
+                      <BookOpen className="h-3 w-3" />
+                      {article.category}
+                    </span>
+
+                    <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                      {article.title}
+                    </h3>
+
+                    <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                      {article.excerpt}
+                    </p>
+
+                    <div className="flex items-center justify-between">
                       <span className="text-xs text-muted-foreground flex items-center gap-1">
                         <Clock className="h-3 w-3" />
-                        {item.read_time_minutes} min read
+                        {article.read_time_minutes} min read
+                      </span>
+                      <span className="text-primary font-semibold text-sm inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+                        Read <ArrowRight className="h-3.5 w-3.5" />
                       </span>
                     </div>
-                    <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
-                      {item.title}
-                    </h3>
-                    <p className="text-sm text-muted-foreground">{item.excerpt}</p>
-                  </div>
-                </Link>
-              ))}
-            </div>
+                  </Link>
+                ))}
+              </div>
+
+              {hasMore && (
+                <div className="text-center mt-10">
+                  <Button variant="outline" size="lg" onClick={loadMore}>
+                    Load More
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>
 
-      {/* All Content */}
-      {allContent.length > 0 && (
-        <section className="py-12 lg:py-16 bg-muted">
-          <div className="container">
-            <h2 className="text-2xl font-bold text-foreground mb-8">All Resources</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {allContent.map((item) => (
-                <Link
-                  key={item.id}
-                  to={`/content/${item.slug}`}
-                  className="group bg-card rounded-xl p-6 shadow-card border border-border hover:shadow-lg transition-all"
-                >
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className={`px-2 py-1 text-xs font-medium rounded ${categoryColors[item.category] || "bg-secondary text-secondary-foreground"}`}>
-                      {item.category}
-                    </span>
-                    <span className="text-xs text-muted-foreground">{item.read_time_minutes} min</span>
-                  </div>
-                  <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground mb-4">{item.excerpt}</p>
-                  <span className="text-primary font-medium text-sm inline-flex items-center gap-1 group-hover:gap-2 transition-all">
-                    Read More <ArrowRight className="h-4 w-4" />
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Newsletter CTA */}
-      <section className="py-12 lg:py-16">
-        <div className="container">
-          <div className="bg-card rounded-xl p-8 lg:p-12 shadow-card border border-border text-center max-w-2xl mx-auto">
-            <h2 className="text-2xl font-bold text-foreground mb-4">
-              Stay Updated
-            </h2>
-            <p className="text-muted-foreground mb-6">
-              Get the latest guides, pathway updates, and career tips delivered to your inbox.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-2 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary"
-              />
-              <Button variant="cta">
-                Subscribe
-              </Button>
-            </div>
-          </div>
+      {/* Bottom CTA */}
+      <section className="py-12 lg:py-16 gradient-hero">
+        <div className="container text-center">
+          <h2 className="text-2xl lg:text-3xl font-extrabold text-primary-foreground mb-4">
+            Ready to Take the Next Step?
+          </h2>
+          <p className="text-primary-foreground/90 max-w-xl mx-auto mb-8">
+            Apply now and start your journey toward an international nursing career.
+          </p>
+          <Button variant="hero" size="lg" asChild>
+            <Link to="/apply">
+              Apply Now
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Button>
         </div>
       </section>
     </Layout>

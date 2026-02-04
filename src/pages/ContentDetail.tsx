@@ -1,13 +1,19 @@
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Clock, BookOpen } from "lucide-react";
+import { ArrowLeft, Clock, BookOpen, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/layout/Layout";
-import { useContentBySlug } from "@/hooks/useContent";
+import { useContentBySlug, useContent } from "@/hooks/useContent";
 import { CTABoxSticky } from "@/components/campaign";
 
 export default function ContentDetail() {
   const { slug } = useParams<{ slug: string }>();
   const { data: article, isLoading, error } = useContentBySlug(slug || "");
+  const { data: allArticles } = useContent();
+
+  // Get related articles (same category, excluding current)
+  const relatedArticles = allArticles
+    ?.filter((a) => a.category === article?.category && a.slug !== article?.slug)
+    .slice(0, 3);
 
   if (isLoading) {
     return (
@@ -88,7 +94,7 @@ export default function ContentDetail() {
 
   return (
     <Layout>
-      {/* Header */}
+      {/* A) Article Header */}
       <section className="gradient-hero py-12 lg:py-16">
         <div className="container">
           <div className="max-w-3xl">
@@ -107,6 +113,13 @@ export default function ContentDetail() {
                 <Clock className="h-4 w-4" />
                 {article.read_time_minutes} min read
               </span>
+              <span className="text-primary-foreground/80 text-sm">
+                {new Date(article.publish_date).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}
+              </span>
             </div>
             <h1 className="text-3xl md:text-4xl font-extrabold text-primary-foreground mb-4">
               {article.title}
@@ -116,7 +129,7 @@ export default function ContentDetail() {
         </div>
       </section>
 
-      {/* Content */}
+      {/* B) Body + D) CTABoxSticky Sidebar */}
       <section className="py-12 lg:py-16">
         <div className="container">
           <div className="grid lg:grid-cols-4 gap-8 lg:gap-12">
@@ -124,7 +137,6 @@ export default function ContentDetail() {
               {renderBody(article.body)}
             </article>
             
-            {/* Sidebar */}
             <aside className="lg:col-span-1">
               <CTABoxSticky
                 title="Ready to Start?"
@@ -135,19 +147,65 @@ export default function ContentDetail() {
         </div>
       </section>
 
-      {/* More Content */}
-      <section className="py-12 lg:py-16 bg-muted">
-        <div className="container text-center">
-          <h2 className="text-2xl font-bold text-foreground mb-4">Continue Learning</h2>
-          <p className="text-muted-foreground mb-6">Explore more resources to support your journey.</p>
-          <Button variant="outline" asChild>
-            <Link to="/content">
-              <BookOpen className="h-4 w-4" />
-              View All Resources
-            </Link>
-          </Button>
-        </div>
-      </section>
+      {/* C) Related Articles */}
+      {relatedArticles && relatedArticles.length > 0 && (
+        <section className="py-12 lg:py-16 bg-muted">
+          <div className="container">
+            <h2 className="text-2xl font-bold text-foreground mb-8">Related Articles</h2>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {relatedArticles.map((related) => (
+                <Link
+                  key={related.id}
+                  to={`/content/${related.slug}`}
+                  className="group bg-card rounded-xl p-6 shadow-card border border-border hover:shadow-lg hover:border-primary/30 transition-all"
+                >
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary text-secondary-foreground text-xs font-medium mb-3">
+                    <BookOpen className="h-3 w-3" />
+                    {related.category}
+                  </span>
+
+                  <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                    {related.title}
+                  </h3>
+
+                  <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                    {related.excerpt}
+                  </p>
+
+                  <span className="text-primary font-semibold text-sm inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+                    Read <ArrowRight className="h-3.5 w-3.5" />
+                  </span>
+                </Link>
+              ))}
+            </div>
+            
+            <div className="text-center mt-10">
+              <Button variant="outline" asChild>
+                <Link to="/content">
+                  <BookOpen className="h-4 w-4" />
+                  View All Resources
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Fallback if no related */}
+      {(!relatedArticles || relatedArticles.length === 0) && (
+        <section className="py-12 lg:py-16 bg-muted">
+          <div className="container text-center">
+            <h2 className="text-2xl font-bold text-foreground mb-4">Continue Learning</h2>
+            <p className="text-muted-foreground mb-6">Explore more resources to support your journey.</p>
+            <Button variant="outline" asChild>
+              <Link to="/content">
+                <BookOpen className="h-4 w-4" />
+                View All Resources
+              </Link>
+            </Button>
+          </div>
+        </section>
+      )}
     </Layout>
   );
 }

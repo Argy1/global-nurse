@@ -18,3 +18,6 @@ export function useSubmitCandidate() {
     },
   });
 }
+
+// Alias for consistency
+export const useCreateCandidate = useSubmitCandidate;
