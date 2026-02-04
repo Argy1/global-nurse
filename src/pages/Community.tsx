@@ -2,45 +2,7 @@ import { Link } from "react-router-dom";
 import { MessageCircle, Users, Globe, Shield, ArrowRight, CheckCircle, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/layout/Layout";
-
-const communities = [
-  {
-    name: "General Nurses Network",
-    description: "Connect with nurses from around the world. Share experiences, ask questions, and support each other.",
-    members: "5,000+",
-    icon: Globe,
-  },
-  {
-    name: "UK Pathway Group",
-    description: "Dedicated support for nurses pursuing opportunities in the United Kingdom.",
-    members: "1,200+",
-    icon: MessageCircle,
-  },
-  {
-    name: "USA Pathway Group",
-    description: "NCLEX prep tips, visa guidance, and connections with nurses in the US.",
-    members: "2,100+",
-    icon: MessageCircle,
-  },
-  {
-    name: "Canada Pathway Group",
-    description: "Provincial updates, NNAS guidance, and settlement advice for Canada.",
-    members: "900+",
-    icon: MessageCircle,
-  },
-  {
-    name: "OSCE Preparation",
-    description: "Study groups, practice scenarios, and success stories from nurses who passed.",
-    members: "800+",
-    icon: MessageCircle,
-  },
-  {
-    name: "NCLEX Study Group",
-    description: "Collaborative study, question banks, and test-taking strategies.",
-    members: "1,500+",
-    icon: MessageCircle,
-  },
-];
+import { useWhatsAppGroups } from "@/hooks/useWhatsAppGroups";
 
 const benefits = [
   "Real-time answers from nurses who've been through the process",
@@ -52,6 +14,19 @@ const benefits = [
 ];
 
 export default function Community() {
+  const { data: groups, isLoading } = useWhatsAppGroups();
+
+  const isValidLink = (link: string) => {
+    return link && link !== "UPDATE_ME" && link.startsWith("http");
+  };
+
+  const handleGroupClick = (link: string, e: React.MouseEvent) => {
+    if (!isValidLink(link)) {
+      e.preventDefault();
+      alert("WhatsApp group link coming soon! Check back later.");
+    }
+  };
+
   return (
     <Layout>
       {/* Hero */}
@@ -60,16 +35,21 @@ export default function Community() {
           <div className="max-w-3xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-foreground/10 text-primary-foreground text-sm font-medium mb-6">
               <Users className="h-4 w-4" />
-              10,000+ Active Members
+              Growing Community
             </div>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary-foreground mb-4">
               Join Our Global <br />Nursing Community
             </h1>
             <p className="text-lg text-primary-foreground/90 mb-8">
-              Connect with thousands of nurses worldwide. Get real advice, find study partners, and never feel alone on your journey.
+              Connect with nurses worldwide. Get real advice, find study partners, and never feel alone on your journey.
             </p>
-            <Button variant="hero" size="xl" asChild>
-              <a href="#" onClick={(e) => { e.preventDefault(); alert('WhatsApp group link placeholder - update with real link'); }}>
+            <Button 
+              variant="hero" 
+              size="xl" 
+              asChild
+              onClick={(e) => handleGroupClick("UPDATE_ME", e)}
+            >
+              <a href="#">
                 <MessageCircle className="h-5 w-5" />
                 Join WhatsApp Community
               </a>
@@ -104,8 +84,13 @@ export default function Community() {
                 <p className="text-muted-foreground mb-6">
                   Our community is completely free. No hidden fees, no premium tiers. Just nurses helping nurses.
                 </p>
-                <Button variant="whatsapp" className="w-full" asChild>
-                  <a href="#" onClick={(e) => { e.preventDefault(); alert('WhatsApp group link placeholder - update with real link'); }}>
+                <Button 
+                  variant="whatsapp" 
+                  className="w-full"
+                  onClick={(e) => handleGroupClick("UPDATE_ME", e)}
+                  asChild
+                >
+                  <a href="#">
                     <MessageCircle className="h-5 w-5" />
                     Join Now
                   </a>
@@ -124,32 +109,46 @@ export default function Community() {
               Specialized Groups
             </h2>
             <p className="text-muted-foreground max-w-xl mx-auto">
-              Find your niche. Join groups focused on your destination or area of interest.
+              Find your niche. Join groups focused on your interests and needs.
             </p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {communities.map((community) => (
-              <div
-                key={community.name}
-                className="bg-card rounded-xl p-6 shadow-card border border-border hover:shadow-lg transition-shadow"
-              >
-                <div className="h-12 w-12 rounded-lg bg-mint flex items-center justify-center mb-4">
-                  <community.icon className="h-6 w-6 text-mint-foreground" />
+          {isLoading ? (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[...Array(3)].map((_, i) => (
+                <div key={i} className="bg-card rounded-xl p-6 shadow-card border border-border animate-pulse">
+                  <div className="h-12 w-12 bg-muted rounded-lg mb-4"></div>
+                  <div className="h-6 w-32 bg-muted rounded mb-2"></div>
+                  <div className="h-4 w-full bg-muted rounded"></div>
                 </div>
-                <h3 className="text-lg font-bold text-foreground mb-2">{community.name}</h3>
-                <p className="text-sm text-muted-foreground mb-4">{community.description}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-primary">{community.members} members</span>
-                  <Button variant="ghost" size="sm" asChild>
-                    <a href="#" onClick={(e) => { e.preventDefault(); alert('WhatsApp group link placeholder'); }}>
+              ))}
+            </div>
+          ) : (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {groups?.map((group) => (
+                <div
+                  key={group.id}
+                  className="bg-card rounded-xl p-6 shadow-card border border-border hover:shadow-lg transition-shadow"
+                >
+                  <div className="h-12 w-12 rounded-lg bg-mint flex items-center justify-center mb-4">
+                    <MessageCircle className="h-6 w-6 text-mint-foreground" />
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground mb-2">{group.segment_name}</h3>
+                  <p className="text-sm text-muted-foreground mb-4">{group.description}</p>
+                  <Button 
+                    variant="ghost" 
+                    size="sm"
+                    onClick={(e) => handleGroupClick(group.join_link, e)}
+                    asChild
+                  >
+                    <a href={isValidLink(group.join_link) ? group.join_link : "#"}>
                       Join
                       <ArrowRight className="h-4 w-4" />
                     </a>
                   </Button>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -182,11 +181,16 @@ export default function Community() {
             Ready to Connect?
           </h2>
           <p className="text-primary-foreground/90 max-w-xl mx-auto mb-8">
-            Join thousands of nurses who are supporting each other on their international career journeys.
+            Join nurses who are supporting each other on their international career journeys.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="hero" size="lg" asChild>
-              <a href="#" onClick={(e) => { e.preventDefault(); alert('WhatsApp group link placeholder'); }}>
+            <Button 
+              variant="hero" 
+              size="lg"
+              onClick={(e) => handleGroupClick("UPDATE_ME", e)}
+              asChild
+            >
+              <a href="#">
                 <MessageCircle className="h-5 w-5" />
                 Join WhatsApp Community
               </a>

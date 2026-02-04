@@ -1,89 +1,24 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, BookOpen, Video, FileText, Clock } from "lucide-react";
+import { ArrowRight, BookOpen, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/layout/Layout";
+import { useContent, type Content } from "@/hooks/useContent";
 
-const featuredContent = [
-  {
-    slug: "complete-guide-uk-nursing",
-    title: "Complete Guide to UK Nursing Registration",
-    description: "Everything you need to know about NMC registration, OSCE preparation, and starting your NHS career.",
-    type: "Guide",
-    readTime: "15 min read",
-    category: "UK Pathway",
-  },
-  {
-    slug: "nclex-study-tips",
-    title: "Top 10 NCLEX Study Tips from Successful Nurses",
-    description: "Proven strategies and resources that helped international nurses pass the NCLEX on their first attempt.",
-    type: "Article",
-    readTime: "8 min read",
-    category: "USA Pathway",
-  },
-  {
-    slug: "avoiding-recruitment-scams",
-    title: "How to Avoid Nursing Recruitment Scams",
-    description: "Red flags to watch for and how to verify legitimate recruitment agencies.",
-    type: "Guide",
-    readTime: "10 min read",
-    category: "Safety",
-  },
-];
+const categoryColors: Record<string, string> = {
+  "Career Abroad": "bg-primary text-primary-foreground",
+  "Licensing": "bg-accent text-accent-foreground",
+  "English": "bg-mint text-mint-foreground",
+  "Interview": "bg-cta text-cta-foreground",
+  "Mental Health": "bg-secondary text-secondary-foreground",
+  "Professional Growth": "bg-primary text-primary-foreground",
+};
 
-const allContent = [
-  {
-    slug: "osce-preparation-guide",
-    title: "OSCE Preparation: A Step-by-Step Guide",
-    description: "Detailed breakdown of each OSCE station with tips from nurses who passed.",
-    type: "Guide",
-    readTime: "20 min read",
-    category: "UK Pathway",
-  },
-  {
-    slug: "canada-provincial-differences",
-    title: "Understanding Provincial Differences in Canadian Nursing",
-    description: "How nursing requirements and opportunities vary by province.",
-    type: "Article",
-    readTime: "12 min read",
-    category: "Canada Pathway",
-  },
-  {
-    slug: "ielts-vs-oet",
-    title: "IELTS vs OET: Which English Test Should You Take?",
-    description: "Comparing the two main English proficiency tests for nursing registration.",
-    type: "Comparison",
-    readTime: "7 min read",
-    category: "Preparation",
-  },
-  {
-    slug: "relocation-checklist",
-    title: "International Relocation Checklist for Nurses",
-    description: "Everything to prepare before, during, and after your move abroad.",
-    type: "Checklist",
-    readTime: "10 min read",
-    category: "Relocation",
-  },
-  {
-    slug: "family-visa-options",
-    title: "Bringing Your Family: Visa Options Explained",
-    description: "Dependent visa options for nurses moving to the UK, USA, Canada, and Australia.",
-    type: "Guide",
-    readTime: "15 min read",
-    category: "Immigration",
-  },
-  {
-    slug: "salary-negotiation",
-    title: "Salary Negotiation Tips for International Nurses",
-    description: "How to negotiate your compensation package confidently.",
-    type: "Article",
-    readTime: "8 min read",
-    category: "Career",
-  },
-];
+export default function ContentPage() {
+  const { data: content, isLoading, error } = useContent();
 
-const categories = ["All", "UK Pathway", "USA Pathway", "Canada Pathway", "Safety", "Preparation", "Career"];
+  const featuredContent = content?.slice(0, 3) || [];
+  const allContent = content?.slice(3) || [];
 
-export default function Content() {
   return (
     <Layout>
       {/* Hero */}
@@ -104,78 +39,87 @@ export default function Content() {
       <section className="py-12 lg:py-16">
         <div className="container">
           <h2 className="text-2xl font-bold text-foreground mb-8">Featured Resources</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {featuredContent.map((item) => (
-              <Link
-                key={item.slug}
-                to={`/content/${item.slug}`}
-                className="group bg-card rounded-xl overflow-hidden shadow-card border border-border hover:shadow-lg transition-all"
-              >
-                <div className="aspect-video bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                  <BookOpen className="h-12 w-12 text-primary-foreground opacity-50" />
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="px-2 py-1 bg-mint text-mint-foreground text-xs font-medium rounded">
-                      {item.category}
-                    </span>
-                    <span className="text-xs text-muted-foreground flex items-center gap-1">
-                      <Clock className="h-3 w-3" />
-                      {item.readTime}
-                    </span>
+          {isLoading ? (
+            <div className="grid md:grid-cols-3 gap-6">
+              {[...Array(3)].map((_, i) => (
+                <div key={i} className="bg-card rounded-xl overflow-hidden shadow-card border border-border animate-pulse">
+                  <div className="aspect-video bg-muted"></div>
+                  <div className="p-6">
+                    <div className="h-4 w-20 bg-muted rounded mb-3"></div>
+                    <div className="h-6 w-full bg-muted rounded mb-2"></div>
+                    <div className="h-4 w-3/4 bg-muted rounded"></div>
                   </div>
-                  <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground">{item.description}</p>
                 </div>
-              </Link>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : error ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">Failed to load content. Please try again later.</p>
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-3 gap-6">
+              {featuredContent.map((item) => (
+                <Link
+                  key={item.id}
+                  to={`/content/${item.slug}`}
+                  className="group bg-card rounded-xl overflow-hidden shadow-card border border-border hover:shadow-lg transition-all"
+                >
+                  <div className="aspect-video bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+                    <BookOpen className="h-12 w-12 text-primary-foreground opacity-50" />
+                  </div>
+                  <div className="p-6">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className={`px-2 py-1 text-xs font-medium rounded ${categoryColors[item.category] || "bg-mint text-mint-foreground"}`}>
+                        {item.category}
+                      </span>
+                      <span className="text-xs text-muted-foreground flex items-center gap-1">
+                        <Clock className="h-3 w-3" />
+                        {item.read_time_minutes} min read
+                      </span>
+                    </div>
+                    <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
+                      {item.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground">{item.excerpt}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
       {/* All Content */}
-      <section className="py-12 lg:py-16 bg-muted">
-        <div className="container">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-            <h2 className="text-2xl font-bold text-foreground">All Resources</h2>
-            <div className="flex flex-wrap gap-2">
-              {categories.slice(0, 5).map((category) => (
-                <button
-                  key={category}
-                  className="px-3 py-1 text-sm rounded-full border border-border bg-card hover:bg-secondary transition-colors"
+      {allContent.length > 0 && (
+        <section className="py-12 lg:py-16 bg-muted">
+          <div className="container">
+            <h2 className="text-2xl font-bold text-foreground mb-8">All Resources</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {allContent.map((item) => (
+                <Link
+                  key={item.id}
+                  to={`/content/${item.slug}`}
+                  className="group bg-card rounded-xl p-6 shadow-card border border-border hover:shadow-lg transition-all"
                 >
-                  {category}
-                </button>
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className={`px-2 py-1 text-xs font-medium rounded ${categoryColors[item.category] || "bg-secondary text-secondary-foreground"}`}>
+                      {item.category}
+                    </span>
+                    <span className="text-xs text-muted-foreground">{item.read_time_minutes} min</span>
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mb-4">{item.excerpt}</p>
+                  <span className="text-primary font-medium text-sm inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+                    Read More <ArrowRight className="h-4 w-4" />
+                  </span>
+                </Link>
               ))}
             </div>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {allContent.map((item) => (
-              <Link
-                key={item.slug}
-                to={`/content/${item.slug}`}
-                className="group bg-card rounded-xl p-6 shadow-card border border-border hover:shadow-lg transition-all"
-              >
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="px-2 py-1 bg-secondary text-secondary-foreground text-xs font-medium rounded">
-                    {item.type}
-                  </span>
-                  <span className="text-xs text-muted-foreground">{item.readTime}</span>
-                </div>
-                <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-muted-foreground mb-4">{item.description}</p>
-                <span className="text-primary font-medium text-sm inline-flex items-center gap-1 group-hover:gap-2 transition-all">
-                  Read More <ArrowRight className="h-4 w-4" />
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Newsletter CTA */}
       <section className="py-12 lg:py-16">
