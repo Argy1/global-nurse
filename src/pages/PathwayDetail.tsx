@@ -3,6 +3,7 @@ import { ArrowRight, ArrowLeft, Clock, FileCheck, CheckCircle, MapPin, Users, He
 import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/layout/Layout";
 import { usePathway } from "@/hooks/usePathways";
+import { CTABoxSticky } from "@/components/campaign";
 
 // Country flag mapping
 const countryFlags: Record<string, string> = {
@@ -205,23 +206,11 @@ export default function PathwayDetail() {
 
             {/* Sidebar */}
             <div className="lg:col-span-1">
-              <div className="bg-card rounded-xl p-6 shadow-card border border-border sticky top-24">
-                <h3 className="font-bold text-lg mb-4 text-foreground">Ready to Start?</h3>
-                <p className="text-sm text-muted-foreground mb-6">
-                  Apply now and our team will guide you through the {pathway.country} pathway.
-                </p>
-                <Button variant="cta" className="w-full mb-3" asChild>
-                  <Link to="/apply">
-                    Apply for {pathway.country}
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </Button>
-                <Button variant="whatsappOutline" className="w-full" asChild>
-                  <Link to="/community">
-                    Join Community
-                  </Link>
-                </Button>
-              </div>
+              <CTABoxSticky
+                title="Ready to Start?"
+                description={`Apply now and our team will guide you through the ${pathway.country} pathway.`}
+                applyLabel={`Apply for ${pathway.country}`}
+              />
             </div>
           </div>
         </div>
