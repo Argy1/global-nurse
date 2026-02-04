@@ -3,6 +3,7 @@ import { MessageCircle, Users, Globe, Shield, ArrowRight, CheckCircle, Heart } f
 import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/layout/Layout";
 import { useWhatsAppGroups } from "@/hooks/useWhatsAppGroups";
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 
 const benefits = [
   "Real-time answers from nurses who've been through the process",
@@ -15,17 +16,7 @@ const benefits = [
 
 export default function Community() {
   const { data: groups, isLoading } = useWhatsAppGroups();
-
-  const isValidLink = (link: string) => {
-    return link && link !== "UPDATE_ME" && link.startsWith("http");
-  };
-
-  const handleGroupClick = (link: string, e: React.MouseEvent) => {
-    if (!isValidLink(link)) {
-      e.preventDefault();
-      alert("WhatsApp group link coming soon! Check back later.");
-    }
-  };
+  const { isValidLink, handleWhatsAppClick, handleGroupClick } = useWhatsAppLink();
 
   return (
     <Layout>
@@ -46,13 +37,10 @@ export default function Community() {
             <Button 
               variant="hero" 
               size="xl" 
-              asChild
-              onClick={(e) => handleGroupClick("UPDATE_ME", e)}
+              onClick={handleWhatsAppClick}
             >
-              <a href="#">
-                <MessageCircle className="h-5 w-5" />
-                Join WhatsApp Community
-              </a>
+              <MessageCircle className="h-5 w-5" />
+              Join WhatsApp Community
             </Button>
           </div>
         </div>
@@ -87,13 +75,10 @@ export default function Community() {
                 <Button 
                   variant="whatsapp" 
                   className="w-full"
-                  onClick={(e) => handleGroupClick("UPDATE_ME", e)}
-                  asChild
+                  onClick={handleWhatsAppClick}
                 >
-                  <a href="#">
-                    <MessageCircle className="h-5 w-5" />
-                    Join Now
-                  </a>
+                  <MessageCircle className="h-5 w-5" />
+                  Join Now
                 </Button>
               </div>
             </div>
@@ -140,7 +125,7 @@ export default function Community() {
                     onClick={(e) => handleGroupClick(group.join_link, e)}
                     asChild
                   >
-                    <a href={isValidLink(group.join_link) ? group.join_link : "#"}>
+                    <a href={isValidLink(group.join_link) ? group.join_link : "#"} target="_blank" rel="noopener noreferrer">
                       Join
                       <ArrowRight className="h-4 w-4" />
                     </a>
@@ -187,13 +172,10 @@ export default function Community() {
             <Button 
               variant="hero" 
               size="lg"
-              onClick={(e) => handleGroupClick("UPDATE_ME", e)}
-              asChild
+              onClick={handleWhatsAppClick}
             >
-              <a href="#">
-                <MessageCircle className="h-5 w-5" />
-                Join WhatsApp Community
-              </a>
+              <MessageCircle className="h-5 w-5" />
+              Join WhatsApp Community
             </Button>
             <Button variant="heroOutline" size="lg" asChild>
               <Link to="/apply">

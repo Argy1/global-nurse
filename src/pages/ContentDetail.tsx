@@ -3,6 +3,7 @@ import { ArrowLeft, Clock, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/layout/Layout";
 import { useContentBySlug } from "@/hooks/useContent";
+import { CTABoxSticky } from "@/components/campaign";
 
 export default function ContentDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -125,18 +126,10 @@ export default function ContentDetail() {
             
             {/* Sidebar */}
             <aside className="lg:col-span-1">
-              <div className="bg-card rounded-xl p-6 shadow-card border border-border sticky top-24">
-                <h3 className="font-bold text-foreground mb-4">Ready to Start?</h3>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Take the first step toward your international nursing career.
-                </p>
-                <Button variant="cta" className="w-full mb-3" asChild>
-                  <Link to="/apply">Apply Now</Link>
-                </Button>
-                <Button variant="outline" className="w-full" asChild>
-                  <Link to="/community">Join Community</Link>
-                </Button>
-              </div>
+              <CTABoxSticky
+                title="Ready to Start?"
+                description="Take the first step toward your international nursing career."
+              />
             </aside>
           </div>
         </div>

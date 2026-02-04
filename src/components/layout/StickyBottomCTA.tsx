@@ -3,14 +3,16 @@ import { Link } from "react-router-dom";
 import { MessageCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 
 export function StickyBottomCTA() {
   const [isVisible, setIsVisible] = useState(false);
+  const { handleWhatsAppClick } = useWhatsAppLink();
 
   useEffect(() => {
     const handleScroll = () => {
-      // Show after scrolling 300px
-      setIsVisible(window.scrollY > 300);
+      // Show after scrolling 250px
+      setIsVisible(window.scrollY > 250);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -25,11 +27,14 @@ export function StickyBottomCTA() {
       )}
     >
       <div className="container py-3 flex items-center justify-center gap-3 sm:gap-4">
-        <Button variant="whatsapp" size="sm" className="flex-1 sm:flex-none" asChild>
-          <Link to="/community">
-            <MessageCircle className="h-4 w-4" />
-            <span className="hidden sm:inline">Join</span> WhatsApp
-          </Link>
+        <Button 
+          variant="whatsapp" 
+          size="sm" 
+          className="flex-1 sm:flex-none"
+          onClick={handleWhatsAppClick}
+        >
+          <MessageCircle className="h-4 w-4" />
+          <span className="hidden sm:inline">Join</span> WhatsApp
         </Button>
         <Button variant="cta" size="sm" className="flex-1 sm:flex-none" asChild>
           <Link to="/apply">
