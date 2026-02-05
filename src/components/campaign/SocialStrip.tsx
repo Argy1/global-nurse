@@ -106,7 +106,7 @@ export function SocialStrip() {
                   variant={isValid ? "outline" : "ghost"}
                   size="sm"
                   onClick={() => handleClick(url, platform.name)}
-                  className="w-full"
+                  className="w-full min-h-[44px]"
                 >
                   {isValid ? (
                     <>
@@ -114,7 +114,7 @@ export function SocialStrip() {
                       <ExternalLink className="h-3.5 w-3.5" />
                     </>
                   ) : (
-                    "Link Coming Soon"
+                    <span className="text-muted-foreground">Link coming soon</span>
                   )}
                 </Button>
               </div>

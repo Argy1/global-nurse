@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, ArrowLeft, CheckCircle, Loader2, FileText, User, Briefcase } from "lucide-react";
+import { ArrowRight, ArrowLeft, CheckCircle, Loader2, FileText, User, Briefcase, AlertCircle, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,6 +11,7 @@ import { useCreateCandidate } from "@/hooks/useCandidates";
 import { toast } from "@/hooks/use-toast";
 import { Constants } from "@/integrations/supabase/types";
 import type { Database } from "@/integrations/supabase/types";
+import { TrustBadgesStrip } from "@/components/campaign/TrustBadgesStrip";
 
 type CandidateInsert = Database["public"]["Tables"]["candidates"]["Insert"];
 
@@ -78,11 +79,13 @@ export default function Apply() {
     consent_privacy: false,
   });
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
+  const [showErrorSummary, setShowErrorSummary] = useState(false);
 
   const handleInputChange = (field: keyof FormData, value: string | boolean | string[]) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: undefined }));
+      setShowErrorSummary(false);
     }
   };
 
@@ -123,11 +126,15 @@ export default function Apply() {
     }
 
     setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) {
+      setShowErrorSummary(true);
+    }
     return Object.keys(newErrors).length === 0;
   };
 
   const handleNext = () => {
     if (validateStep(currentStep)) {
+      setShowErrorSummary(false);
       setCurrentStep((prev) => Math.min(prev + 1, 3));
     }
   };
@@ -137,7 +144,14 @@ export default function Apply() {
   };
 
   const handleSubmit = async () => {
-    if (!validateStep(3)) return;
+    if (!validateStep(3)) {
+      toast({
+        title: "Please fix the errors",
+        description: "Check the highlighted fields and try again.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     const candidateData: CandidateInsert = {
       full_name: formData.full_name.trim(),
@@ -185,9 +199,15 @@ export default function Apply() {
             <p className="text-lg text-primary-foreground/90">
               Complete your profile and take the first step toward your international nursing career.
             </p>
+            <p className="text-sm text-primary-foreground/70 mt-4 flex items-center justify-center gap-2">
+              <Lock className="h-4 w-4" />
+              Your data stays private. We contact you only with consent.
+            </p>
           </div>
         </div>
       </section>
+
+      <TrustBadgesStrip variant="compact" />
 
       {/* Stepper */}
       <section className="py-8 bg-card border-b border-border">
@@ -229,6 +249,23 @@ export default function Apply() {
         <div className="container">
           <div className="max-w-2xl mx-auto">
             <div className="bg-card rounded-xl p-6 lg:p-8 shadow-card border border-border">
+              {/* Error Summary */}
+              {showErrorSummary && Object.keys(errors).length > 0 && (
+                <div className="mb-6 p-4 rounded-lg bg-destructive/10 border border-destructive/30" role="alert">
+                  <div className="flex items-start gap-3">
+                    <AlertCircle className="h-5 w-5 text-destructive flex-shrink-0 mt-0.5" />
+                    <div>
+                      <h3 className="font-semibold text-destructive mb-1">Please fix the following errors:</h3>
+                      <ul className="text-sm text-destructive space-y-1">
+                        {Object.entries(errors).map(([field, error]) => (
+                          <li key={field}>• {error}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Step 1: Basic Info */}
               {currentStep === 1 && (
                 <div className="space-y-6">
@@ -240,8 +277,10 @@ export default function Apply() {
                       onChange={(e) => handleInputChange("full_name", e.target.value)}
                       placeholder="Enter your full name"
                       maxLength={100}
+                      className={errors.full_name ? "border-destructive focus-visible:ring-destructive" : ""}
+                      aria-invalid={!!errors.full_name}
                     />
-                    {errors.full_name && <p className="text-sm text-destructive">{errors.full_name}</p>}
+                    {errors.full_name && <p className="text-sm text-destructive flex items-center gap-1"><AlertCircle className="h-3 w-3" />{errors.full_name}</p>}
                   </div>
 
                   <div className="space-y-2">
@@ -252,8 +291,10 @@ export default function Apply() {
                       onChange={(e) => handleInputChange("whatsapp_number", e.target.value)}
                       placeholder="+62 812 3456 7890"
                       maxLength={20}
+                      className={errors.whatsapp_number ? "border-destructive focus-visible:ring-destructive" : ""}
+                      aria-invalid={!!errors.whatsapp_number}
                     />
-                    {errors.whatsapp_number && <p className="text-sm text-destructive">{errors.whatsapp_number}</p>}
+                    {errors.whatsapp_number && <p className="text-sm text-destructive flex items-center gap-1"><AlertCircle className="h-3 w-3" />{errors.whatsapp_number}</p>}
                   </div>
 
                   <div className="space-y-2">
@@ -265,8 +306,9 @@ export default function Apply() {
                       onChange={(e) => handleInputChange("email", e.target.value)}
                       placeholder="your@email.com"
                       maxLength={255}
+                      className={errors.email ? "border-destructive focus-visible:ring-destructive" : ""}
                     />
-                    {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
+                    {errors.email && <p className="text-sm text-destructive flex items-center gap-1"><AlertCircle className="h-3 w-3" />{errors.email}</p>}
                   </div>
 
                   <div className="space-y-2">
@@ -277,8 +319,9 @@ export default function Apply() {
                       onChange={(e) => handleInputChange("city_country", e.target.value)}
                       placeholder="e.g., Jakarta, Indonesia"
                       maxLength={100}
+                      className={errors.city_country ? "border-destructive focus-visible:ring-destructive" : ""}
                     />
-                    {errors.city_country && <p className="text-sm text-destructive">{errors.city_country}</p>}
+                    {errors.city_country && <p className="text-sm text-destructive flex items-center gap-1"><AlertCircle className="h-3 w-3" />{errors.city_country}</p>}
                   </div>
                 </div>
               )}
@@ -425,17 +468,28 @@ export default function Apply() {
                   </div>
 
                   <div className="space-y-4 pt-4 border-t border-border">
+                    {/* Consent blocking message */}
+                    {(errors.consent_contact || errors.consent_privacy) && (
+                      <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/30" role="alert">
+                        <p className="text-sm text-destructive flex items-center gap-2">
+                          <AlertCircle className="h-4 w-4" />
+                          Consent is required to proceed.
+                        </p>
+                      </div>
+                    )}
+
                     <div className="flex items-start gap-3">
                       <Checkbox
                         id="consent_contact"
                         checked={formData.consent_contact}
                         onCheckedChange={(checked) => handleInputChange("consent_contact", checked === true)}
+                        className={errors.consent_contact ? "border-destructive" : ""}
                       />
                       <div className="space-y-1">
                         <Label htmlFor="consent_contact" className="cursor-pointer">
                           I consent to be contacted about opportunities *
                         </Label>
-                        {errors.consent_contact && <p className="text-sm text-destructive">{errors.consent_contact}</p>}
+                        {errors.consent_contact && <p className="text-sm text-destructive flex items-center gap-1"><AlertCircle className="h-3 w-3" />{errors.consent_contact}</p>}
                       </div>
                     </div>
 
@@ -444,12 +498,13 @@ export default function Apply() {
                         id="consent_privacy"
                         checked={formData.consent_privacy}
                         onCheckedChange={(checked) => handleInputChange("consent_privacy", checked === true)}
+                        className={errors.consent_privacy ? "border-destructive" : ""}
                       />
                       <div className="space-y-1">
                         <Label htmlFor="consent_privacy" className="cursor-pointer">
                           I accept the <a href="/privacy" className="text-primary underline" target="_blank">privacy policy</a> *
                         </Label>
-                        {errors.consent_privacy && <p className="text-sm text-destructive">{errors.consent_privacy}</p>}
+                        {errors.consent_privacy && <p className="text-sm text-destructive flex items-center gap-1"><AlertCircle className="h-3 w-3" />{errors.consent_privacy}</p>}
                       </div>
                     </div>
                   </div>
