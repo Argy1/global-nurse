@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Clock, CheckCircle } from "lucide-react";
+import { ArrowRight, Clock, CheckCircle, MessageCircle, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { usePathways } from "@/hooks/usePathways";
 
@@ -21,6 +21,38 @@ export function PathwayCardGrid({ limit, showViewAll = true }: PathwayCardGridPr
   const { data: pathways, isLoading } = usePathways();
 
   const displayedPathways = limit ? pathways?.slice(0, limit) : pathways;
+
+  // Empty state when no pathways are active
+  if (!isLoading && (!displayedPathways || displayedPathways.length === 0)) {
+    return (
+      <section className="py-16 lg:py-24 bg-muted">
+        <div className="container">
+          <div className="text-center mb-12 lg:mb-16">
+            <h2 className="text-3xl lg:text-4xl font-extrabold text-foreground mb-4">
+              Popular Destination Pathways
+            </h2>
+          </div>
+          <div className="max-w-md mx-auto text-center">
+            <div className="bg-card rounded-xl p-8 shadow-card border border-border">
+              <RefreshCw className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+              <h3 className="text-lg font-bold text-foreground mb-2">
+                Pathways are being updated
+              </h3>
+              <p className="text-muted-foreground mb-6">
+                Join the community for the latest updates on new destination pathways.
+              </p>
+              <Button variant="whatsapp" asChild>
+                <Link to="/community">
+                  <MessageCircle className="h-4 w-4" />
+                  Join WhatsApp Community
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   if (isLoading) {
     return (
@@ -91,14 +123,14 @@ export function PathwayCardGrid({ limit, showViewAll = true }: PathwayCardGridPr
 
                 {/* CTAs */}
                 <div className="space-y-2">
-                  <Button variant="outline" size="sm" className="w-full" asChild>
+                  <Button variant="tertiary" size="sm" className="w-full" asChild>
                     <Link to={`/pathways/${pathway.slug}`}>
                       View Details
                       <ArrowRight className="h-3.5 w-3.5" />
                     </Link>
                   </Button>
                   <Button variant="cta" size="sm" className="w-full" asChild>
-                    <Link to="/apply">Apply</Link>
+                    <Link to="/apply">Apply Now</Link>
                   </Button>
                 </div>
               </div>
@@ -108,9 +140,9 @@ export function PathwayCardGrid({ limit, showViewAll = true }: PathwayCardGridPr
 
         {showViewAll && (
           <div className="text-center mt-10">
-            <Button variant="outline" size="lg" asChild>
+            <Button variant="tertiary" size="lg" asChild>
               <Link to="/pathways">
-                View All Pathways
+                Explore Pathways
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>

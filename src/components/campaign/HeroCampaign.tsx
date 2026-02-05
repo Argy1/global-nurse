@@ -54,7 +54,7 @@ export function HeroCampaign({
 
             {/* Trust microcopy */}
             <p className="text-sm text-primary-foreground/70 mb-8">
-              Ethical • Transparent • Community-first
+              Ethical • Transparent • Supportive
             </p>
 
             {/* CTAs */}

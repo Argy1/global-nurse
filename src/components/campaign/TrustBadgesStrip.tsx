@@ -3,17 +3,17 @@ import { Shield, Eye, Users, BookOpen } from "lucide-react";
 const badges = [
   {
     icon: Shield,
-    title: "Ethical Recruitment",
+    title: "Ethical",
     description: "Zero fees for nurses",
   },
   {
     icon: Eye,
-    title: "Transparent Steps",
+    title: "Transparent",
     description: "Clear process guidance",
   },
   {
     icon: Users,
-    title: "Community Support",
+    title: "Supportive",
     description: "Peer-to-peer help",
   },
   {
@@ -32,9 +32,11 @@ export function TrustBadgesStrip({ variant = "default" }: TrustBadgesStripProps)
     return (
       <section className="bg-card border-y border-border">
         <div className="container py-4">
-          <div className="flex flex-wrap justify-center gap-4 lg:gap-8">
+          <div className="flex flex-wrap justify-center items-center gap-4 lg:gap-8">
+            <span className="text-sm font-bold text-foreground">Ethical • Transparent • Supportive</span>
+            <span className="hidden sm:block text-muted-foreground">|</span>
             {badges.map((badge) => (
-              <div key={badge.title} className="flex items-center gap-2">
+              <div key={badge.title} className="hidden sm:flex items-center gap-2">
                 <badge.icon className="h-4 w-4 text-accent" />
                 <span className="text-sm font-medium text-foreground">{badge.title}</span>
               </div>
