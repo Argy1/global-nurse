@@ -42,7 +42,8 @@ export default function Index() {
       <HeroCampaign
         headline={
           <>
-            Work Abroad as a Nurse —<br />
+            Work Abroad as a Nurse
+            <br />
             <span className="text-mint">Safely & Ethically</span>
           </>
         }
@@ -77,19 +78,14 @@ export default function Index() {
       <section className="py-16 lg:py-24 bg-muted">
         <div className="container">
           <div className="text-center mb-12 lg:mb-16">
-            <h2 className="text-3xl lg:text-4xl font-extrabold text-foreground mb-4">
-              Nurses Who Made the Leap
-            </h2>
+            <h2 className="text-3xl lg:text-4xl font-extrabold text-foreground mb-4">Nurses Who Made the Leap</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Real stories from nurses who trusted us with their international careers.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {testimonials.map((testimonial) => (
-              <div
-                key={testimonial.name}
-                className="bg-card rounded-xl p-6 shadow-card border border-border"
-              >
+              <div key={testimonial.name} className="bg-card rounded-xl p-6 shadow-card border border-border">
                 <div className="flex items-center gap-1 mb-4">
                   {[...Array(5)].map((_, i) => (
                     <Award key={i} className="h-4 w-4 text-cta fill-current" />
@@ -98,9 +94,7 @@ export default function Index() {
                 <p className="text-foreground mb-6 italic">"{testimonial.quote}"</p>
                 <div className="flex items-center gap-3">
                   <div className="h-10 w-10 rounded-full bg-secondary flex items-center justify-center">
-                    <span className="font-bold text-secondary-foreground">
-                      {testimonial.name.charAt(0)}
-                    </span>
+                    <span className="font-bold text-secondary-foreground">{testimonial.name.charAt(0)}</span>
                   </div>
                   <div>
                     <p className="font-bold text-foreground">{testimonial.name}</p>
