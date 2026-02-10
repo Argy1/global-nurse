@@ -2,6 +2,8 @@ import { ReactNode } from "react";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 import { StickyBottomCTA } from "./StickyBottomCTA";
+import { FloatingWhatsApp } from "./FloatingWhatsApp";
+import { ChatWidget } from "./ChatWidget";
 
 interface LayoutProps {
   children: ReactNode;
@@ -13,6 +15,8 @@ export function Layout({ children }: LayoutProps) {
       <Navbar />
       <main className="flex-1 pb-16">{children}</main>
       <Footer />
+      <FloatingWhatsApp />
+      <ChatWidget />
       <StickyBottomCTA />
     </div>
   );

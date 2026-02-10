@@ -1,0 +1,90 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight, Search, Loader2, Newspaper } from "lucide-react";
+import { Layout } from "@/components/layout/Layout";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useContent } from "@/hooks/useContent";
+import { Constants } from "@/integrations/supabase/types";
+
+const categories = Constants.public.Enums.content_category_type;
+
+export default function News() {
+  const { data: articles, isLoading } = useContent();
+  const [search, setSearch] = useState("");
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+
+  const filtered = articles?.filter((a) => {
+    const matchesSearch = !search || a.title.toLowerCase().includes(search.toLowerCase()) || a.excerpt.toLowerCase().includes(search.toLowerCase());
+    const matchesCategory = !activeCategory || a.category === activeCategory;
+    return matchesSearch && matchesCategory;
+  });
+
+  return (
+    <Layout>
+      <section className="gradient-hero py-16 lg:py-24">
+        <div className="container text-center">
+          <h1 className="text-4xl lg:text-5xl font-extrabold text-primary-foreground mb-4">News & Insights</h1>
+          <p className="text-lg text-primary-foreground/90 max-w-2xl mx-auto">Stay informed with the latest guidance on international nursing careers.</p>
+        </div>
+      </section>
+
+      <section className="py-8 bg-card border-b border-border">
+        <div className="container">
+          <div className="flex flex-col sm:flex-row gap-4 items-center">
+            <div className="relative flex-1 max-w-md">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input placeholder="Search articles..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button onClick={() => setActiveCategory(null)} className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors ${!activeCategory ? "bg-primary text-primary-foreground border-primary" : "bg-muted text-muted-foreground border-border"}`}>
+                All
+              </button>
+              {categories.map((c) => (
+                <button key={c} onClick={() => setActiveCategory(c)} className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors ${activeCategory === c ? "bg-primary text-primary-foreground border-primary" : "bg-muted text-muted-foreground border-border"}`}>
+                  {c}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 lg:py-24">
+        <div className="container">
+          {isLoading ? (
+            <div className="flex justify-center py-12"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>
+          ) : filtered && filtered.length > 0 ? (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filtered.map((article) => (
+                <Link key={article.id} to={`/news/${article.slug}`} className="bg-card rounded-xl overflow-hidden shadow-card border border-border hover:border-primary/30 hover:shadow-lg transition-all group">
+                  <div className="p-6">
+                    <span className="text-xs font-medium text-accent">{article.category}</span>
+                    <h3 className="font-bold text-foreground mt-2 mb-2 group-hover:text-primary transition-colors">{article.title}</h3>
+                    <p className="text-sm text-muted-foreground line-clamp-3">{article.excerpt}</p>
+                    <p className="text-xs text-muted-foreground mt-4">{article.read_time_minutes} min read</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 bg-card rounded-xl border border-border">
+              <Newspaper className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+              <h3 className="font-bold text-foreground mb-2">No articles found</h3>
+              <p className="text-muted-foreground">Check back soon for new content.</p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <section className="py-16 gradient-hero">
+        <div className="container text-center">
+          <h2 className="text-3xl font-extrabold text-primary-foreground mb-8">Ready to take the next step?</h2>
+          <Button variant="hero" size="xl" asChild>
+            <Link to="/register">Register Now <ArrowRight className="h-5 w-5" /></Link>
+          </Button>
+        </div>
+      </section>
+    </Layout>
+  );
+}
