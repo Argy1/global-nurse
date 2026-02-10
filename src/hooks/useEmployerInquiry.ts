@@ -2,14 +2,12 @@ import { useMutation } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
 export interface EmployerInquiryInsert {
-  company_name: string;
-  contact_name: string;
-  email: string;
-  phone?: string;
-  country: string;
-  nurses_needed?: number;
-  specialties_needed?: string[];
-  message?: string;
+  institution_name: string;
+  institutional_email: string;
+  title: string;
+  contact_mobile: string;
+  workforce_needs: string;
+  preferred_timeline?: string;
 }
 
 export function useSubmitEmployerInquiry() {
