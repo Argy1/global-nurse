@@ -1,18 +1,34 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Loader2, Users } from "lucide-react";
+import { ArrowRight, Search, Loader2, Users } from "lucide-react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
-import { useSuccessStories } from "@/hooks/useSuccessStories";
+import { Input } from "@/components/ui/input";
+import { useContent } from "@/hooks/useContent";
 
 export default function SuccessStories() {
-  const { data: stories, isLoading } = useSuccessStories();
+  const { data: stories, isLoading } = useContent("SuccessStory");
+  const [search, setSearch] = useState("");
+
+  const filtered = stories?.filter((s) =>
+    !search || s.title.toLowerCase().includes(search.toLowerCase()) || (s.excerpt || "").toLowerCase().includes(search.toLowerCase()) || (s.country_focus || "").toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <Layout>
       <section className="gradient-hero py-16 lg:py-24">
         <div className="container text-center">
           <h1 className="text-4xl lg:text-5xl font-extrabold text-primary-foreground mb-4">Success Stories</h1>
-          <p className="text-lg text-primary-foreground/90 max-w-2xl mx-auto">Real journeys from nurses who pursued international careers.</p>
+          <p className="text-lg text-primary-foreground/90 max-w-2xl mx-auto">Real transformation journeys from nurses who pursued international careers.</p>
+        </div>
+      </section>
+
+      <section className="py-8 bg-card border-b border-border">
+        <div className="container">
+          <div className="relative max-w-md">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input placeholder="Search stories..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
+          </div>
         </div>
       </section>
 
@@ -20,13 +36,23 @@ export default function SuccessStories() {
         <div className="container">
           {isLoading ? (
             <div className="flex justify-center py-12"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>
-          ) : stories && stories.length > 0 ? (
+          ) : filtered && filtered.length > 0 ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {stories.map((story) => (
-                <Link key={story.id} to={`/success-stories/${story.slug}`} className="bg-card rounded-xl p-6 shadow-card border border-border hover:border-primary/30 hover:shadow-lg transition-all group">
-                  <span className="text-xs font-medium text-accent">{story.origin_country} → {story.destination_country}</span>
-                  <h3 className="font-bold text-foreground mt-2 mb-2 group-hover:text-primary transition-colors">{story.title}</h3>
-                  <p className="text-sm text-muted-foreground line-clamp-3">{story.excerpt}</p>
+              {filtered.map((story) => (
+                <Link key={story.id} to={`/success-stories/${story.slug}`} className="bg-card rounded-xl overflow-hidden shadow-card border border-border hover:border-primary/30 hover:shadow-lg transition-all group">
+                  {story.cover_image_url && (
+                    <img src={story.cover_image_url} alt={story.title} className="w-full h-48 object-cover" />
+                  )}
+                  <div className="p-6">
+                    {story.country_focus && <span className="text-xs font-medium text-accent">{story.country_focus}</span>}
+                    <h3 className="font-bold text-foreground mt-2 mb-2 group-hover:text-primary transition-colors">{story.title}</h3>
+                    <p className="text-sm text-muted-foreground line-clamp-3">{story.excerpt}</p>
+                    {story.tags?.length > 0 && (
+                      <div className="flex flex-wrap gap-1 mt-3">
+                        {story.tags.map((t) => <span key={t} className="text-[10px] px-2 py-0.5 bg-secondary rounded-full text-secondary-foreground">{t}</span>)}
+                      </div>
+                    )}
+                  </div>
                 </Link>
               ))}
             </div>
@@ -38,6 +64,16 @@ export default function SuccessStories() {
               <Button variant="cta" asChild><Link to="/register">Register Now</Link></Button>
             </div>
           )}
+        </div>
+      </section>
+
+      <section className="py-16 gradient-hero">
+        <div className="container text-center">
+          <h2 className="text-3xl font-extrabold text-primary-foreground mb-4">Start your own journey</h2>
+          <p className="text-primary-foreground/80 mb-8">Every story begins with a single step.</p>
+          <Button variant="hero" size="xl" asChild>
+            <Link to="/register">Register Now <ArrowRight className="h-5 w-5" /></Link>
+          </Button>
         </div>
       </section>
     </Layout>
