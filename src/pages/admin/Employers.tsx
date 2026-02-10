@@ -23,7 +23,7 @@ export default function AdminEmployers() {
           <table className="w-full text-sm">
             <thead className="bg-muted">
               <tr>
-                {["Company", "Contact", "Email", "Country", "Nurses Needed", "Status", "Date"].map((h) => (
+                {["Institution", "Email", "Title", "Mobile", "Status", "Date"].map((h) => (
                   <th key={h} className="px-4 py-3 text-left font-semibold text-foreground">{h}</th>
                 ))}
               </tr>
@@ -31,13 +31,12 @@ export default function AdminEmployers() {
             <tbody>
               {inquiries?.map((i: any) => (
                 <tr key={i.id} className="border-t border-border">
-                  <td className="px-4 py-3 font-medium text-foreground">{i.company_name}</td>
-                  <td className="px-4 py-3 text-muted-foreground">{i.contact_name}</td>
-                  <td className="px-4 py-3 text-muted-foreground">{i.email}</td>
-                  <td className="px-4 py-3 text-muted-foreground">{i.country}</td>
-                  <td className="px-4 py-3 text-muted-foreground">{i.nurses_needed || "—"}</td>
+                  <td className="px-4 py-3 font-medium text-foreground">{i.institution_name || i.company_name || "—"}</td>
+                  <td className="px-4 py-3 text-muted-foreground">{i.institutional_email || i.email || "—"}</td>
+                  <td className="px-4 py-3 text-muted-foreground">{i.title || "—"}</td>
+                  <td className="px-4 py-3 text-muted-foreground">{i.contact_mobile || i.phone || "—"}</td>
                   <td className="px-4 py-3">
-                    <span className="px-2 py-1 rounded-full text-xs font-medium bg-secondary text-secondary-foreground">{i.status}</span>
+                    <span className="px-2 py-1 rounded-full text-xs font-medium bg-secondary text-secondary-foreground">{i.employer_status || i.status}</span>
                   </td>
                   <td className="px-4 py-3 text-muted-foreground">{new Date(i.created_at).toLocaleDateString()}</td>
                 </tr>

@@ -9,7 +9,7 @@ import { toast } from "@/hooks/use-toast";
 export function StickyBottomCTA() {
   const [isVisible, setIsVisible] = useState(false);
   const { data: settings } = useSiteSettings();
-  const whatsappLink = settings?.whatsapp_link;
+  const whatsappLink = settings?.whatsapp_direct_chat_link;
   const hasWhatsApp = whatsappLink && whatsappLink !== "UPDATE_ME" && whatsappLink.startsWith("http");
 
   useEffect(() => {

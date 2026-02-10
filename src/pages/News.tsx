@@ -5,19 +5,13 @@ import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useContent } from "@/hooks/useContent";
-import { Constants } from "@/integrations/supabase/types";
-
-const categories = Constants.public.Enums.content_category_type;
 
 export default function News() {
-  const { data: articles, isLoading } = useContent();
+  const { data: articles, isLoading } = useContent("News");
   const [search, setSearch] = useState("");
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   const filtered = articles?.filter((a) => {
-    const matchesSearch = !search || a.title.toLowerCase().includes(search.toLowerCase()) || a.excerpt.toLowerCase().includes(search.toLowerCase());
-    const matchesCategory = !activeCategory || a.category === activeCategory;
-    return matchesSearch && matchesCategory;
+    return !search || a.title.toLowerCase().includes(search.toLowerCase()) || (a.excerpt || "").toLowerCase().includes(search.toLowerCase());
   });
 
   return (
@@ -31,21 +25,9 @@ export default function News() {
 
       <section className="py-8 bg-card border-b border-border">
         <div className="container">
-          <div className="flex flex-col sm:flex-row gap-4 items-center">
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search articles..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <button onClick={() => setActiveCategory(null)} className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors ${!activeCategory ? "bg-primary text-primary-foreground border-primary" : "bg-muted text-muted-foreground border-border"}`}>
-                All
-              </button>
-              {categories.map((c) => (
-                <button key={c} onClick={() => setActiveCategory(c)} className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors ${activeCategory === c ? "bg-primary text-primary-foreground border-primary" : "bg-muted text-muted-foreground border-border"}`}>
-                  {c}
-                </button>
-              ))}
-            </div>
+          <div className="relative max-w-md">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input placeholder="Search articles..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
           </div>
         </div>
       </section>
@@ -59,10 +41,10 @@ export default function News() {
               {filtered.map((article) => (
                 <Link key={article.id} to={`/news/${article.slug}`} className="bg-card rounded-xl overflow-hidden shadow-card border border-border hover:border-primary/30 hover:shadow-lg transition-all group">
                   <div className="p-6">
-                    <span className="text-xs font-medium text-accent">{article.category}</span>
+                    {article.tags?.length > 0 && <span className="text-xs font-medium text-accent">{article.tags[0]}</span>}
                     <h3 className="font-bold text-foreground mt-2 mb-2 group-hover:text-primary transition-colors">{article.title}</h3>
                     <p className="text-sm text-muted-foreground line-clamp-3">{article.excerpt}</p>
-                    <p className="text-xs text-muted-foreground mt-4">{article.read_time_minutes} min read</p>
+                    {article.publish_date && <p className="text-xs text-muted-foreground mt-4">{new Date(article.publish_date).toLocaleDateString()}</p>}
                   </div>
                 </Link>
               ))}

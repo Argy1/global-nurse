@@ -27,13 +27,12 @@ export default function SuccessStoryDetail() {
 
       <section className="py-12 lg:py-16">
         <div className="container max-w-3xl mx-auto">
-          <div className="flex items-center gap-2 text-sm text-accent mb-4">
-            <Globe className="h-4 w-4" />
-            {story.origin_country} → {story.destination_country}
-            {story.specialty && <span>• {story.specialty}</span>}
-          </div>
+          {story.country_focus && (
+            <div className="flex items-center gap-2 text-sm text-accent mb-4">
+              <Globe className="h-4 w-4" />{story.country_focus}
+            </div>
+          )}
           <h1 className="text-3xl lg:text-4xl font-extrabold text-foreground mb-4">{story.title}</h1>
-          <p className="text-muted-foreground mb-8">— {story.nurse_name}</p>
           <div className="prose prose-lg max-w-none text-foreground" dangerouslySetInnerHTML={{ __html: story.body.replace(/\n/g, "<br/>") }} />
 
           <div className="mt-12 pt-8 border-t border-border text-center">

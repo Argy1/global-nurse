@@ -24,10 +24,9 @@ export default function SuccessStories() {
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {stories.map((story) => (
                 <Link key={story.id} to={`/success-stories/${story.slug}`} className="bg-card rounded-xl p-6 shadow-card border border-border hover:border-primary/30 hover:shadow-lg transition-all group">
-                  <span className="text-xs font-medium text-accent">{story.origin_country} → {story.destination_country}</span>
+                  {story.country_focus && <span className="text-xs font-medium text-accent">{story.country_focus}</span>}
                   <h3 className="font-bold text-foreground mt-2 mb-2 group-hover:text-primary transition-colors">{story.title}</h3>
                   <p className="text-sm text-muted-foreground line-clamp-3">{story.excerpt}</p>
-                  <p className="text-xs text-muted-foreground mt-4">— {story.nurse_name}</p>
                 </Link>
               ))}
             </div>

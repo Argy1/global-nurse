@@ -1,49 +1,40 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, ArrowLeft, CheckCircle, Loader2, User, Briefcase, FileText, AlertCircle, Lock } from "lucide-react";
+import { ArrowRight, ArrowLeft, CheckCircle, Loader2, User, Heart, FileText, AlertCircle, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Layout } from "@/components/layout/Layout";
-import { useCreateCandidate } from "@/hooks/useCandidates";
+import { useCreateCandidate, CandidateInsert } from "@/hooks/useCandidates";
 import { toast } from "@/hooks/use-toast";
-import { Constants } from "@/integrations/supabase/types";
-import type { Database } from "@/integrations/supabase/types";
 
-type CandidateInsert = Database["public"]["Tables"]["candidates"]["Insert"];
-
-const professionOptions = Constants.public.Enums.profession_type;
-const educationOptions = Constants.public.Enums.education_level_type;
-const specialtyOptions = Constants.public.Enums.specialty_type;
-const licenseStatusOptions = Constants.public.Enums.license_status_type;
-const englishLevelOptions = Constants.public.Enums.english_level_type;
-const availabilityOptions = Constants.public.Enums.availability_type;
-
-const targetCountryOptions = ["United Kingdom", "United States", "Canada", "Australia", "Germany", "Ireland", "Middle East", "Japan"];
+const englishOptions = ["Basic", "Intermediate", "Fluent"] as const;
+const motivationOptions = ["Career Growth & International Experience", "Better Income & Financial Stability", "Learning, Culture & Personal Development", "Other"];
+const challengeOptions = ["Licensing/registration confusion", "English tests/communication", "Lack of guidance/trusted pathway", "Financial prep for exams/docs", "Other"];
+const helpOptions = ["Step-by-step guidance", "Training & preparation", "Connection to trusted opportunities", "Not sure yet/need advice"];
 
 const steps = [
-  { id: 1, title: "Basic Info", icon: User },
-  { id: 2, title: "Professional", icon: Briefcase },
-  { id: 3, title: "Readiness", icon: FileText },
+  { id: 1, title: "Personal", icon: User },
+  { id: 2, title: "Motivation", icon: Heart },
+  { id: 3, title: "Consent", icon: FileText },
 ];
 
 interface FormData {
   full_name: string;
-  whatsapp_number: string;
-  email: string;
-  city_country: string;
-  profession: string;
-  education_level: string;
+  date_of_birth: string;
   graduation_year: string;
-  experience_years: string;
-  specialty: string;
-  license_status: string;
-  english_level: string;
-  target_countries: string[];
-  availability: string;
-  cv_link: string;
+  university: string;
+  str_active_number: string;
+  english_capability: string;
+  email: string;
+  whatsapp_number: string;
+  motivations: string[];
+  motivation_story: string;
+  challenges: string[];
+  challenge_story: string;
+  help_needed: string[];
   consent_contact: boolean;
   consent_privacy: boolean;
 }
@@ -53,88 +44,98 @@ export default function Register() {
   const createCandidate = useCreateCandidate();
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<FormData>({
-    full_name: "", whatsapp_number: "", email: "", city_country: "",
-    profession: "", education_level: "", graduation_year: "", experience_years: "",
-    specialty: "", license_status: "", english_level: "", target_countries: [],
-    availability: "", cv_link: "", consent_contact: false, consent_privacy: false,
+    full_name: "", date_of_birth: "", graduation_year: "", university: "",
+    str_active_number: "", english_capability: "", email: "", whatsapp_number: "",
+    motivations: [], motivation_story: "", challenges: [], challenge_story: "",
+    help_needed: [], consent_contact: false, consent_privacy: false,
   });
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
   const [showErrorSummary, setShowErrorSummary] = useState(false);
 
   const handleInputChange = (field: keyof FormData, value: string | boolean | string[]) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
-    if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: undefined }));
-      setShowErrorSummary(false);
-    }
+    if (errors[field]) { setErrors((prev) => ({ ...prev, [field]: undefined })); setShowErrorSummary(false); }
   };
 
-  const toggleCountry = (country: string) => {
+  const toggleMulti = (field: "motivations" | "challenges" | "help_needed", val: string) => {
     setFormData((prev) => ({
       ...prev,
-      target_countries: prev.target_countries.includes(country)
-        ? prev.target_countries.filter((c) => c !== country)
-        : [...prev.target_countries, country],
+      [field]: prev[field].includes(val) ? prev[field].filter((v) => v !== val) : [...prev[field], val],
     }));
   };
 
   const validateStep = (step: number): boolean => {
-    const newErrors: Partial<Record<keyof FormData, string>> = {};
+    const e: Partial<Record<keyof FormData, string>> = {};
     if (step === 1) {
-      if (!formData.full_name.trim()) newErrors.full_name = "Full name is required";
-      if (!formData.whatsapp_number.trim()) newErrors.whatsapp_number = "WhatsApp number is required";
-      if (!formData.city_country.trim()) newErrors.city_country = "City/Country is required";
-      if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = "Invalid email format";
+      if (!formData.full_name.trim()) e.full_name = "Full name is required";
+      if (!formData.date_of_birth) e.date_of_birth = "Date of birth is required";
+      if (!formData.graduation_year) e.graduation_year = "Graduation year is required";
+      if (!formData.university.trim()) e.university = "University is required";
+      if (!formData.str_active_number.trim()) e.str_active_number = "STR active number is required";
+      if (!formData.english_capability) e.english_capability = "English capability is required";
+      if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) e.email = "Valid email is required";
+      if (!formData.whatsapp_number.trim()) e.whatsapp_number = "WhatsApp number is required";
     }
     if (step === 2) {
-      if (!formData.profession) newErrors.profession = "Profession is required";
-      if (!formData.education_level) newErrors.education_level = "Education level is required";
-      if (!formData.experience_years) newErrors.experience_years = "Experience is required";
-      if (!formData.specialty) newErrors.specialty = "Specialty is required";
-      if (!formData.license_status) newErrors.license_status = "License status is required";
+      if (formData.motivations.length === 0) e.motivations = "Select at least one motivation";
+      if (formData.challenges.length === 0) e.challenges = "Select at least one challenge";
+      if (formData.help_needed.length === 0) e.help_needed = "Select at least one option";
     }
     if (step === 3) {
-      if (!formData.english_level) newErrors.english_level = "English level is required";
-      if (!formData.availability) newErrors.availability = "Availability is required";
-      if (!formData.consent_contact) newErrors.consent_contact = "Consent is required to proceed.";
-      if (!formData.consent_privacy) newErrors.consent_privacy = "Consent is required to proceed.";
+      if (!formData.consent_contact) e.consent_contact = "Consent is required to proceed.";
+      if (!formData.consent_privacy) e.consent_privacy = "Consent is required to proceed.";
     }
-    setErrors(newErrors);
-    if (Object.keys(newErrors).length > 0) setShowErrorSummary(true);
-    return Object.keys(newErrors).length === 0;
+    setErrors(e);
+    if (Object.keys(e).length > 0) setShowErrorSummary(true);
+    return Object.keys(e).length === 0;
   };
 
   const handleNext = () => { if (validateStep(currentStep)) { setShowErrorSummary(false); setCurrentStep((p) => Math.min(p + 1, 3)); } };
   const handleBack = () => setCurrentStep((p) => Math.max(p - 1, 1));
 
   const handleSubmit = async () => {
-    if (!validateStep(3)) {
-      toast({ title: "Please fix the errors", description: "Check the highlighted fields.", variant: "destructive" });
-      return;
-    }
-    const candidateData: CandidateInsert = {
-      full_name: formData.full_name.trim(), whatsapp_number: formData.whatsapp_number.trim(),
-      email: formData.email.trim() || null, city_country: formData.city_country.trim(),
-      profession: formData.profession as CandidateInsert["profession"],
-      education_level: formData.education_level as CandidateInsert["education_level"],
-      graduation_year: formData.graduation_year ? parseInt(formData.graduation_year) : null,
-      experience_years: parseInt(formData.experience_years),
-      specialty: formData.specialty as CandidateInsert["specialty"],
-      license_status: formData.license_status as CandidateInsert["license_status"],
-      english_level: formData.english_level as CandidateInsert["english_level"],
-      target_countries: formData.target_countries, availability: formData.availability as CandidateInsert["availability"],
-      cv_link: formData.cv_link.trim() || null, consent_contact: formData.consent_contact,
-      consent_privacy: formData.consent_privacy, pipeline_status: "new",
+    if (!validateStep(3)) { toast({ title: "Please fix the errors", variant: "destructive" }); return; }
+    const data: CandidateInsert = {
+      full_name: formData.full_name.trim(),
+      date_of_birth: formData.date_of_birth,
+      graduation_year: parseInt(formData.graduation_year),
+      university: formData.university.trim(),
+      str_active_number: formData.str_active_number.trim(),
+      english_capability: formData.english_capability as CandidateInsert["english_capability"],
+      email: formData.email.trim(),
+      whatsapp_number: formData.whatsapp_number.trim(),
+      motivations: formData.motivations,
+      motivation_story: formData.motivation_story.trim() || undefined,
+      challenges: formData.challenges,
+      challenge_story: formData.challenge_story.trim() || undefined,
+      help_needed: formData.help_needed,
+      consent_contact: formData.consent_contact,
+      consent_privacy: formData.consent_privacy,
     };
-    createCandidate.mutate(candidateData, {
+    createCandidate.mutate(data, {
       onSuccess: () => navigate("/register/success"),
-      onError: () => toast({ title: "Submission Failed", description: "Something went wrong. Please try again.", variant: "destructive" }),
+      onError: () => toast({ title: "Submission Failed", description: "Please try again.", variant: "destructive" }),
     });
   };
 
   const renderFieldError = (field: keyof FormData) => errors[field] ? (
     <p className="text-sm text-destructive flex items-center gap-1"><AlertCircle className="h-3 w-3" />{errors[field]}</p>
   ) : null;
+
+  const renderMultiSelect = (field: "motivations" | "challenges" | "help_needed", options: string[], label: string) => (
+    <div className="space-y-2">
+      <Label>{label} *</Label>
+      <div className="flex flex-wrap gap-2">
+        {options.map((o) => (
+          <button key={o} type="button" onClick={() => toggleMulti(field, o)}
+            className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors ${formData[field].includes(o) ? "bg-primary text-primary-foreground border-primary" : "bg-muted text-muted-foreground border-border hover:border-primary/50"}`}>
+            {o}
+          </button>
+        ))}
+      </div>
+      {renderFieldError(field)}
+    </div>
+  );
 
   return (
     <Layout>
@@ -148,7 +149,6 @@ export default function Register() {
         </div>
       </section>
 
-      {/* Stepper */}
       <section className="py-8 bg-card border-b border-border">
         <div className="container flex items-center justify-center gap-4 md:gap-8">
           {steps.map((step, i) => (
@@ -187,136 +187,91 @@ export default function Register() {
                   <Input id="full_name" value={formData.full_name} onChange={(e) => handleInputChange("full_name", e.target.value)} placeholder="Enter your full name" maxLength={100} className={errors.full_name ? "border-destructive" : ""} />
                   {renderFieldError("full_name")}
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="whatsapp_number">WhatsApp Number *</Label>
-                  <Input id="whatsapp_number" value={formData.whatsapp_number} onChange={(e) => handleInputChange("whatsapp_number", e.target.value)} placeholder="+62 812 3456 7890" maxLength={20} className={errors.whatsapp_number ? "border-destructive" : ""} />
-                  {renderFieldError("whatsapp_number")}
+                <div className="grid sm:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="date_of_birth">Date of Birth *</Label>
+                    <Input id="date_of_birth" type="date" value={formData.date_of_birth} onChange={(e) => handleInputChange("date_of_birth", e.target.value)} className={errors.date_of_birth ? "border-destructive" : ""} />
+                    {renderFieldError("date_of_birth")}
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="graduation_year">Graduation Year *</Label>
+                    <Input id="graduation_year" type="number" value={formData.graduation_year} onChange={(e) => handleInputChange("graduation_year", e.target.value)} placeholder="e.g., 2020" min={1980} max={new Date().getFullYear()} className={errors.graduation_year ? "border-destructive" : ""} />
+                    {renderFieldError("graduation_year")}
+                  </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email (optional)</Label>
-                  <Input id="email" type="email" value={formData.email} onChange={(e) => handleInputChange("email", e.target.value)} placeholder="your@email.com" maxLength={255} className={errors.email ? "border-destructive" : ""} />
-                  {renderFieldError("email")}
+                  <Label htmlFor="university">University *</Label>
+                  <Input id="university" value={formData.university} onChange={(e) => handleInputChange("university", e.target.value)} placeholder="Your nursing school / university" maxLength={200} className={errors.university ? "border-destructive" : ""} />
+                  {renderFieldError("university")}
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="city_country">City / Country *</Label>
-                  <Input id="city_country" value={formData.city_country} onChange={(e) => handleInputChange("city_country", e.target.value)} placeholder="e.g., Jakarta, Indonesia" maxLength={100} className={errors.city_country ? "border-destructive" : ""} />
-                  {renderFieldError("city_country")}
+                  <Label htmlFor="str_active_number">STR Active Number *</Label>
+                  <Input id="str_active_number" value={formData.str_active_number} onChange={(e) => handleInputChange("str_active_number", e.target.value)} placeholder="Your active STR number" maxLength={50} className={errors.str_active_number ? "border-destructive" : ""} />
+                  {renderFieldError("str_active_number")}
+                </div>
+                <div className="space-y-2">
+                  <Label>English Capability *</Label>
+                  <Select value={formData.english_capability} onValueChange={(v) => handleInputChange("english_capability", v)}>
+                    <SelectTrigger className={errors.english_capability ? "border-destructive" : ""}><SelectValue placeholder="Select level" /></SelectTrigger>
+                    <SelectContent>{englishOptions.map((o) => <SelectItem key={o} value={o}>{o}</SelectItem>)}</SelectContent>
+                  </Select>
+                  {renderFieldError("english_capability")}
+                </div>
+                <div className="grid sm:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email *</Label>
+                    <Input id="email" type="email" value={formData.email} onChange={(e) => handleInputChange("email", e.target.value)} placeholder="your@email.com" maxLength={255} className={errors.email ? "border-destructive" : ""} />
+                    {renderFieldError("email")}
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="whatsapp_number">WhatsApp Number *</Label>
+                    <Input id="whatsapp_number" value={formData.whatsapp_number} onChange={(e) => handleInputChange("whatsapp_number", e.target.value)} placeholder="+62 812 3456 7890" maxLength={20} className={errors.whatsapp_number ? "border-destructive" : ""} />
+                    {renderFieldError("whatsapp_number")}
+                  </div>
                 </div>
               </div>
             )}
 
             {currentStep === 2 && (
               <div className="space-y-6">
-                <div className="grid sm:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label>Profession *</Label>
-                    <Select value={formData.profession} onValueChange={(v) => handleInputChange("profession", v)}>
-                      <SelectTrigger><SelectValue placeholder="Select profession" /></SelectTrigger>
-                      <SelectContent>{professionOptions.map((o) => <SelectItem key={o} value={o}>{o}</SelectItem>)}</SelectContent>
-                    </Select>
-                    {renderFieldError("profession")}
-                  </div>
-                  <div className="space-y-2">
-                    <Label>Education Level *</Label>
-                    <Select value={formData.education_level} onValueChange={(v) => handleInputChange("education_level", v)}>
-                      <SelectTrigger><SelectValue placeholder="Select education" /></SelectTrigger>
-                      <SelectContent>{educationOptions.map((o) => <SelectItem key={o} value={o}>{o}</SelectItem>)}</SelectContent>
-                    </Select>
-                    {renderFieldError("education_level")}
-                  </div>
+                {renderMultiSelect("motivations", motivationOptions, "What motivates you to go global?")}
+                <div className="space-y-2">
+                  <Label htmlFor="motivation_story">Tell us more (optional)</Label>
+                  <textarea id="motivation_story" value={formData.motivation_story} onChange={(e) => handleInputChange("motivation_story", e.target.value)}
+                    placeholder="Share your story..." maxLength={1000}
+                    className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm min-h-[80px] resize-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
                 </div>
-                <div className="grid sm:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="graduation_year">Graduation Year</Label>
-                    <Input id="graduation_year" type="number" value={formData.graduation_year} onChange={(e) => handleInputChange("graduation_year", e.target.value)} placeholder="e.g., 2020" min={1980} max={new Date().getFullYear()} />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>Years of Experience *</Label>
-                    <Select value={formData.experience_years} onValueChange={(v) => handleInputChange("experience_years", v)}>
-                      <SelectTrigger><SelectValue placeholder="Select experience" /></SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="0">Less than 1 year</SelectItem>
-                        <SelectItem value="1">1-2 years</SelectItem>
-                        <SelectItem value="3">3-5 years</SelectItem>
-                        <SelectItem value="6">6-10 years</SelectItem>
-                        <SelectItem value="11">10+ years</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    {renderFieldError("experience_years")}
-                  </div>
+                {renderMultiSelect("challenges", challengeOptions, "What challenges are you facing?")}
+                <div className="space-y-2">
+                  <Label htmlFor="challenge_story">Tell us more (optional)</Label>
+                  <textarea id="challenge_story" value={formData.challenge_story} onChange={(e) => handleInputChange("challenge_story", e.target.value)}
+                    placeholder="What's been difficult?" maxLength={1000}
+                    className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm min-h-[80px] resize-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
                 </div>
-                <div className="grid sm:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label>Specialty *</Label>
-                    <Select value={formData.specialty} onValueChange={(v) => handleInputChange("specialty", v)}>
-                      <SelectTrigger><SelectValue placeholder="Select specialty" /></SelectTrigger>
-                      <SelectContent>{specialtyOptions.map((o) => <SelectItem key={o} value={o}>{o}</SelectItem>)}</SelectContent>
-                    </Select>
-                    {renderFieldError("specialty")}
-                  </div>
-                  <div className="space-y-2">
-                    <Label>License Status *</Label>
-                    <Select value={formData.license_status} onValueChange={(v) => handleInputChange("license_status", v)}>
-                      <SelectTrigger><SelectValue placeholder="Select status" /></SelectTrigger>
-                      <SelectContent>{licenseStatusOptions.map((o) => <SelectItem key={o} value={o}>{o}</SelectItem>)}</SelectContent>
-                    </Select>
-                    {renderFieldError("license_status")}
-                  </div>
-                </div>
+                {renderMultiSelect("help_needed", helpOptions, "What kind of help do you need?")}
               </div>
             )}
 
             {currentStep === 3 && (
               <div className="space-y-6">
-                <div className="grid sm:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label>English Level *</Label>
-                    <Select value={formData.english_level} onValueChange={(v) => handleInputChange("english_level", v)}>
-                      <SelectTrigger><SelectValue placeholder="Select level" /></SelectTrigger>
-                      <SelectContent>{englishLevelOptions.map((o) => <SelectItem key={o} value={o}>{o}</SelectItem>)}</SelectContent>
-                    </Select>
-                    {renderFieldError("english_level")}
+                <div className="bg-muted rounded-lg p-6">
+                  <h3 className="font-bold text-foreground mb-4">Almost done! Please confirm:</h3>
+                  <div className="space-y-4">
+                    <div className="flex items-start gap-3">
+                      <Checkbox id="consent_contact" checked={formData.consent_contact} onCheckedChange={(v) => handleInputChange("consent_contact", !!v)} className={errors.consent_contact ? "border-destructive" : ""} />
+                      <Label htmlFor="consent_contact" className="text-sm leading-relaxed cursor-pointer">I consent to be contacted about international nursing opportunities. *</Label>
+                    </div>
+                    {renderFieldError("consent_contact")}
+                    <div className="flex items-start gap-3">
+                      <Checkbox id="consent_privacy" checked={formData.consent_privacy} onCheckedChange={(v) => handleInputChange("consent_privacy", !!v)} className={errors.consent_privacy ? "border-destructive" : ""} />
+                      <Label htmlFor="consent_privacy" className="text-sm leading-relaxed cursor-pointer">I accept the <a href="/privacy" target="_blank" className="text-primary underline">Privacy Policy</a> and understand how my data will be used. *</Label>
+                    </div>
+                    {renderFieldError("consent_privacy")}
                   </div>
-                  <div className="space-y-2">
-                    <Label>Availability *</Label>
-                    <Select value={formData.availability} onValueChange={(v) => handleInputChange("availability", v)}>
-                      <SelectTrigger><SelectValue placeholder="Select availability" /></SelectTrigger>
-                      <SelectContent>{availabilityOptions.map((o) => <SelectItem key={o} value={o}>{o}</SelectItem>)}</SelectContent>
-                    </Select>
-                    {renderFieldError("availability")}
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label>Target Countries</Label>
-                  <div className="flex flex-wrap gap-2">
-                    {targetCountryOptions.map((c) => (
-                      <button key={c} type="button" onClick={() => toggleCountry(c)}
-                        className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-colors ${formData.target_countries.includes(c) ? "bg-primary text-primary-foreground border-primary" : "bg-muted text-muted-foreground border-border hover:border-primary/50"}`}>
-                        {c}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="cv_link">CV / Resume Link (optional)</Label>
-                  <Input id="cv_link" value={formData.cv_link} onChange={(e) => handleInputChange("cv_link", e.target.value)} placeholder="https://drive.google.com/..." maxLength={500} />
-                </div>
-                <div className="space-y-4 pt-4 border-t border-border">
-                  <div className="flex items-start gap-3">
-                    <Checkbox id="consent_contact" checked={formData.consent_contact} onCheckedChange={(v) => handleInputChange("consent_contact", !!v)} className={errors.consent_contact ? "border-destructive" : ""} />
-                    <Label htmlFor="consent_contact" className="text-sm leading-relaxed cursor-pointer">I consent to be contacted about international nursing opportunities. *</Label>
-                  </div>
-                  {renderFieldError("consent_contact")}
-                  <div className="flex items-start gap-3">
-                    <Checkbox id="consent_privacy" checked={formData.consent_privacy} onCheckedChange={(v) => handleInputChange("consent_privacy", !!v)} className={errors.consent_privacy ? "border-destructive" : ""} />
-                    <Label htmlFor="consent_privacy" className="text-sm leading-relaxed cursor-pointer">I accept the <a href="/privacy" target="_blank" className="text-primary underline">Privacy Policy</a> and understand how my data will be used. *</Label>
-                  </div>
-                  {renderFieldError("consent_privacy")}
                 </div>
               </div>
             )}
 
-            {/* Navigation */}
             <div className="flex justify-between mt-8 pt-6 border-t border-border">
               {currentStep > 1 ? (
                 <Button variant="outline" onClick={handleBack}><ArrowLeft className="h-4 w-4" /> Back</Button>
