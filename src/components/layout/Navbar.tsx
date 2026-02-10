@@ -1,33 +1,35 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Globe, Stethoscope } from "lucide-react";
+import { Menu, X, MessageCircle, Phone, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/pathways", label: "Pathways" },
-  { href: "/apply", label: "Apply" },
-  { href: "/community", label: "Community" },
-  { href: "/content", label: "Content" },
-  { href: "/ethics", label: "Ethics" },
-  { href: "/contact", label: "Contact" },
+  { href: "/about", label: "About" },
+  { href: "/what-we-do", label: "What We Do" },
+  { href: "/how-we-do-it", label: "How We Do It" },
+  { href: "/lms", label: "LMS" },
+  { href: "/register", label: "Register" },
 ];
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { data: settings } = useSiteSettings();
+
+  const helpEmail = settings?.help_email || "globalparo@gmail.com";
+  const helpMobile = settings?.help_mobile;
+  const whatsappLink = settings?.whatsapp_link;
+  const hasWhatsApp = whatsappLink && whatsappLink !== "UPDATE_ME";
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 font-bold text-xl">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-            <Stethoscope className="h-5 w-5 text-primary-foreground" />
-          </div>
           <span className="text-primary">Global</span>
-          <span className="text-accent">Nurse</span>
+          <span className="text-accent">Paro</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -37,7 +39,7 @@ export function Navbar() {
               key={link.href}
               to={link.href}
               className={cn(
-                "px-4 py-2 text-sm font-medium rounded-lg transition-colors",
+                "px-3 py-2 text-sm font-medium rounded-lg transition-colors",
                 location.pathname === link.href
                   ? "bg-secondary text-primary"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -46,16 +48,43 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
+          {/* Help dropdown-like links */}
+          <div className="flex items-center gap-1 ml-1">
+            <a
+              href={`mailto:${helpEmail}`}
+              className="p-2 text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted transition-colors"
+              aria-label="Email help"
+            >
+              <Mail className="h-4 w-4" />
+            </a>
+            {helpMobile && helpMobile !== "UPDATE_ME" && (
+              <a
+                href={`tel:${helpMobile}`}
+                className="p-2 text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted transition-colors"
+                aria-label="Call help"
+              >
+                <Phone className="h-4 w-4" />
+              </a>
+            )}
+          </div>
         </nav>
 
         {/* Desktop CTAs */}
         <div className="hidden lg:flex items-center gap-3">
-          <Button variant="whatsappOutline" size="sm" asChild>
-            <Link to="/community">Join WhatsApp</Link>
-          </Button>
           <Button variant="cta" size="sm" asChild>
-            <Link to="/apply">Apply Now</Link>
+            <Link to="/register">Register</Link>
           </Button>
+          {hasWhatsApp && (
+            <a
+              href={whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-accent-foreground hover:bg-accent/90 transition-colors"
+              aria-label="WhatsApp Support"
+            >
+              <MessageCircle className="h-5 w-5" />
+            </a>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -87,17 +116,25 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
+            <Link
+              to="/help"
+              onClick={() => setIsOpen(false)}
+              className="px-4 py-3 text-sm font-medium rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted"
+            >
+              Help
+            </Link>
             <div className="flex flex-col gap-2 pt-4 border-t border-border mt-2">
-              <Button variant="whatsapp" asChild>
-                <Link to="/community" onClick={() => setIsOpen(false)}>
-                  Join WhatsApp
-                </Link>
-              </Button>
               <Button variant="cta" asChild>
-                <Link to="/apply" onClick={() => setIsOpen(false)}>
-                  Apply Now
-                </Link>
+                <Link to="/register" onClick={() => setIsOpen(false)}>Register</Link>
               </Button>
+              {hasWhatsApp && (
+                <Button variant="whatsapp" asChild>
+                  <a href={whatsappLink} target="_blank" rel="noopener noreferrer" onClick={() => setIsOpen(false)}>
+                    <MessageCircle className="h-4 w-4" />
+                    WhatsApp Support
+                  </a>
+                </Button>
+              )}
             </div>
           </nav>
         </div>

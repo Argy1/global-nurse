@@ -80,6 +80,48 @@ export type Database = {
         }
         Relationships: []
       }
+      chat_messages: {
+        Row: {
+          admin_notes: string | null
+          created_at: string
+          id: string
+          message: string
+          resolved_at: string | null
+          resolved_by: string | null
+          status: string
+          updated_at: string
+          visitor_email: string | null
+          visitor_name: string
+          visitor_phone: string | null
+        }
+        Insert: {
+          admin_notes?: string | null
+          created_at?: string
+          id?: string
+          message: string
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: string
+          updated_at?: string
+          visitor_email?: string | null
+          visitor_name: string
+          visitor_phone?: string | null
+        }
+        Update: {
+          admin_notes?: string | null
+          created_at?: string
+          id?: string
+          message?: string
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: string
+          updated_at?: string
+          visitor_email?: string | null
+          visitor_name?: string
+          visitor_phone?: string | null
+        }
+        Relationships: []
+      }
       content: {
         Row: {
           body: string
@@ -121,6 +163,51 @@ export type Database = {
           read_time_minutes?: number
           slug?: string
           title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      employer_inquiries: {
+        Row: {
+          company_name: string
+          contact_name: string
+          country: string
+          created_at: string
+          email: string
+          id: string
+          message: string | null
+          nurses_needed: number | null
+          phone: string | null
+          specialties_needed: string[] | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          company_name: string
+          contact_name: string
+          country: string
+          created_at?: string
+          email: string
+          id?: string
+          message?: string | null
+          nurses_needed?: number | null
+          phone?: string | null
+          specialties_needed?: string[] | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          company_name?: string
+          contact_name?: string
+          country?: string
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string | null
+          nurses_needed?: number | null
+          phone?: string | null
+          specialties_needed?: string[] | null
+          status?: string
           updated_at?: string
         }
         Relationships: []
@@ -173,6 +260,93 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      quickstart_chapters: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          is_published: boolean
+          order_index: number
+          slug: string
+          summary: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: string
+          is_published?: boolean
+          order_index?: number
+          slug: string
+          summary: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          is_published?: boolean
+          order_index?: number
+          slug?: string
+          summary?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          description: string | null
+          id: string
+          key: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          description?: string | null
+          id?: string
+          key: string
+          updated_at?: string
+          value?: string
+        }
+        Update: {
+          description?: string | null
+          id?: string
+          key?: string
+          updated_at?: string
+          value?: string
+        }
+        Relationships: []
+      }
       social_links: {
         Row: {
           created_at: string
@@ -197,6 +371,78 @@ export type Database = {
           linkedin_url?: string
           tiktok_url?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      success_stories: {
+        Row: {
+          body: string
+          created_at: string
+          destination_country: string
+          excerpt: string
+          hero_image: string | null
+          id: string
+          is_published: boolean
+          nurse_name: string
+          origin_country: string
+          publish_date: string
+          slug: string
+          specialty: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          destination_country: string
+          excerpt: string
+          hero_image?: string | null
+          id?: string
+          is_published?: boolean
+          nurse_name: string
+          origin_country: string
+          publish_date?: string
+          slug: string
+          specialty?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          destination_country?: string
+          excerpt?: string
+          hero_image?: string | null
+          id?: string
+          is_published?: boolean
+          nurse_name?: string
+          origin_country?: string
+          publish_date?: string
+          slug?: string
+          specialty?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
         }
         Relationships: []
       }
@@ -238,9 +484,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
+      app_role: "admin" | "moderator" | "user"
       availability_type: "0-3 months" | "3-6 months" | "6-12 months"
       content_category_type:
         | "Career Abroad"
@@ -249,6 +502,8 @@ export type Database = {
         | "Interview"
         | "Mental Health"
         | "Professional Growth"
+        | "News"
+        | "Success Story"
       education_level_type: "Diploma" | "Bachelor" | "Master" | "Other"
       english_level_type:
         | "IELTS"
@@ -404,6 +659,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      app_role: ["admin", "moderator", "user"],
       availability_type: ["0-3 months", "3-6 months", "6-12 months"],
       content_category_type: [
         "Career Abroad",
@@ -412,6 +668,8 @@ export const Constants = {
         "Interview",
         "Mental Health",
         "Professional Growth",
+        "News",
+        "Success Story",
       ],
       education_level_type: ["Diploma", "Bachelor", "Master", "Other"],
       english_level_type: [

@@ -1,23 +1,30 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { MessageCircle, ArrowRight } from "lucide-react";
+import { MessageCircle, ArrowRight, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
+import { toast } from "@/hooks/use-toast";
 
 export function StickyBottomCTA() {
   const [isVisible, setIsVisible] = useState(false);
-  const { handleWhatsAppClick } = useWhatsAppLink();
+  const { data: settings } = useSiteSettings();
+  const whatsappLink = settings?.whatsapp_link;
+  const hasWhatsApp = whatsappLink && whatsappLink !== "UPDATE_ME" && whatsappLink.startsWith("http");
 
   useEffect(() => {
-    const handleScroll = () => {
-      // Show after scrolling 250px
-      setIsVisible(window.scrollY > 250);
-    };
-
+    const handleScroll = () => setIsVisible(window.scrollY > 250);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleWhatsApp = () => {
+    if (hasWhatsApp) {
+      window.open(whatsappLink, "_blank", "noopener,noreferrer");
+    } else {
+      toast({ title: "Coming Soon", description: "WhatsApp support link will be available soon." });
+    }
+  };
 
   return (
     <div
@@ -27,20 +34,14 @@ export function StickyBottomCTA() {
       )}
     >
       <div className="container py-3 flex items-center justify-center gap-3 sm:gap-4">
-        <Button 
-          variant="whatsapp" 
-          size="sm" 
-          className="flex-1 sm:flex-none"
-          onClick={handleWhatsAppClick}
-        >
-          <MessageCircle className="h-4 w-4" />
-          <span className="hidden sm:inline">Join</span> WhatsApp
-        </Button>
         <Button variant="cta" size="sm" className="flex-1 sm:flex-none" asChild>
-          <Link to="/apply">
-            Apply Now
-            <ArrowRight className="h-4 w-4" />
+          <Link to="/register">
+            Register <ArrowRight className="h-4 w-4" />
           </Link>
+        </Button>
+        <Button variant="whatsapp" size="sm" className="flex-1 sm:flex-none" onClick={handleWhatsApp}>
+          <MessageCircle className="h-4 w-4" />
+          WhatsApp
         </Button>
       </div>
     </div>
