@@ -11,6 +11,7 @@ const navLinks = [
   { href: "/how-we-do-it", label: "How We Do It" },
   { href: "/lms", label: "LMS" },
   { href: "/register", label: "Register" },
+  { href: "/help", label: "Help" },
 ];
 
 export function Navbar() {
@@ -48,7 +49,7 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
-          {/* Help dropdown-like links */}
+          {/* Help contact icons */}
           <div className="flex items-center gap-1 ml-1">
             <a
               href={`mailto:${helpEmail}`}
@@ -116,13 +117,6 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <Link
-              to="/help"
-              onClick={() => setIsOpen(false)}
-              className="px-4 py-3 text-sm font-medium rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted"
-            >
-              Help
-            </Link>
             <div className="flex flex-col gap-2 pt-4 border-t border-border mt-2">
               <Button variant="cta" asChild>
                 <Link to="/register" onClick={() => setIsOpen(false)}>Register</Link>

@@ -37,8 +37,8 @@ export default function Privacy() {
                 <h2 className="text-xl font-bold text-foreground">Our Commitment</h2>
               </div>
               <p className="text-muted-foreground">
-                Global Nurse is committed to protecting your privacy. This notice explains how we collect, 
-                use, and safeguard your personal information when you use our services.
+                Global Paro is committed to protecting your privacy. This notice explains how we collect, 
+                use, and safeguard your personal information when you use our services. We provide guidance and support — we do not guarantee employment outcomes.
               </p>
             </div>
 
