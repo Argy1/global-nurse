@@ -1,12 +1,17 @@
 import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, ArrowRight, Globe, Loader2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Globe, Calendar, Loader2, MessageCircle } from "lucide-react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
-import { useSuccessStoryBySlug } from "@/hooks/useSuccessStories";
+import { useContentBySlug, useContent } from "@/hooks/useContent";
+import { useSetting } from "@/hooks/useSiteSettings";
 
 export default function SuccessStoryDetail() {
   const { slug } = useParams<{ slug: string }>();
-  const { data: story, isLoading } = useSuccessStoryBySlug(slug || "");
+  const { data: story, isLoading } = useContentBySlug(slug || "");
+  const { data: allStories } = useContent("SuccessStory");
+  const { value: whatsappLink } = useSetting("whatsapp_link");
+
+  const related = allStories?.filter((s) => s.slug !== slug).slice(0, 3);
 
   if (isLoading) {
     return <Layout><div className="flex justify-center py-32"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div></Layout>;
@@ -26,19 +31,66 @@ export default function SuccessStoryDetail() {
       </section>
 
       <section className="py-12 lg:py-16">
-        <div className="container max-w-3xl mx-auto">
-          <div className="flex items-center gap-2 text-sm text-accent mb-4">
-            <Globe className="h-4 w-4" />{story.origin_country} → {story.destination_country}
-          </div>
-          
-          <h1 className="text-3xl lg:text-4xl font-extrabold text-foreground mb-4">{story.title}</h1>
-          <div className="prose prose-lg max-w-none text-foreground" dangerouslySetInnerHTML={{ __html: story.body.replace(/\n/g, "<br/>") }} />
+        <div className="container">
+          <div className="grid lg:grid-cols-3 gap-12">
+            <div className="lg:col-span-2">
+              {story.country_focus && (
+                <div className="flex items-center gap-2 text-sm text-accent mb-4">
+                  <Globe className="h-4 w-4" />{story.country_focus}
+                </div>
+              )}
+              <h1 className="text-3xl lg:text-4xl font-extrabold text-foreground mb-4">{story.title}</h1>
+              {story.tags?.length > 0 && (
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {story.tags.map((t) => <span key={t} className="text-xs px-2 py-1 bg-secondary rounded-full text-secondary-foreground">{t}</span>)}
+                </div>
+              )}
+              {story.publish_date && (
+                <div className="flex items-center gap-1 text-sm text-muted-foreground mb-8">
+                  <Calendar className="h-4 w-4" />{new Date(story.publish_date).toLocaleDateString()}
+                </div>
+              )}
+              {story.cover_image_url && (
+                <img src={story.cover_image_url} alt={story.title} className="w-full rounded-xl mb-8 max-h-[400px] object-cover" />
+              )}
+              <div className="prose prose-lg max-w-none text-foreground" dangerouslySetInnerHTML={{ __html: story.body.replace(/\n/g, "<br/>") }} />
+            </div>
 
-          <div className="mt-12 pt-8 border-t border-border text-center">
-            <p className="text-muted-foreground mb-4">Inspired? Start your own journey.</p>
-            <Button variant="cta" size="lg" asChild>
-              <Link to="/register">Register Now <ArrowRight className="h-5 w-5" /></Link>
-            </Button>
+            {/* Sidebar CTAs */}
+            <aside className="space-y-6">
+              <div className="bg-card rounded-xl p-6 shadow-card border border-border sticky top-24 space-y-4">
+                <h3 className="font-bold text-lg text-foreground">Start Your Journey</h3>
+                <p className="text-sm text-muted-foreground">Inspired? Take the first step today.</p>
+                <Button variant="cta" className="w-full" asChild>
+                  <Link to="/register">Register Now <ArrowRight className="h-4 w-4" /></Link>
+                </Button>
+                <Button variant="outline" className="w-full" asChild>
+                  <Link to="/quickstart">Quickstart Guide</Link>
+                </Button>
+                <Button variant="outline" className="w-full" asChild>
+                  <Link to="/help">Chat With Us <MessageCircle className="h-4 w-4" /></Link>
+                </Button>
+                {whatsappLink && (
+                  <Button variant="outline" className="w-full" asChild>
+                    <a href={whatsappLink} target="_blank" rel="noopener noreferrer">WhatsApp Support</a>
+                  </Button>
+                )}
+              </div>
+
+              {related && related.length > 0 && (
+                <div>
+                  <h3 className="font-bold text-foreground mb-4">More Stories</h3>
+                  <div className="space-y-3">
+                    {related.map((r) => (
+                      <Link key={r.id} to={`/success-stories/${r.slug}`} className="block bg-card rounded-lg p-4 border border-border hover:border-primary/30 transition-colors">
+                        {r.country_focus && <span className="text-[10px] font-medium text-accent">{r.country_focus}</span>}
+                        <h4 className="font-medium text-foreground text-sm mt-1">{r.title}</h4>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </aside>
           </div>
         </div>
       </section>
