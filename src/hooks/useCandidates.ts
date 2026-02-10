@@ -9,7 +9,9 @@ export interface CandidateInsert {
   str_active_number: string;
   english_capability: "Basic" | "Intermediate" | "Fluent";
   email: string;
+  email_verified?: boolean;
   whatsapp_number: string;
+  whatsapp_verified?: boolean;
   motivations: string[];
   motivation_story?: string;
   challenges: string[];
@@ -17,6 +19,7 @@ export interface CandidateInsert {
   help_needed: string[];
   consent_contact: boolean;
   consent_privacy: boolean;
+  journey_stage?: string;
 }
 
 export function useSubmitCandidate() {
