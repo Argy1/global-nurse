@@ -48,10 +48,12 @@ export function Footer() {
               ].map((social) => (
                 <a
                   key={social.label}
-                  href={isValid(social.url) ? social.url! : "#"}
+                  href={isValid(social.url) ? social.url! : `mailto:${helpEmail}`}
+                  target={isValid(social.url) ? "_blank" : undefined}
+                  rel={isValid(social.url) ? "noopener noreferrer" : undefined}
                   className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-colors"
-                  aria-label={social.label}
-                  onClick={(e) => !isValid(social.url) && e.preventDefault()}
+                  aria-label={isValid(social.url) ? social.label : `${social.label} — Coming soon, contact ${helpEmail}`}
+                  title={!isValid(social.url) ? `Coming soon — contact ${helpEmail}` : social.label}
                 >
                   {social.icon}
                 </a>
