@@ -4,7 +4,7 @@ import { toast } from "@/hooks/use-toast";
 
 export function FloatingWhatsApp() {
   const { data: settings } = useSiteSettings();
-  const link = settings?.whatsapp_link;
+  const link = settings?.whatsapp_direct_chat_link;
   const isValid = link && link !== "UPDATE_ME" && link.startsWith("http");
 
   const handleClick = () => {

@@ -16,69 +16,209 @@ export type Database = {
     Tables: {
       candidates: {
         Row: {
-          availability: Database["public"]["Enums"]["availability_type"]
-          city_country: string
+          assigned_support_agent: string | null
+          availability: Database["public"]["Enums"]["availability_type"] | null
+          challenge_story: string | null
+          challenges: string[] | null
+          city_country: string | null
           consent_contact: boolean
           consent_privacy: boolean
           created_at: string
           cv_link: string | null
-          education_level: Database["public"]["Enums"]["education_level_type"]
+          date_of_birth: string | null
+          education_level:
+            | Database["public"]["Enums"]["education_level_type"]
+            | null
           email: string | null
-          english_level: Database["public"]["Enums"]["english_level_type"]
-          experience_years: number
+          email_verified: boolean
+          english_capability:
+            | Database["public"]["Enums"]["english_capability_type"]
+            | null
+          english_level:
+            | Database["public"]["Enums"]["english_level_type"]
+            | null
+          experience_years: number | null
           full_name: string
           graduation_year: number | null
+          help_needed: string[] | null
           id: string
-          license_status: Database["public"]["Enums"]["license_status_type"]
+          journey_stage: Database["public"]["Enums"]["journey_stage_type"]
+          license_status:
+            | Database["public"]["Enums"]["license_status_type"]
+            | null
+          motivation_story: string | null
+          motivations: string[] | null
           pipeline_status: Database["public"]["Enums"]["pipeline_status_type"]
-          profession: Database["public"]["Enums"]["profession_type"]
-          specialty: Database["public"]["Enums"]["specialty_type"]
+          profession: Database["public"]["Enums"]["profession_type"] | null
+          specialty: Database["public"]["Enums"]["specialty_type"] | null
+          str_active_number: string | null
           target_countries: string[]
+          university: string | null
           whatsapp_number: string
+          whatsapp_verified: boolean
         }
         Insert: {
-          availability: Database["public"]["Enums"]["availability_type"]
-          city_country: string
+          assigned_support_agent?: string | null
+          availability?: Database["public"]["Enums"]["availability_type"] | null
+          challenge_story?: string | null
+          challenges?: string[] | null
+          city_country?: string | null
           consent_contact?: boolean
           consent_privacy?: boolean
           created_at?: string
           cv_link?: string | null
-          education_level: Database["public"]["Enums"]["education_level_type"]
+          date_of_birth?: string | null
+          education_level?:
+            | Database["public"]["Enums"]["education_level_type"]
+            | null
           email?: string | null
-          english_level: Database["public"]["Enums"]["english_level_type"]
-          experience_years: number
+          email_verified?: boolean
+          english_capability?:
+            | Database["public"]["Enums"]["english_capability_type"]
+            | null
+          english_level?:
+            | Database["public"]["Enums"]["english_level_type"]
+            | null
+          experience_years?: number | null
           full_name: string
           graduation_year?: number | null
+          help_needed?: string[] | null
           id?: string
-          license_status: Database["public"]["Enums"]["license_status_type"]
+          journey_stage?: Database["public"]["Enums"]["journey_stage_type"]
+          license_status?:
+            | Database["public"]["Enums"]["license_status_type"]
+            | null
+          motivation_story?: string | null
+          motivations?: string[] | null
           pipeline_status?: Database["public"]["Enums"]["pipeline_status_type"]
-          profession: Database["public"]["Enums"]["profession_type"]
-          specialty: Database["public"]["Enums"]["specialty_type"]
+          profession?: Database["public"]["Enums"]["profession_type"] | null
+          specialty?: Database["public"]["Enums"]["specialty_type"] | null
+          str_active_number?: string | null
           target_countries?: string[]
+          university?: string | null
           whatsapp_number: string
+          whatsapp_verified?: boolean
         }
         Update: {
-          availability?: Database["public"]["Enums"]["availability_type"]
-          city_country?: string
+          assigned_support_agent?: string | null
+          availability?: Database["public"]["Enums"]["availability_type"] | null
+          challenge_story?: string | null
+          challenges?: string[] | null
+          city_country?: string | null
           consent_contact?: boolean
           consent_privacy?: boolean
           created_at?: string
           cv_link?: string | null
-          education_level?: Database["public"]["Enums"]["education_level_type"]
+          date_of_birth?: string | null
+          education_level?:
+            | Database["public"]["Enums"]["education_level_type"]
+            | null
           email?: string | null
-          english_level?: Database["public"]["Enums"]["english_level_type"]
-          experience_years?: number
+          email_verified?: boolean
+          english_capability?:
+            | Database["public"]["Enums"]["english_capability_type"]
+            | null
+          english_level?:
+            | Database["public"]["Enums"]["english_level_type"]
+            | null
+          experience_years?: number | null
           full_name?: string
           graduation_year?: number | null
+          help_needed?: string[] | null
           id?: string
-          license_status?: Database["public"]["Enums"]["license_status_type"]
+          journey_stage?: Database["public"]["Enums"]["journey_stage_type"]
+          license_status?:
+            | Database["public"]["Enums"]["license_status_type"]
+            | null
+          motivation_story?: string | null
+          motivations?: string[] | null
           pipeline_status?: Database["public"]["Enums"]["pipeline_status_type"]
-          profession?: Database["public"]["Enums"]["profession_type"]
-          specialty?: Database["public"]["Enums"]["specialty_type"]
+          profession?: Database["public"]["Enums"]["profession_type"] | null
+          specialty?: Database["public"]["Enums"]["specialty_type"] | null
+          str_active_number?: string | null
           target_countries?: string[]
+          university?: string | null
           whatsapp_number?: string
+          whatsapp_verified?: boolean
         }
         Relationships: []
+      }
+      chat_conversations: {
+        Row: {
+          created_at: string
+          id: string
+          status: Database["public"]["Enums"]["chat_conv_status_type"]
+          updated_at: string
+          user_identifier: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          status?: Database["public"]["Enums"]["chat_conv_status_type"]
+          updated_at?: string
+          user_identifier: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          status?: Database["public"]["Enums"]["chat_conv_status_type"]
+          updated_at?: string
+          user_identifier?: string
+        }
+        Relationships: []
+      }
+      chat_escalation_tickets: {
+        Row: {
+          assigned_to: string | null
+          conversation_id: string | null
+          created_at: string
+          email: string | null
+          first_response_at: string | null
+          id: string
+          issue_summary: string
+          name: string | null
+          priority: Database["public"]["Enums"]["escalation_priority_type"]
+          resolved_at: string | null
+          status: Database["public"]["Enums"]["escalation_status_type"]
+          whatsapp: string | null
+        }
+        Insert: {
+          assigned_to?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          email?: string | null
+          first_response_at?: string | null
+          id?: string
+          issue_summary: string
+          name?: string | null
+          priority?: Database["public"]["Enums"]["escalation_priority_type"]
+          resolved_at?: string | null
+          status?: Database["public"]["Enums"]["escalation_status_type"]
+          whatsapp?: string | null
+        }
+        Update: {
+          assigned_to?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          email?: string | null
+          first_response_at?: string | null
+          id?: string
+          issue_summary?: string
+          name?: string | null
+          priority?: Database["public"]["Enums"]["escalation_priority_type"]
+          resolved_at?: string | null
+          status?: Database["public"]["Enums"]["escalation_status_type"]
+          whatsapp?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_escalation_tickets_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "chat_conversations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       chat_messages: {
         Row: {
@@ -167,47 +307,178 @@ export type Database = {
         }
         Relationships: []
       }
-      employer_inquiries: {
+      content_items: {
         Row: {
-          company_name: string
-          contact_name: string
-          country: string
+          body: string
+          country_focus: string | null
+          cover_image_url: string | null
           created_at: string
-          email: string
+          excerpt: string | null
           id: string
-          message: string | null
-          nurses_needed: number | null
-          phone: string | null
-          specialties_needed: string[] | null
-          status: string
+          publish_date: string | null
+          published: boolean
+          slug: string
+          tags: string[] | null
+          title: string
+          type: Database["public"]["Enums"]["content_item_type"]
           updated_at: string
         }
         Insert: {
-          company_name: string
-          contact_name: string
-          country: string
+          body: string
+          country_focus?: string | null
+          cover_image_url?: string | null
           created_at?: string
-          email: string
+          excerpt?: string | null
           id?: string
-          message?: string | null
-          nurses_needed?: number | null
-          phone?: string | null
-          specialties_needed?: string[] | null
-          status?: string
+          publish_date?: string | null
+          published?: boolean
+          slug: string
+          tags?: string[] | null
+          title: string
+          type: Database["public"]["Enums"]["content_item_type"]
           updated_at?: string
         }
         Update: {
-          company_name?: string
-          contact_name?: string
-          country?: string
+          body?: string
+          country_focus?: string | null
+          cover_image_url?: string | null
           created_at?: string
-          email?: string
+          excerpt?: string | null
           id?: string
+          publish_date?: string | null
+          published?: boolean
+          slug?: string
+          tags?: string[] | null
+          title?: string
+          type?: Database["public"]["Enums"]["content_item_type"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      conversation_messages: {
+        Row: {
+          conversation_id: string
+          created_at: string
+          id: string
+          message_text: string
+          sender: Database["public"]["Enums"]["chat_sender_type"]
+        }
+        Insert: {
+          conversation_id: string
+          created_at?: string
+          id?: string
+          message_text: string
+          sender: Database["public"]["Enums"]["chat_sender_type"]
+        }
+        Update: {
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          message_text?: string
+          sender?: Database["public"]["Enums"]["chat_sender_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversation_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "chat_conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      employer_inquiries: {
+        Row: {
+          company_name: string | null
+          contact_mobile: string | null
+          contact_name: string | null
+          country: string | null
+          created_at: string
+          email: string | null
+          employer_status: Database["public"]["Enums"]["employer_status_type"]
+          id: string
+          institution_name: string | null
+          institutional_email: string | null
+          message: string | null
+          nurses_needed: number | null
+          phone: string | null
+          preferred_timeline: string | null
+          specialties_needed: string[] | null
+          status: string
+          title: string | null
+          updated_at: string
+          workforce_needs: string | null
+        }
+        Insert: {
+          company_name?: string | null
+          contact_mobile?: string | null
+          contact_name?: string | null
+          country?: string | null
+          created_at?: string
+          email?: string | null
+          employer_status?: Database["public"]["Enums"]["employer_status_type"]
+          id?: string
+          institution_name?: string | null
+          institutional_email?: string | null
           message?: string | null
           nurses_needed?: number | null
           phone?: string | null
+          preferred_timeline?: string | null
           specialties_needed?: string[] | null
           status?: string
+          title?: string | null
+          updated_at?: string
+          workforce_needs?: string | null
+        }
+        Update: {
+          company_name?: string | null
+          contact_mobile?: string | null
+          contact_name?: string | null
+          country?: string | null
+          created_at?: string
+          email?: string | null
+          employer_status?: Database["public"]["Enums"]["employer_status_type"]
+          id?: string
+          institution_name?: string | null
+          institutional_email?: string | null
+          message?: string | null
+          nurses_needed?: number | null
+          phone?: string | null
+          preferred_timeline?: string | null
+          specialties_needed?: string[] | null
+          status?: string
+          title?: string | null
+          updated_at?: string
+          workforce_needs?: string | null
+        }
+        Relationships: []
+      }
+      faq_items: {
+        Row: {
+          answer: string
+          category: Database["public"]["Enums"]["faq_category_type"]
+          created_at: string
+          id: string
+          priority: number
+          question: string
+          updated_at: string
+        }
+        Insert: {
+          answer: string
+          category?: Database["public"]["Enums"]["faq_category_type"]
+          created_at?: string
+          id?: string
+          priority?: number
+          question: string
+          updated_at?: string
+        }
+        Update: {
+          answer?: string
+          category?: Database["public"]["Enums"]["faq_category_type"]
+          created_at?: string
+          id?: string
+          priority?: number
+          question?: string
           updated_at?: string
         }
         Relationships: []
@@ -493,8 +764,10 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "moderator" | "user"
+      app_role: "admin" | "moderator" | "user" | "editor" | "support_agent"
       availability_type: "0-3 months" | "3-6 months" | "6-12 months"
+      chat_conv_status_type: "AI" | "Escalated" | "Closed"
+      chat_sender_type: "user" | "ai" | "human"
       content_category_type:
         | "Career Abroad"
         | "Licensing"
@@ -504,7 +777,10 @@ export type Database = {
         | "Professional Growth"
         | "News"
         | "Success Story"
+      content_item_type: "QuickstartChapter" | "News" | "SuccessStory"
       education_level_type: "Diploma" | "Bachelor" | "Master" | "Other"
+      employer_status_type: "New" | "Contacted" | "Meeting Booked" | "Closed"
+      english_capability_type: "Basic" | "Intermediate" | "Fluent"
       english_level_type:
         | "IELTS"
         | "OET"
@@ -512,6 +788,24 @@ export type Database = {
         | "Intermediate"
         | "Advanced"
         | "Not Yet"
+      escalation_priority_type: "Low" | "Normal" | "High"
+      escalation_status_type: "Open" | "Assigned" | "In Progress" | "Resolved"
+      faq_category_type:
+        | "General"
+        | "Registration"
+        | "English"
+        | "Licensing"
+        | "Pathways"
+        | "Privacy"
+        | "Employer"
+      journey_stage_type:
+        | "New"
+        | "Contacted"
+        | "Screening"
+        | "Preparing"
+        | "Ready"
+        | "Placed"
+        | "Closed"
       license_status_type: "STR/SIP Active" | "In Process" | "Not Available"
       pipeline_status_type:
         | "new"
@@ -659,8 +953,10 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "moderator", "user"],
+      app_role: ["admin", "moderator", "user", "editor", "support_agent"],
       availability_type: ["0-3 months", "3-6 months", "6-12 months"],
+      chat_conv_status_type: ["AI", "Escalated", "Closed"],
+      chat_sender_type: ["user", "ai", "human"],
       content_category_type: [
         "Career Abroad",
         "Licensing",
@@ -671,7 +967,10 @@ export const Constants = {
         "News",
         "Success Story",
       ],
+      content_item_type: ["QuickstartChapter", "News", "SuccessStory"],
       education_level_type: ["Diploma", "Bachelor", "Master", "Other"],
+      employer_status_type: ["New", "Contacted", "Meeting Booked", "Closed"],
+      english_capability_type: ["Basic", "Intermediate", "Fluent"],
       english_level_type: [
         "IELTS",
         "OET",
@@ -679,6 +978,26 @@ export const Constants = {
         "Intermediate",
         "Advanced",
         "Not Yet",
+      ],
+      escalation_priority_type: ["Low", "Normal", "High"],
+      escalation_status_type: ["Open", "Assigned", "In Progress", "Resolved"],
+      faq_category_type: [
+        "General",
+        "Registration",
+        "English",
+        "Licensing",
+        "Pathways",
+        "Privacy",
+        "Employer",
+      ],
+      journey_stage_type: [
+        "New",
+        "Contacted",
+        "Screening",
+        "Preparing",
+        "Ready",
+        "Placed",
+        "Closed",
       ],
       license_status_type: ["STR/SIP Active", "In Process", "Not Available"],
       pipeline_status_type: [

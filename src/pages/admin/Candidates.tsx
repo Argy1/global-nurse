@@ -23,21 +23,21 @@ export default function AdminCandidates() {
           <table className="w-full text-sm">
             <thead className="bg-muted">
               <tr>
-                {["Name", "WhatsApp", "Location", "Profession", "Experience", "Status", "Date"].map((h) => (
+                {["Name", "Email", "WhatsApp", "University", "English", "Stage", "Date"].map((h) => (
                   <th key={h} className="px-4 py-3 text-left font-semibold text-foreground">{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {candidates?.map((c) => (
+              {candidates?.map((c: any) => (
                 <tr key={c.id} className="border-t border-border">
                   <td className="px-4 py-3 font-medium text-foreground">{c.full_name}</td>
+                  <td className="px-4 py-3 text-muted-foreground">{c.email || "—"}</td>
                   <td className="px-4 py-3 text-muted-foreground">{c.whatsapp_number}</td>
-                  <td className="px-4 py-3 text-muted-foreground">{c.city_country}</td>
-                  <td className="px-4 py-3 text-muted-foreground">{c.profession}</td>
-                  <td className="px-4 py-3 text-muted-foreground">{c.experience_years}y</td>
+                  <td className="px-4 py-3 text-muted-foreground">{c.university || "—"}</td>
+                  <td className="px-4 py-3 text-muted-foreground">{c.english_capability || c.english_level || "—"}</td>
                   <td className="px-4 py-3">
-                    <span className="px-2 py-1 rounded-full text-xs font-medium bg-secondary text-secondary-foreground">{c.pipeline_status}</span>
+                    <span className="px-2 py-1 rounded-full text-xs font-medium bg-secondary text-secondary-foreground">{c.journey_stage || c.pipeline_status}</span>
                   </td>
                   <td className="px-4 py-3 text-muted-foreground">{new Date(c.created_at).toLocaleDateString()}</td>
                 </tr>

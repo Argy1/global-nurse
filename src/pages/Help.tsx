@@ -6,10 +6,10 @@ import { useSiteSettings } from "@/hooks/useSiteSettings";
 
 export default function Help() {
   const { data: settings } = useSiteSettings();
-  const email = settings?.help_email || "globalparo@gmail.com";
+  const email = settings?.support_email || "globalparo@gmail.com";
   const mobile = settings?.help_mobile;
   const hasMobile = mobile && mobile !== "UPDATE_ME";
-  const whatsapp = settings?.whatsapp_link;
+  const whatsapp = settings?.whatsapp_direct_chat_link;
   const hasWhatsApp = whatsapp && whatsapp !== "UPDATE_ME" && whatsapp.startsWith("http");
 
   return (

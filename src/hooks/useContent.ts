@@ -1,36 +1,51 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import type { Tables } from "@/integrations/supabase/types";
 
-export type Content = Tables<"content">;
+export interface ContentItem {
+  id: string;
+  type: "QuickstartChapter" | "News" | "SuccessStory";
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  body: string;
+  tags: string[];
+  cover_image_url: string | null;
+  published: boolean;
+  publish_date: string | null;
+  country_focus: string | null;
+  created_at: string;
+  updated_at: string;
+}
 
-export function useContent() {
+export function useContent(type?: ContentItem["type"]) {
   return useQuery({
-    queryKey: ["content"],
+    queryKey: ["content_items", type],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("content")
+      let query = supabase
+        .from("content_items" as any)
         .select("*")
-        .order("publish_date", { ascending: false });
-      
+        .order("created_at", { ascending: false });
+      if (type) {
+        query = query.eq("type", type);
+      }
+      const { data, error } = await query;
       if (error) throw error;
-      return data as Content[];
+      return data as unknown as ContentItem[];
     },
   });
 }
 
 export function useContentBySlug(slug: string) {
   return useQuery({
-    queryKey: ["content", slug],
+    queryKey: ["content_items", "slug", slug],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("content")
+        .from("content_items" as any)
         .select("*")
         .eq("slug", slug)
-        .single();
-      
+        .maybeSingle();
       if (error) throw error;
-      return data as Content;
+      return data as unknown as ContentItem | null;
     },
     enabled: !!slug,
   });

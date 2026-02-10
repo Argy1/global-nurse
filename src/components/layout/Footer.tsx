@@ -27,7 +27,7 @@ const TikTokIcon = ({ className }: { className?: string }) => (
 export function Footer() {
   const { data: settings } = useSiteSettings();
   const isValid = (url?: string) => url && url !== "UPDATE_ME" && url.startsWith("http");
-  const helpEmail = settings?.help_email || "globalparo@gmail.com";
+  const helpEmail = settings?.support_email || "globalparo@gmail.com";
 
   return (
     <footer className="bg-primary text-primary-foreground">

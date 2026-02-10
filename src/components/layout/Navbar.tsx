@@ -18,9 +18,9 @@ export function Navbar() {
   const location = useLocation();
   const { data: settings } = useSiteSettings();
 
-  const helpEmail = settings?.help_email || "globalparo@gmail.com";
+  const helpEmail = settings?.support_email || "globalparo@gmail.com";
   const helpMobile = settings?.help_mobile;
-  const whatsappLink = settings?.whatsapp_link;
+  const whatsappLink = settings?.whatsapp_direct_chat_link;
   const hasWhatsApp = whatsappLink && whatsappLink !== "UPDATE_ME";
 
   return (
