@@ -13,12 +13,12 @@ interface HeroCampaignProps {
 export function HeroCampaign({
   headline = (
     <>
-      Your Global <br />
-      <span className="text-mint">Nursing Career</span><br />
-      Starts Here
+      Global Career<br />
+      <span className="text-mint">Gateway</span> for<br />
+      Nurses
     </>
   ),
-  subheadline = "Join thousands of nurses building international careers with full support, zero fees, and ethical guidance every step of the way.",
+  subheadline = "Empowering every international nurse with the knowledge, tools, and support they need to succeed abroad — through ethical recruitment, AI-driven learning, and transparent pathways.",
   showImage = true,
   compact = false,
 }: HeroCampaignProps) {

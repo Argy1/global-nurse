@@ -1,33 +1,51 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, CheckCircle } from "lucide-react";
+import { ArrowRight, CheckCircle, Bot, BookOpen, Handshake, HeadphonesIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/layout/Layout";
+
+const howSteps = [
+  {
+    icon: Bot,
+    title: "AI-Driven Assessment",
+    desc: "We evaluate each nurse's profile, goals, STR status, English readiness, and licensing requirements to create a personalised roadmap and build a trusted, job-ready database for global employers.",
+  },
+  {
+    icon: BookOpen,
+    title: "Guided Learning Pathway",
+    desc: "Nurses receive customised learning plans for IELTS/TOEFL, NCLEX, and country-specific credentialing to ensure they meet all requirements efficiently.",
+  },
+  {
+    icon: Handshake,
+    title: "Ethical Recruitment & Job Matching",
+    desc: "We partner only with employers who meet international ethical recruitment standards and offer transparent processes, ensuring fair treatment and opportunities.",
+  },
+  {
+    icon: HeadphonesIcon,
+    title: "Human + AI Support",
+    desc: "Nurses can access instant AI assistance 24/7 and book real mentors for 1:1 sessions when they need deeper guidance and personalized support.",
+  },
+];
 
 const phases = [
   {
     step: "01",
-    title: "Register & Review",
-    items: ["You submit your profile (3 min)", "Our team reviews your qualifications within 48 hours", "We assess your readiness for international pathways"],
+    title: "Register & Profile Assessment",
+    items: ["You submit your profile (3 min)", "AI evaluates your qualifications, STR, and English readiness", "Receive a personalized readiness roadmap"],
   },
   {
     step: "02",
-    title: "Personalized Guidance",
-    items: ["Receive a tailored roadmap for your target countries", "Get licensing, language, and documentation guidance", "Access our Quickstart Guide and community resources"],
+    title: "Guided Learning & Preparation",
+    items: ["Customised IELTS/NCLEX learning plans", "Country-specific credentialing guidance", "Document checklist and timeline planning"],
   },
   {
     step: "03",
-    title: "Preparation Support",
-    items: ["English proficiency recommendations (IELTS/OET)", "CV and interview preparation resources", "Document checklist and timeline planning"],
+    title: "Ethical Job Matching",
+    items: ["Connect with verified ethical employers", "Transparent process — full employer visibility", "No pressure, no hidden fees, full consent"],
   },
   {
     step: "04",
-    title: "Employer Matching",
-    items: ["We connect you with verified employers when you're ready", "Transparent process — you see who the employer is", "No pressure, no hidden fees, full consent"],
-  },
-  {
-    step: "05",
-    title: "Ongoing Community",
-    items: ["Join WhatsApp groups with nurses on similar journeys", "Access ongoing support even after placement", "Share your story and help future nurses"],
+    title: "Placement & Ongoing Support",
+    items: ["Visa & relocation assistance", "Settling-in support and onboarding", "Ongoing community and career development"],
   },
 ];
 
@@ -38,13 +56,31 @@ export default function HowWeDoIt() {
         <div className="container text-center">
           <h1 className="text-4xl lg:text-5xl font-extrabold text-primary-foreground mb-4">How We Do It</h1>
           <p className="text-lg text-primary-foreground/90 max-w-2xl mx-auto">
-            A transparent, step-by-step process designed around your needs — not ours.
+            We combine <strong>smart technology</strong> with human expertise to create <strong>your personalized</strong> pathway to success.
           </p>
         </div>
       </section>
 
+      {/* 4 Pillars */}
       <section className="py-16 lg:py-24">
+        <div className="container">
+          <h2 className="text-3xl font-extrabold text-foreground mb-12 text-center">Our Approach</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {howSteps.map((step) => (
+              <div key={step.title} className="bg-card rounded-xl p-6 shadow-card border border-border">
+                <step.icon className="h-10 w-10 text-accent mb-4" />
+                <h3 className="font-bold text-foreground mb-2">{step.title}</h3>
+                <p className="text-sm text-muted-foreground">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Step-by-Step Process */}
+      <section className="py-16 lg:py-24 bg-muted">
         <div className="container max-w-3xl">
+          <h2 className="text-3xl font-extrabold text-foreground mb-12 text-center">Your Journey Step by Step</h2>
           <div className="space-y-12">
             {phases.map((phase) => (
               <div key={phase.step} className="flex gap-6">
