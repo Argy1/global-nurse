@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Instagram, Linkedin } from "lucide-react";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
+import logoIcon from "@/assets/logo-icon.png";
 
 const quickLinks = [
   { href: "/about", label: "About" },
@@ -35,10 +36,14 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center gap-2 font-bold text-xl mb-4">
-              <span>Global Paro</span>
+              <img src={logoIcon} alt="Global Paro" className="h-8 w-8 brightness-0 invert" />
+              <span className="font-heading">Global Paro</span>
             </Link>
+            <p className="text-primary-foreground/80 max-w-sm mb-4 text-sm font-heading italic">
+              "Prepare. Beyond. Global."
+            </p>
             <p className="text-primary-foreground/80 max-w-sm mb-6">
-              Accelerating nurses to reach global opportunities — with guidance, transparency, and community support.
+              Global Career Gateway for Nurses — empowering every international nurse with the knowledge, tools, and support they need to succeed abroad.
             </p>
             <div className="flex items-center gap-4">
               {[

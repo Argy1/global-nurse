@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 @layer base {
   :root {
@@ -18,29 +18,29 @@
     --popover: 0 0% 100%;
     --popover-foreground: 200 60% 12%;
 
-    /* Primary - Deep Teal Navy (Trust) */
-    --primary: 195 70% 20%;
+    /* Primary - Dark Navy (#015779) */
+    --primary: 198 99% 24%;
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary - Soft Teal */
-    --secondary: 175 35% 90%;
-    --secondary-foreground: 195 70% 20%;
+    /* Secondary - Light Teal tint */
+    --secondary: 177 40% 92%;
+    --secondary-foreground: 198 99% 24%;
 
     /* Muted */
     --muted: 45 15% 92%;
     --muted-foreground: 200 20% 45%;
 
-    /* Accent - Mint Green (Care) */
-    --accent: 160 50% 45%;
+    /* Accent - Teal (#03989E) */
+    --accent: 177 97% 31%;
     --accent-foreground: 0 0% 100%;
 
-    /* CTA Highlight - Coral */
-    --cta: 15 85% 55%;
+    /* CTA Highlight - Teal vibrant */
+    --cta: 177 97% 31%;
     --cta-foreground: 0 0% 100%;
 
     /* Mint for subtle accents */
-    --mint: 160 45% 88%;
-    --mint-foreground: 160 50% 25%;
+    --mint: 177 45% 88%;
+    --mint-foreground: 177 50% 25%;
 
     /* Destructive */
     --destructive: 0 84% 60%;
@@ -49,20 +49,20 @@
     /* Borders & inputs */
     --border: 200 20% 88%;
     --input: 200 20% 88%;
-    --ring: 195 70% 35%;
+    --ring: 177 97% 31%;
 
     --radius: 0.75rem;
 
     /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(195 70% 20%) 0%, hsl(180 50% 30%) 50%, hsl(160 50% 40%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(198 99% 24%) 0%, hsl(198 80% 28%) 50%, hsl(177 97% 31%) 100%);
     --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(45 20% 98%) 100%);
-    --gradient-cta: linear-gradient(135deg, hsl(15 85% 55%) 0%, hsl(25 90% 50%) 100%);
+    --gradient-cta: linear-gradient(135deg, hsl(177 97% 31%) 0%, hsl(177 90% 36%) 100%);
 
     /* Shadows */
-    --shadow-sm: 0 2px 8px -2px hsl(200 60% 12% / 0.08);
-    --shadow-md: 0 8px 24px -4px hsl(200 60% 12% / 0.12);
-    --shadow-lg: 0 16px 48px -8px hsl(200 60% 12% / 0.16);
-    --shadow-cta: 0 8px 24px -4px hsl(15 85% 55% / 0.35);
+    --shadow-sm: 0 2px 8px -2px hsl(198 99% 24% / 0.08);
+    --shadow-md: 0 8px 24px -4px hsl(198 99% 24% / 0.12);
+    --shadow-lg: 0 16px 48px -8px hsl(198 99% 24% / 0.16);
+    --shadow-cta: 0 8px 24px -4px hsl(177 97% 31% / 0.35);
 
     /* Sidebar (keeping defaults) */
     --sidebar-background: 0 0% 98%;
@@ -85,30 +85,30 @@
     --popover: 200 45% 12%;
     --popover-foreground: 45 20% 95%;
 
-    --primary: 175 50% 50%;
-    --primary-foreground: 200 50% 8%;
+    --primary: 177 97% 40%;
+    --primary-foreground: 198 99% 8%;
 
-    --secondary: 200 40% 18%;
+    --secondary: 198 40% 18%;
     --secondary-foreground: 45 20% 95%;
 
-    --muted: 200 40% 18%;
-    --muted-foreground: 200 20% 60%;
+    --muted: 198 40% 18%;
+    --muted-foreground: 198 20% 60%;
 
-    --accent: 160 50% 45%;
+    --accent: 177 97% 31%;
     --accent-foreground: 0 0% 100%;
 
-    --cta: 15 85% 55%;
+    --cta: 177 97% 31%;
     --cta-foreground: 0 0% 100%;
 
-    --mint: 160 40% 20%;
-    --mint-foreground: 160 45% 75%;
+    --mint: 177 40% 20%;
+    --mint-foreground: 177 45% 75%;
 
     --destructive: 0 62% 40%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 200 30% 20%;
     --input: 200 30% 20%;
-    --ring: 175 50% 50%;
+    --ring: 177 97% 40%;
 
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
@@ -137,6 +137,7 @@
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold tracking-tight;
+    font-family: 'Montserrat', system-ui, sans-serif;
   }
 
   /* Accessibility: Ensure readable font size */

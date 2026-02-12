@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, MessageCircle, Phone, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logoIcon from "@/assets/logo-icon.png";
 import { cn } from "@/lib/utils";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 
@@ -29,8 +30,12 @@ export function Navbar() {
       <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 font-bold text-xl">
-          <span className="text-primary">Global</span>
-          <span className="text-accent">Paro</span>
+          <img src={logoIcon} alt="Global Paro" className="h-8 w-8" />
+          <span className="font-heading">
+            <span className="text-primary">Global</span>
+            {" "}
+            <span className="text-accent">Paro</span>
+          </span>
         </Link>
 
         {/* Desktop Navigation */}
