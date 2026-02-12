@@ -18,6 +18,8 @@ import NewsDetail from "./pages/NewsDetail";
 import SuccessStories from "./pages/SuccessStories";
 import SuccessStoryDetail from "./pages/SuccessStoryDetail";
 import LMS from "./pages/LMS";
+import Team from "./pages/Team";
+import Programs from "./pages/Programs";
 import Help from "./pages/Help";
 import Employer from "./pages/Employer";
 import EmployerThanks from "./pages/EmployerThanks";
@@ -55,6 +57,8 @@ const App = () => (
             <Route path="/success-stories" element={<SuccessStories />} />
             <Route path="/success-stories/:slug" element={<SuccessStoryDetail />} />
             <Route path="/lms" element={<LMS />} />
+            <Route path="/team" element={<Team />} />
+            <Route path="/programs" element={<Programs />} />
             <Route path="/help" element={<Help />} />
             <Route path="/employer" element={<Employer />} />
             <Route path="/employer/thanks" element={<EmployerThanks />} />
