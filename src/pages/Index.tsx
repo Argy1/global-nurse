@@ -104,69 +104,37 @@ export default function Index() {
       {/* ─── 1. Hero ─── */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 gradient-hero" />
-        <div className="relative container py-16 lg:py-28">
+        <div className="relative container py-20 lg:py-32">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="text-center lg:text-left">
-              {/* Pathway pills */}
-              <div className="flex flex-wrap gap-2 justify-center lg:justify-start mb-6">
-                {pathways.map((p) => (
-                  <span key={p.to} className="text-xs font-semibold bg-accent/20 text-accent-foreground px-3 py-1 rounded-full backdrop-blur-sm">
-                    {p.flag} {p.from} → {p.to}
-                  </span>
-                ))}
-              </div>
-
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary-foreground mb-6 leading-tight">
-                The Journey to Becoming a{" "}
-                <span className="text-mint">Global Nurse</span>
+                Prepare for a{" "}
+                <span className="text-mint">Global Healthcare</span>{" "}
+                Career
               </h1>
 
-              <p className="text-base lg:text-lg text-primary-foreground/90 max-w-xl mb-4">
-                The world needs nurses. Aging populations, workforce shortages, and rising healthcare demands are creating
-                unprecedented opportunities in Singapore, Canada, the USA, and beyond.
-              </p>
-              <p className="text-sm text-primary-foreground/75 max-w-xl mb-8">
-                Getting there requires structured preparation — from CGFNS / TrueMerit credentials, to IELTS 6.5+ (7 speaking),
-                NCLEX readiness, and navigating complex licensing pathways. We provide step-by-step, ethical guidance so you can focus on what matters: your career.
+              <p className="text-lg lg:text-xl text-primary-foreground/90 max-w-xl mb-8">
+                Empowering local talents for international success — through ethical recruitment, AI-driven learning, and transparent pathways.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
                 <Button variant="hero" size="xl" asChild>
-                  <Link to="/register">Register Now <ArrowRight className="h-5 w-5" /></Link>
+                  <Link to="/register">Get Started <ArrowRight className="h-5 w-5" /></Link>
                 </Button>
                 <Button variant="heroOutline" size="xl" asChild>
-                  <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
-                    <MessageCircle className="h-5 w-5" /> WhatsApp Support
-                  </a>
-                </Button>
-                <Button variant="ghost" size="lg" className="text-primary-foreground/80 hover:text-primary-foreground" asChild>
-                  <Link to="/quickstart"><BookOpen className="h-5 w-5" /> Quickstart Guide</Link>
+                  <Link to="/programs">Learn More</Link>
                 </Button>
               </div>
-
-              <p className="text-xs text-primary-foreground/50 mt-4">No fees. No spam. Consent-based contact only.</p>
             </div>
 
-            {/* Hero right — video or image */}
-            <div className="hidden lg:block">
-              {aiVideo ? (
-                <VideoOrPlaceholder url={aiVideo} className="w-full aspect-video" />
-              ) : (
-                <div className="relative">
-                  <img
-                    src={heroImage}
-                    alt="Nurses collaborating in a professional healthcare setting"
-                    className="rounded-2xl shadow-lg object-cover w-full max-h-[480px]"
-                    loading="eager"
-                  />
-                  <div className="absolute inset-0 rounded-2xl bg-primary/10 flex items-center justify-center">
-                    <div className="bg-background/80 backdrop-blur-sm rounded-xl p-4 text-center">
-                      <Play className="h-10 w-10 text-primary mx-auto mb-1" />
-                      <p className="text-xs text-muted-foreground font-medium">AI Journey Video Coming Soon</p>
-                    </div>
-                  </div>
-                </div>
-              )}
+            {/* Hero right — nurse image */}
+            <div className="hidden lg:flex justify-end">
+              <img
+                src={heroImage}
+                alt="Professional nurses ready for global healthcare careers"
+                className="rounded-2xl shadow-2xl object-cover w-full max-h-[500px]"
+                loading="eager"
+              />
             </div>
           </div>
         </div>
