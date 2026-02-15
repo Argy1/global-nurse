@@ -11,6 +11,7 @@ const navLinks = [
   { href: "/what-we-do", label: "What We Do" },
   { href: "/how-we-do-it", label: "How We Do It" },
   { href: "/programs", label: "Programs" },
+  { href: "/quickstart", label: "Quickstart" },
   { href: "/lms", label: "LMS" },
   { href: "/team", label: "Team" },
   { href: "/register", label: "Register" },
