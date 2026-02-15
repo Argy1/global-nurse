@@ -13,7 +13,7 @@ const navLinks = [
   { href: "/programs", label: "Programs" },
   { href: "/lms", label: "LMS" },
   { href: "/team", label: "Team" },
-  { href: "/auth", label: "Login" },
+  { href: "/register", label: "Register" },
   { href: "/help", label: "Help" },
 ];
 
