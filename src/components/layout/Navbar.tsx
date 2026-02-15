@@ -13,7 +13,7 @@ const navLinks = [
   { href: "/programs", label: "Programs" },
   { href: "/lms", label: "LMS" },
   { href: "/team", label: "Team" },
-  { href: "/register", label: "Register" },
+  { href: "/auth", label: "Login" },
   { href: "/help", label: "Help" },
 ];
 
@@ -80,7 +80,7 @@ export function Navbar() {
         {/* Desktop CTAs */}
         <div className="hidden lg:flex items-center gap-3">
           <Button variant="cta" size="sm" asChild>
-            <Link to="/register">Register</Link>
+            <Link to="/auth">Login</Link>
           </Button>
           {hasWhatsApp && (
             <a
@@ -126,7 +126,7 @@ export function Navbar() {
             ))}
             <div className="flex flex-col gap-2 pt-4 border-t border-border mt-2">
               <Button variant="cta" asChild>
-                <Link to="/register" onClick={() => setIsOpen(false)}>Register</Link>
+                <Link to="/auth" onClick={() => setIsOpen(false)}>Login</Link>
               </Button>
               {hasWhatsApp && (
                 <Button variant="whatsapp" asChild>
