@@ -1,8 +1,9 @@
 import { ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Users, Building2, FileText, MessageSquare, Settings, LogOut, ArrowLeft } from "lucide-react";
+import { LayoutDashboard, Users, Building2, FileText, MessageSquare, Settings, LogOut, ArrowLeft, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
+import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 const adminLinks = [
@@ -17,6 +18,7 @@ const adminLinks = [
 export function AdminLayout({ children }: { children: ReactNode }) {
   const { signOut } = useAuth();
   const location = useLocation();
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <div className="min-h-screen flex">
@@ -45,7 +47,11 @@ export function AdminLayout({ children }: { children: ReactNode }) {
             </Link>
           ))}
         </nav>
-        <div className="p-4 border-t border-border">
+        <div className="p-4 border-t border-border space-y-1">
+          <Button variant="ghost" size="sm" className="w-full justify-start" onClick={toggleTheme}>
+            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            {theme === "dark" ? "Light Mode" : "Dark Mode"}
+          </Button>
           <Button variant="ghost" size="sm" className="w-full justify-start" onClick={signOut}>
             <LogOut className="h-4 w-4" /> Sign Out
           </Button>
@@ -56,6 +62,9 @@ export function AdminLayout({ children }: { children: ReactNode }) {
       <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-card border-b border-border p-3 flex items-center justify-between">
         <h2 className="font-bold">Admin</h2>
         <div className="flex gap-2">
+          <Button variant="ghost" size="sm" onClick={toggleTheme}>
+            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </Button>
           <Button variant="ghost" size="sm" asChild><Link to="/">Site</Link></Button>
           <Button variant="ghost" size="sm" onClick={signOut}><LogOut className="h-4 w-4" /></Button>
         </div>
