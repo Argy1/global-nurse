@@ -25,6 +25,7 @@ import Employer from "./pages/Employer";
 import EmployerThanks from "./pages/EmployerThanks";
 import Privacy from "./pages/Privacy";
 import Auth from "./pages/Auth";
+import ResetPassword from "./pages/ResetPassword";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminCandidates from "./pages/admin/Candidates";
 import AdminEmployers from "./pages/admin/Employers";
@@ -64,6 +65,7 @@ const App = () => (
             <Route path="/employer/thanks" element={<EmployerThanks />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             {/* Admin (protected) */}
             <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
             <Route path="/admin/candidates" element={<ProtectedRoute><AdminCandidates /></ProtectedRoute>} />
