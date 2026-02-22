@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +13,8 @@ type View = "login" | "signup" | "forgot";
 export default function Auth() {
   const { signIn, signUp } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get("redirect");
   const [view, setView] = useState<View>("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,7 +27,7 @@ export default function Auth() {
     try {
       if (view === "login") {
         await signIn(email, password);
-        navigate("/admin");
+        navigate(redirectTo === "portal" ? "/portal" : "/admin");
       } else if (view === "signup") {
         await signUp(email, password, displayName);
         toast({ title: "Check your email", description: "We sent you a confirmation link." });
@@ -44,15 +46,17 @@ export default function Auth() {
     }
   };
 
+  const isPortal = redirectTo === "portal";
+
   const titles: Record<View, string> = {
-    login: "Admin Login",
+    login: isPortal ? "Candidate Login" : "Admin Login",
     signup: "Create Account",
     forgot: "Forgot Password",
   };
 
   const subtitles: Record<View, string> = {
-    login: "Sign in to access the admin panel.",
-    signup: "Create an admin account.",
+    login: isPortal ? "Sign in to view your application status." : "Sign in to access the admin panel.",
+    signup: isPortal ? "Create an account to track your application." : "Create an admin account.",
     forgot: "Enter your email and we'll send you a reset link.",
   };
 
@@ -71,18 +75,14 @@ export default function Auth() {
           )}
           <div className="space-y-1">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="admin@example.com" required />
+            <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={isPortal ? "your@email.com" : "admin@example.com"} required />
           </div>
           {view !== "forgot" && (
             <div className="space-y-1">
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">Password</Label>
                 {view === "login" && (
-                  <button
-                    type="button"
-                    onClick={() => setView("forgot")}
-                    className="text-xs text-primary hover:underline"
-                  >
+                  <button type="button" onClick={() => setView("forgot")} className="text-xs text-primary hover:underline">
                     Forgot password?
                   </button>
                 )}
@@ -117,4 +117,3 @@ export default function Auth() {
     </div>
   );
 }
-
