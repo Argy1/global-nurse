@@ -1,22 +1,35 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { AdminLayout } from "@/components/layout/AdminLayout";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, Search, X, ExternalLink } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Loader2, X, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
 import { useSetting } from "@/hooks/useSiteSettings";
+import { Constants } from "@/integrations/supabase/types";
+import EmployerFilters, { defaultEmployerFilters, type EmployerFilterValues } from "@/components/admin/employers/EmployerFilters";
+import EmployerBulkBar from "@/components/admin/employers/EmployerBulkBar";
 
-const EMPLOYER_STATUSES = ["New", "Contacted", "Meeting Booked", "Closed"];
+const EMPLOYER_STATUSES = Constants.public.Enums.employer_status_type;
+
+function Field({ label, value }: { label: string; value: any }) {
+  return (
+    <div>
+      <p className="text-xs text-muted-foreground">{label}</p>
+      <p className="text-foreground font-medium">{value || "—"}</p>
+    </div>
+  );
+}
 
 export default function AdminEmployers() {
   const queryClient = useQueryClient();
-  const [search, setSearch] = useState("");
+  const [filters, setFilters] = useState<EmployerFilterValues>(defaultEmployerFilters);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const { value: bookingLink } = useSetting("booking_20min_link");
 
   const { data: inquiries, isLoading } = useQuery({
@@ -40,27 +53,68 @@ export default function AdminEmployers() {
     onError: () => toast({ title: "Update failed", variant: "destructive" }),
   });
 
+  const bulkUpdate = useMutation({
+    mutationFn: async ({ ids, updates }: { ids: string[]; updates: Record<string, any> }) => {
+      const { error } = await supabase.from("employer_inquiries").update(updates).in("id", ids);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin_employer_inquiries"] });
+      setSelectedIds(new Set());
+      toast({ title: `${selectedIds.size} inquiries updated` });
+    },
+    onError: () => toast({ title: "Bulk update failed", variant: "destructive" }),
+  });
+
+  const countries = useMemo(() => {
+    if (!inquiries) return [];
+    const set = new Set<string>();
+    inquiries.forEach((i: any) => { if (i.country) set.add(i.country); });
+    return Array.from(set).sort();
+  }, [inquiries]);
+
   const filtered = useMemo(() => {
     if (!inquiries) return [];
-    if (!search) return inquiries;
-    const q = search.toLowerCase();
-    return inquiries.filter((i: any) =>
-      i.institution_name?.toLowerCase().includes(q) || i.company_name?.toLowerCase().includes(q) || i.email?.toLowerCase().includes(q) || i.institutional_email?.toLowerCase().includes(q)
-    );
-  }, [inquiries, search]);
+    return inquiries.filter((i: any) => {
+      const f = filters;
+      const q = f.search.toLowerCase();
+      const matchSearch = !f.search || i.institution_name?.toLowerCase().includes(q) || i.company_name?.toLowerCase().includes(q) || i.email?.toLowerCase().includes(q) || i.institutional_email?.toLowerCase().includes(q);
+      const matchStatus = f.status === "all" || i.employer_status === f.status;
+      const matchCountry = f.country === "all" || i.country === f.country;
+      return matchSearch && matchStatus && matchCountry;
+    });
+  }, [inquiries, filters]);
+
+  const toggleSelect = useCallback((id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  }, []);
+
+  const toggleAll = useCallback(() => {
+    if (selectedIds.size === filtered.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(filtered.map((i: any) => i.id)));
+    }
+  }, [filtered, selectedIds.size]);
 
   const selected = inquiries?.find((i: any) => i.id === selectedId) as any;
+  const allChecked = filtered.length > 0 && selectedIds.size === filtered.length;
 
   return (
     <AdminLayout>
       <h1 className="text-2xl font-extrabold text-foreground mb-6">Employer Inquiries</h1>
 
-      <div className="flex flex-wrap gap-3 mb-6">
-        <div className="relative flex-1 min-w-[200px]">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input placeholder="Search institution, email…" value={search} onChange={(e) => setSearch(e.target.value)} className="pl-9" />
-        </div>
-      </div>
+      <EmployerFilters filters={filters} onChange={setFilters} countries={countries} />
+
+      <EmployerBulkBar
+        selectedCount={selectedIds.size}
+        onClearSelection={() => setSelectedIds(new Set())}
+        onBulkUpdateStatus={(status) => bulkUpdate.mutate({ ids: Array.from(selectedIds), updates: { employer_status: status } })}
+      />
 
       <div className="flex gap-6">
         <div className={`flex-1 min-w-0 ${selected ? "hidden lg:block" : ""}`}>
@@ -71,26 +125,36 @@ export default function AdminEmployers() {
               <table className="w-full text-sm">
                 <thead className="bg-muted">
                   <tr>
-                    {["Institution", "Email", "Title", "Status", "Date"].map((h) => (
+                    <th className="px-3 py-3 w-10">
+                      <Checkbox checked={allChecked} onCheckedChange={toggleAll} aria-label="Select all" />
+                    </th>
+                    {["Institution", "Email", "Country", "Title", "Status", "Date"].map((h) => (
                       <th key={h} className="px-4 py-3 text-left font-semibold text-foreground">{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {filtered.map((i: any) => (
-                    <tr key={i.id} className={`border-t border-border cursor-pointer hover:bg-muted/50 ${selectedId === i.id ? "bg-muted" : ""}`} onClick={() => setSelectedId(i.id)}>
-                      <td className="px-4 py-3 font-medium text-foreground">{i.institution_name || i.company_name || "—"}</td>
-                      <td className="px-4 py-3 text-muted-foreground">{i.institutional_email || i.email || "—"}</td>
-                      <td className="px-4 py-3 text-muted-foreground">{i.title || "—"}</td>
-                      <td className="px-4 py-3">
+                    <tr key={i.id} className={`border-t border-border cursor-pointer hover:bg-muted/50 ${selectedId === i.id ? "bg-muted" : ""}`}>
+                      <td className="px-3 py-3" onClick={(e) => e.stopPropagation()}>
+                        <Checkbox checked={selectedIds.has(i.id)} onCheckedChange={() => toggleSelect(i.id)} aria-label={`Select ${i.institution_name}`} />
+                      </td>
+                      <td className="px-4 py-3 font-medium text-foreground" onClick={() => setSelectedId(i.id)}>{i.institution_name || i.company_name || "—"}</td>
+                      <td className="px-4 py-3 text-muted-foreground" onClick={() => setSelectedId(i.id)}>{i.institutional_email || i.email || "—"}</td>
+                      <td className="px-4 py-3 text-muted-foreground" onClick={() => setSelectedId(i.id)}>{i.country || "—"}</td>
+                      <td className="px-4 py-3 text-muted-foreground" onClick={() => setSelectedId(i.id)}>{i.title || "—"}</td>
+                      <td className="px-4 py-3" onClick={() => setSelectedId(i.id)}>
                         <span className="px-2 py-1 rounded-full text-xs font-medium bg-secondary text-secondary-foreground">{i.employer_status}</span>
                       </td>
-                      <td className="px-4 py-3 text-muted-foreground">{new Date(i.created_at).toLocaleDateString()}</td>
+                      <td className="px-4 py-3 text-muted-foreground" onClick={() => setSelectedId(i.id)}>{new Date(i.created_at).toLocaleDateString()}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-              {filtered.length === 0 && <p className="text-center py-8 text-muted-foreground">No inquiries yet.</p>}
+              {filtered.length === 0 && <p className="text-center py-8 text-muted-foreground">No inquiries match filters.</p>}
+              <div className="px-4 py-2 text-xs text-muted-foreground border-t border-border">
+                Showing {filtered.length} of {inquiries?.length || 0}
+              </div>
             </div>
           )}
         </div>
@@ -154,14 +218,5 @@ export default function AdminEmployers() {
         )}
       </div>
     </AdminLayout>
-  );
-}
-
-function Field({ label, value }: { label: string; value: any }) {
-  return (
-    <div>
-      <p className="text-xs text-muted-foreground">{label}</p>
-      <p className="text-foreground font-medium">{value || "—"}</p>
-    </div>
   );
 }

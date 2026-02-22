@@ -1,23 +1,20 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { AdminLayout } from "@/components/layout/AdminLayout";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, Search, Download, X, ChevronDown } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Loader2, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "@/hooks/use-toast";
-
-const JOURNEY_STAGES = ["New", "Contacted", "Screening", "Preparing", "Ready", "Placed", "Closed"];
+import CandidateFilters, { defaultFilters, type CandidateFilterValues } from "@/components/admin/candidates/CandidateFilters";
+import BulkActionsBar from "@/components/admin/candidates/BulkActionsBar";
+import CandidateDetailPanel from "@/components/admin/candidates/CandidateDetailPanel";
 
 export default function AdminCandidates() {
   const queryClient = useQueryClient();
-  const [search, setSearch] = useState("");
-  const [stageFilter, setStageFilter] = useState("all");
-  const [verifiedFilter, setVerifiedFilter] = useState("all");
+  const [filters, setFilters] = useState<CandidateFilterValues>(defaultFilters);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
   const { data: candidates, isLoading } = useQuery({
     queryKey: ["admin_candidates"],
@@ -40,15 +37,60 @@ export default function AdminCandidates() {
     onError: () => toast({ title: "Update failed", variant: "destructive" }),
   });
 
+  const bulkUpdate = useMutation({
+    mutationFn: async ({ ids, updates }: { ids: string[]; updates: Record<string, any> }) => {
+      const { error } = await supabase.from("candidates").update(updates).in("id", ids);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin_candidates"] });
+      setSelectedIds(new Set());
+      toast({ title: `${selectedIds.size} candidates updated` });
+    },
+    onError: () => toast({ title: "Bulk update failed", variant: "destructive" }),
+  });
+
+  // Extract unique countries from target_countries
+  const countries = useMemo(() => {
+    if (!candidates) return [];
+    const set = new Set<string>();
+    candidates.forEach((c: any) => c.target_countries?.forEach((tc: string) => set.add(tc)));
+    return Array.from(set).sort();
+  }, [candidates]);
+
   const filtered = useMemo(() => {
     if (!candidates) return [];
     return candidates.filter((c: any) => {
-      const matchSearch = !search || c.full_name?.toLowerCase().includes(search.toLowerCase()) || c.email?.toLowerCase().includes(search.toLowerCase()) || c.whatsapp_number?.includes(search);
-      const matchStage = stageFilter === "all" || c.journey_stage === stageFilter;
-      const matchVerified = verifiedFilter === "all" || (verifiedFilter === "verified" && c.email_verified) || (verifiedFilter === "unverified" && !c.email_verified);
-      return matchSearch && matchStage && matchVerified;
+      const f = filters;
+      const matchSearch = !f.search || c.full_name?.toLowerCase().includes(f.search.toLowerCase()) || c.email?.toLowerCase().includes(f.search.toLowerCase()) || c.whatsapp_number?.includes(f.search);
+      const matchStage = f.stage === "all" || c.journey_stage === f.stage;
+      const matchVerified = f.verified === "all" || (f.verified === "verified" && c.email_verified) || (f.verified === "unverified" && !c.email_verified);
+      const matchSpecialty = f.specialty === "all" || c.specialty === f.specialty;
+      const matchProfession = f.profession === "all" || c.profession === f.profession;
+      const matchEducation = f.education === "all" || c.education_level === f.education;
+      const matchEnglish = f.english === "all" || c.english_level === f.english || c.english_capability === f.english;
+      const matchAvailability = f.availability === "all" || c.availability === f.availability;
+      const matchLicense = f.license === "all" || c.license_status === f.license;
+      const matchCountry = f.country === "all" || c.target_countries?.includes(f.country);
+      return matchSearch && matchStage && matchVerified && matchSpecialty && matchProfession && matchEducation && matchEnglish && matchAvailability && matchLicense && matchCountry;
     });
-  }, [candidates, search, stageFilter, verifiedFilter]);
+  }, [candidates, filters]);
+
+  const toggleSelect = useCallback((id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  }, []);
+
+  const toggleAll = useCallback(() => {
+    if (selectedIds.size === filtered.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(filtered.map((c: any) => c.id)));
+    }
+  }, [filtered, selectedIds.size]);
 
   const exportCSV = () => {
     if (!filtered.length) return;
@@ -60,13 +102,12 @@ export default function AdminCandidates() {
     const blob = new Blob([csv], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
-    a.href = url;
-    a.download = `candidates-${new Date().toISOString().slice(0, 10)}.csv`;
-    a.click();
+    a.href = url; a.download = `candidates-${new Date().toISOString().slice(0, 10)}.csv`; a.click();
     URL.revokeObjectURL(url);
   };
 
   const selected = candidates?.find((c: any) => c.id === selectedId) as any;
+  const allChecked = filtered.length > 0 && selectedIds.size === filtered.length;
 
   return (
     <AdminLayout>
@@ -77,31 +118,16 @@ export default function AdminCandidates() {
         </Button>
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-wrap gap-3 mb-6">
-        <div className="relative flex-1 min-w-[200px]">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input placeholder="Search name, email, phone…" value={search} onChange={(e) => setSearch(e.target.value)} className="pl-9" />
-        </div>
-        <Select value={stageFilter} onValueChange={setStageFilter}>
-          <SelectTrigger className="w-[160px]"><SelectValue placeholder="Stage" /></SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Stages</SelectItem>
-            {JOURNEY_STAGES.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
-          </SelectContent>
-        </Select>
-        <Select value={verifiedFilter} onValueChange={setVerifiedFilter}>
-          <SelectTrigger className="w-[160px]"><SelectValue placeholder="Verified" /></SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All</SelectItem>
-            <SelectItem value="verified">Verified</SelectItem>
-            <SelectItem value="unverified">Unverified</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+      <CandidateFilters filters={filters} onChange={setFilters} countries={countries} />
+
+      <BulkActionsBar
+        selectedCount={selectedIds.size}
+        onClearSelection={() => setSelectedIds(new Set())}
+        onBulkUpdateStage={(stage) => bulkUpdate.mutate({ ids: Array.from(selectedIds), updates: { journey_stage: stage } })}
+        onBulkUpdatePipeline={(status) => bulkUpdate.mutate({ ids: Array.from(selectedIds), updates: { pipeline_status: status } })}
+      />
 
       <div className="flex gap-6">
-        {/* Table */}
         <div className={`flex-1 min-w-0 ${selected ? "hidden lg:block" : ""}`}>
           {isLoading ? (
             <div className="flex justify-center py-12"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>
@@ -110,6 +136,9 @@ export default function AdminCandidates() {
               <table className="w-full text-sm">
                 <thead className="bg-muted">
                   <tr>
+                    <th className="px-3 py-3 w-10">
+                      <Checkbox checked={allChecked} onCheckedChange={toggleAll} aria-label="Select all" />
+                    </th>
                     {["Name", "Email", "WhatsApp", "Stage", "Verified", "Date"].map((h) => (
                       <th key={h} className="px-4 py-3 text-left font-semibold text-foreground">{h}</th>
                     ))}
@@ -117,17 +146,20 @@ export default function AdminCandidates() {
                 </thead>
                 <tbody>
                   {filtered.map((c: any) => (
-                    <tr key={c.id} className={`border-t border-border cursor-pointer hover:bg-muted/50 transition-colors ${selectedId === c.id ? "bg-muted" : ""}`} onClick={() => setSelectedId(c.id)}>
-                      <td className="px-4 py-3 font-medium text-foreground">{c.full_name}</td>
-                      <td className="px-4 py-3 text-muted-foreground">{c.email || "—"}</td>
-                      <td className="px-4 py-3 text-muted-foreground">{c.whatsapp_number}</td>
-                      <td className="px-4 py-3">
+                    <tr key={c.id} className={`border-t border-border cursor-pointer hover:bg-muted/50 transition-colors ${selectedId === c.id ? "bg-muted" : ""}`}>
+                      <td className="px-3 py-3" onClick={(e) => e.stopPropagation()}>
+                        <Checkbox checked={selectedIds.has(c.id)} onCheckedChange={() => toggleSelect(c.id)} aria-label={`Select ${c.full_name}`} />
+                      </td>
+                      <td className="px-4 py-3 font-medium text-foreground" onClick={() => setSelectedId(c.id)}>{c.full_name}</td>
+                      <td className="px-4 py-3 text-muted-foreground" onClick={() => setSelectedId(c.id)}>{c.email || "—"}</td>
+                      <td className="px-4 py-3 text-muted-foreground" onClick={() => setSelectedId(c.id)}>{c.whatsapp_number}</td>
+                      <td className="px-4 py-3" onClick={() => setSelectedId(c.id)}>
                         <span className="px-2 py-1 rounded-full text-xs font-medium bg-secondary text-secondary-foreground">{c.journey_stage}</span>
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-4 py-3" onClick={() => setSelectedId(c.id)}>
                         <span className={`h-2 w-2 rounded-full inline-block ${c.email_verified ? "bg-accent" : "bg-muted-foreground/30"}`} />
                       </td>
-                      <td className="px-4 py-3 text-muted-foreground">{new Date(c.created_at).toLocaleDateString()}</td>
+                      <td className="px-4 py-3 text-muted-foreground" onClick={() => setSelectedId(c.id)}>{new Date(c.created_at).toLocaleDateString()}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -140,72 +172,14 @@ export default function AdminCandidates() {
           )}
         </div>
 
-        {/* Detail Drawer */}
         {selected && (
-          <div className="w-full lg:w-[400px] shrink-0 bg-card rounded-xl border border-border p-6 overflow-y-auto max-h-[calc(100vh-120px)]">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold text-foreground">Candidate Details</h2>
-              <Button variant="ghost" size="sm" onClick={() => setSelectedId(null)}><X className="h-4 w-4" /></Button>
-            </div>
-
-            <div className="space-y-4 text-sm">
-              <Field label="Full Name" value={selected.full_name} />
-              <Field label="Email" value={selected.email} />
-              <Field label="WhatsApp" value={selected.whatsapp_number} />
-              <Field label="Date of Birth" value={selected.date_of_birth} />
-              <Field label="University" value={selected.university} />
-              <Field label="Graduation Year" value={selected.graduation_year} />
-              <Field label="Profession" value={selected.profession} />
-              <Field label="Specialty" value={selected.specialty} />
-              <Field label="English" value={selected.english_capability || selected.english_level} />
-              <Field label="License Status" value={selected.license_status} />
-              <Field label="Experience (yrs)" value={selected.experience_years} />
-              <Field label="City/Country" value={selected.city_country} />
-              <Field label="Target Countries" value={selected.target_countries?.join(", ")} />
-              <Field label="Motivations" value={selected.motivations?.join(", ")} />
-              <Field label="Challenges" value={selected.challenges?.join(", ")} />
-              <Field label="Help Needed" value={selected.help_needed?.join(", ")} />
-              <Field label="Email Verified" value={selected.email_verified ? "Yes" : "No"} />
-              <Field label="WhatsApp Verified" value={selected.whatsapp_verified ? "Yes" : "No"} />
-
-              <div className="pt-4 border-t border-border space-y-3">
-                <div>
-                  <Label className="text-foreground font-bold text-xs">Journey Stage</Label>
-                  <Select value={selected.journey_stage} onValueChange={(v) => updateCandidate.mutate({ id: selected.id, updates: { journey_stage: v } })}>
-                    <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
-                    <SelectContent>
-                      {JOURNEY_STAGES.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Label className="text-foreground font-bold text-xs">Assigned Support Agent</Label>
-                  <Input
-                    className="mt-1"
-                    defaultValue={selected.assigned_support_agent || ""}
-                    placeholder="Agent name"
-                    onBlur={(e) => {
-                      if (e.target.value !== (selected.assigned_support_agent || "")) {
-                        updateCandidate.mutate({ id: selected.id, updates: { assigned_support_agent: e.target.value || null } });
-                      }
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+          <CandidateDetailPanel
+            selected={selected}
+            onClose={() => setSelectedId(null)}
+            onUpdate={(id, updates) => updateCandidate.mutate({ id, updates })}
+          />
         )}
       </div>
     </AdminLayout>
-  );
-}
-
-function Field({ label, value }: { label: string; value: any }) {
-  return (
-    <div>
-      <p className="text-xs text-muted-foreground">{label}</p>
-      <p className="text-foreground font-medium">{value || "—"}</p>
-    </div>
   );
 }
