@@ -1,25 +1,8 @@
 import { Link } from "react-router-dom";
 import { Instagram, Linkedin } from "lucide-react";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
+import { useTranslation } from "@/i18n/LanguageContext";
 import logoIcon from "@/assets/logo-icon.png";
-
-const quickLinks = [
-  { href: "/about", label: "About" },
-  { href: "/what-we-do", label: "What We Do" },
-  { href: "/how-we-do-it", label: "How We Do It" },
-  { href: "/programs", label: "Programs & Pricing" },
-  { href: "/team", label: "Our Team" },
-  { href: "/quickstart", label: "Quickstart Guide" },
-  { href: "/register", label: "Register" },
-];
-
-const supportLinks = [
-  { href: "/help", label: "Help Center" },
-  { href: "/news", label: "News & Insights" },
-  { href: "/success-stories", label: "Success Stories" },
-  { href: "/employer", label: "For Employers" },
-  { href: "/privacy", label: "Privacy" },
-];
 
 const TikTokIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
@@ -29,8 +12,27 @@ const TikTokIcon = ({ className }: { className?: string }) => (
 
 export function Footer() {
   const { data: settings } = useSiteSettings();
+  const { t } = useTranslation();
   const isValid = (url?: string) => url && url !== "UPDATE_ME" && url.startsWith("http");
   const helpEmail = settings?.support_email || "globalparo@gmail.com";
+
+  const quickLinks = [
+    { href: "/about", label: t.nav.about },
+    { href: "/what-we-do", label: t.nav.whatWeDo },
+    { href: "/how-we-do-it", label: t.nav.howWeDoIt },
+    { href: "/programs", label: t.footer.programsPricing },
+    { href: "/team", label: t.footer.ourTeam },
+    { href: "/quickstart", label: t.footer.quickstartGuide },
+    { href: "/register", label: t.nav.register },
+  ];
+
+  const supportLinks = [
+    { href: "/help", label: t.footer.helpCenter },
+    { href: "/news", label: t.footer.newsInsights },
+    { href: "/success-stories", label: t.footer.successStories },
+    { href: "/employer", label: t.footer.forEmployers },
+    { href: "/privacy", label: t.footer.privacy },
+  ];
 
   return (
     <footer className="bg-primary text-primary-foreground">
@@ -42,10 +44,10 @@ export function Footer() {
               <span className="font-heading">Global Paro</span>
             </Link>
             <p className="text-primary-foreground/80 max-w-sm mb-4 text-sm font-heading italic">
-              "Prepare. Beyond. Global."
+              "{t.footer.tagline}"
             </p>
             <p className="text-primary-foreground/80 max-w-sm mb-6">
-              Global Career Gateway for Nurses — empowering every international nurse with the knowledge, tools, and support they need to succeed abroad.
+              {t.footer.description}
             </p>
             <div className="flex items-center gap-4">
               {[
@@ -59,8 +61,8 @@ export function Footer() {
                   target={isValid(social.url) ? "_blank" : undefined}
                   rel={isValid(social.url) ? "noopener noreferrer" : undefined}
                   className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-colors"
-                  aria-label={isValid(social.url) ? social.label : `${social.label} — Coming soon, contact ${helpEmail}`}
-                  title={!isValid(social.url) ? `Coming soon — contact ${helpEmail}` : social.label}
+                  aria-label={isValid(social.url) ? social.label : `${social.label} — ${t.common.comingSoon}, contact ${helpEmail}`}
+                  title={!isValid(social.url) ? `${t.common.comingSoon} — contact ${helpEmail}` : social.label}
                 >
                   {social.icon}
                 </a>
@@ -69,7 +71,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-bold mb-4">Explore</h4>
+            <h4 className="font-bold mb-4">{t.footer.explore}</h4>
             <ul className="space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.href}>
@@ -82,7 +84,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-bold mb-4">Support</h4>
+            <h4 className="font-bold mb-4">{t.footer.support}</h4>
             <ul className="space-y-2">
               {supportLinks.map((link) => (
                 <li key={link.href}>
@@ -102,8 +104,8 @@ export function Footer() {
 
         <div className="mt-12 pt-8 border-t border-primary-foreground/20">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-primary-foreground/60">
-            <p>© {new Date().getFullYear()} Global Paro. All rights reserved.</p>
-            <p>We do not guarantee outcomes. Guidance-first, consent-based support.</p>
+            <p>© {new Date().getFullYear()} Global Paro. {t.footer.copyright}</p>
+            <p>{t.footer.disclaimer}</p>
           </div>
         </div>
       </div>

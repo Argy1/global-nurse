@@ -1,32 +1,37 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, MessageCircle, Phone, Mail } from "lucide-react";
+import { Menu, X, MessageCircle, Phone, Mail, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logoIcon from "@/assets/logo-icon.png";
 import { cn } from "@/lib/utils";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
-
-const navLinks = [
-  { href: "/about", label: "About" },
-  { href: "/what-we-do", label: "What We Do" },
-  { href: "/how-we-do-it", label: "How We Do It" },
-  { href: "/programs", label: "Programs" },
-  { href: "/quickstart", label: "Quickstart" },
-  { href: "/lms", label: "LMS" },
-  { href: "/team", label: "Team" },
-  { href: "/register", label: "Register" },
-  { href: "/help", label: "Help" },
-];
+import { useTranslation } from "@/i18n/LanguageContext";
+import type { Lang } from "@/i18n/LanguageContext";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const { data: settings } = useSiteSettings();
+  const { lang, setLang, t } = useTranslation();
 
   const helpEmail = settings?.support_email || "globalparo@gmail.com";
   const helpMobile = settings?.help_mobile;
   const whatsappLink = settings?.whatsapp_direct_chat_link;
   const hasWhatsApp = whatsappLink && whatsappLink !== "UPDATE_ME";
+
+  const navLinks = [
+    { href: "/about", label: t.nav.about },
+    { href: "/what-we-do", label: t.nav.whatWeDo },
+    { href: "/how-we-do-it", label: t.nav.howWeDoIt },
+    { href: "/programs", label: t.nav.programs },
+    { href: "/quickstart", label: t.nav.quickstart },
+    { href: "/lms", label: t.nav.lms },
+    { href: "/team", label: t.nav.team },
+    { href: "/register", label: t.nav.register },
+    { href: "/help", label: t.nav.help },
+  ];
+
+  const toggleLang = () => setLang(lang === "en" ? "id" : "en" as Lang);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
@@ -80,8 +85,17 @@ export function Navbar() {
 
         {/* Desktop CTAs */}
         <div className="hidden lg:flex items-center gap-3">
+          {/* Language Switcher */}
+          <button
+            onClick={toggleLang}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+            aria-label="Switch language"
+          >
+            <Globe className="h-4 w-4" />
+            {lang === "en" ? "ID" : "EN"}
+          </button>
           <Button variant="cta" size="sm" asChild>
-            <Link to="/auth">Login</Link>
+            <Link to="/auth">{t.common.login}</Link>
           </Button>
           {hasWhatsApp && (
             <a
@@ -97,13 +111,22 @@ export function Navbar() {
         </div>
 
         {/* Mobile Menu Button */}
-        <button
-          className="lg:hidden p-2 text-foreground"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle menu"
-        >
-          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+        <div className="lg:hidden flex items-center gap-2">
+          <button
+            onClick={toggleLang}
+            className="p-2 text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted transition-colors"
+            aria-label="Switch language"
+          >
+            <Globe className="h-5 w-5" />
+          </button>
+          <button
+            className="p-2 text-foreground"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
+          >
+            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Navigation */}
@@ -127,13 +150,13 @@ export function Navbar() {
             ))}
             <div className="flex flex-col gap-2 pt-4 border-t border-border mt-2">
               <Button variant="cta" asChild>
-                <Link to="/auth" onClick={() => setIsOpen(false)}>Login</Link>
+                <Link to="/auth" onClick={() => setIsOpen(false)}>{t.common.login}</Link>
               </Button>
               {hasWhatsApp && (
                 <Button variant="whatsapp" asChild>
                   <a href={whatsappLink} target="_blank" rel="noopener noreferrer" onClick={() => setIsOpen(false)}>
                     <MessageCircle className="h-4 w-4" />
-                    WhatsApp Support
+                    {t.common.whatsappSupport}
                   </a>
                 </Button>
               )}
