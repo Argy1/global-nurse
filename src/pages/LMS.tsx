@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { BookOpen, ArrowRight, ExternalLink, Languages, Award, Building2, FileText, Briefcase, DollarSign, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/layout/Layout";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 const ieltsResources = [
   { name: "British Council", url: "https://www.britishcouncil.org/exam/ielts", desc: "Official IELTS preparation materials and practice tests" },
@@ -19,22 +20,22 @@ const nclexResources = [
   { name: "NursesLabs", url: "https://nurseslabs.com/", desc: "Practice questions, study guides, and nursing resources" },
 ];
 
-const usHealthcareTopics = [
-  { icon: Building2, title: "Healthcare System", desc: "Understanding the US healthcare structure, hospital types, and how nursing roles differ" },
-  { icon: FileText, title: "Visa Guide", desc: "Step-by-step guide to nursing visa categories (EB-3, H-1B) and the application process" },
-  { icon: Briefcase, title: "Workplace Culture", desc: "What to expect in American healthcare workplaces, communication styles, and professional norms" },
-  { icon: DollarSign, title: "Salary & Benefits", desc: "Average nursing salaries by state, benefits packages, and cost of living considerations" },
-];
-
 export default function LMS() {
+  const { t } = useTranslation();
+
+  const usHealthcareTopics = [
+    { icon: Building2, title: t.lms.healthcareSystem, desc: t.lms.healthcareSystemDesc },
+    { icon: FileText, title: t.lms.visaGuide, desc: t.lms.visaGuideDesc },
+    { icon: Briefcase, title: t.lms.workplaceCulture, desc: t.lms.workplaceCultureDesc },
+    { icon: DollarSign, title: t.lms.salaryBenefits, desc: t.lms.salaryBenefitsDesc },
+  ];
+
   return (
     <Layout>
       <section className="gradient-hero py-16 lg:py-24">
         <div className="container text-center">
-          <h1 className="text-4xl lg:text-5xl font-extrabold text-primary-foreground mb-4">Learning Management System</h1>
-          <p className="text-lg text-primary-foreground/90 max-w-2xl mx-auto">
-            Free resources to prepare for your journey — from English proficiency to licensing and beyond.
-          </p>
+          <h1 className="text-4xl lg:text-5xl font-extrabold text-primary-foreground mb-4">{t.lms.title}</h1>
+          <p className="text-lg text-primary-foreground/90 max-w-2xl mx-auto">{t.lms.subtitle}</p>
         </div>
       </section>
 
@@ -44,18 +45,18 @@ export default function LMS() {
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             <div className="bg-card rounded-xl p-6 shadow-card border border-border text-center">
               <Languages className="h-10 w-10 text-accent mx-auto mb-3" />
-              <h3 className="font-bold text-foreground mb-2">Comprehensive Training</h3>
-              <p className="text-sm text-muted-foreground">IELTS prep + NCLEX courses with study materials and expert guidance</p>
+              <h3 className="font-bold text-foreground mb-2">{t.lms.comprehensiveTraining}</h3>
+              <p className="text-sm text-muted-foreground">{t.lms.comprehensiveTrainingDesc}</p>
             </div>
             <div className="bg-card rounded-xl p-6 shadow-card border border-border text-center">
               <Award className="h-10 w-10 text-accent mx-auto mb-3" />
-              <h3 className="font-bold text-foreground mb-2">Personalized Matching</h3>
-              <p className="text-sm text-muted-foreground">AI matches you with facilities aligned to your specialty, location, and career goals</p>
+              <h3 className="font-bold text-foreground mb-2">{t.lms.personalizedMatching}</h3>
+              <p className="text-sm text-muted-foreground">{t.lms.personalizedMatchingDesc}</p>
             </div>
             <div className="bg-card rounded-xl p-6 shadow-card border border-border text-center">
               <Globe className="h-10 w-10 text-accent mx-auto mb-3" />
-              <h3 className="font-bold text-foreground mb-2">Full Support</h3>
-              <p className="text-sm text-muted-foreground">Visa sponsorship, relocation assistance, onboarding, and ongoing career development</p>
+              <h3 className="font-bold text-foreground mb-2">{t.lms.fullSupport}</h3>
+              <p className="text-sm text-muted-foreground">{t.lms.fullSupportDesc}</p>
             </div>
           </div>
         </div>
@@ -70,19 +71,13 @@ export default function LMS() {
                 <Languages className="h-6 w-6 text-accent" />
               </div>
               <div>
-                <h2 className="text-2xl font-extrabold text-foreground">IELTS Preparation</h2>
-                <p className="text-sm text-muted-foreground">Free practice materials and resources</p>
+                <h2 className="text-2xl font-extrabold text-foreground">{t.lms.ieltsPrep}</h2>
+                <p className="text-sm text-muted-foreground">{t.lms.ieltsSubtitle}</p>
               </div>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {ieltsResources.map((r) => (
-                <a
-                  key={r.name}
-                  href={r.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-card rounded-xl p-5 shadow-card border border-border hover:border-accent hover:shadow-lg transition-all group"
-                >
+                <a key={r.name} href={r.url} target="_blank" rel="noopener noreferrer" className="bg-card rounded-xl p-5 shadow-card border border-border hover:border-accent hover:shadow-lg transition-all group">
                   <div className="flex items-center justify-between mb-2">
                     <h3 className="font-bold text-foreground group-hover:text-accent transition-colors">{r.name}</h3>
                     <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-accent" />
@@ -104,19 +99,13 @@ export default function LMS() {
                 <Award className="h-6 w-6 text-primary" />
               </div>
               <div>
-                <h2 className="text-2xl font-extrabold text-foreground">NCLEX 2026 Resources</h2>
-                <p className="text-sm text-muted-foreground">Sample materials and practice questions</p>
+                <h2 className="text-2xl font-extrabold text-foreground">{t.lms.nclexResources}</h2>
+                <p className="text-sm text-muted-foreground">{t.lms.nclexSubtitle}</p>
               </div>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {nclexResources.map((r) => (
-                <a
-                  key={r.name}
-                  href={r.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-card rounded-xl p-5 shadow-card border border-border hover:border-primary hover:shadow-lg transition-all group"
-                >
+                <a key={r.name} href={r.url} target="_blank" rel="noopener noreferrer" className="bg-card rounded-xl p-5 shadow-card border border-border hover:border-primary hover:shadow-lg transition-all group">
                   <div className="flex items-center justify-between mb-2">
                     <h3 className="font-bold text-foreground group-hover:text-primary transition-colors">{r.name}</h3>
                     <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
@@ -138,8 +127,8 @@ export default function LMS() {
                 <Globe className="h-6 w-6 text-accent" />
               </div>
               <div>
-                <h2 className="text-2xl font-extrabold text-foreground">US Healthcare Basics</h2>
-                <p className="text-sm text-muted-foreground">Essential knowledge for working in the US</p>
+                <h2 className="text-2xl font-extrabold text-foreground">{t.lms.usHealthcare}</h2>
+                <p className="text-sm text-muted-foreground">{t.lms.usHealthcareSubtitle}</p>
               </div>
             </div>
             <div className="grid sm:grid-cols-2 gap-6">
@@ -148,7 +137,7 @@ export default function LMS() {
                   <topic.icon className="h-8 w-8 text-accent mb-3" />
                   <h3 className="font-bold text-foreground mb-2">{topic.title}</h3>
                   <p className="text-sm text-muted-foreground">{topic.desc}</p>
-                  <span className="inline-block mt-3 px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-medium">Coming Soon</span>
+                  <span className="inline-block mt-3 px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-medium">{t.common.comingSoon}</span>
                 </div>
               ))}
             </div>
@@ -158,14 +147,14 @@ export default function LMS() {
 
       <section className="py-16 gradient-hero">
         <div className="container text-center">
-          <h2 className="text-3xl font-extrabold text-primary-foreground mb-4">Ready to Start Learning?</h2>
-          <p className="text-primary-foreground/90 mb-8">Register to get personalized learning recommendations.</p>
+          <h2 className="text-3xl font-extrabold text-primary-foreground mb-4">{t.lms.readyToLearn}</h2>
+          <p className="text-primary-foreground/90 mb-8">{t.lms.readyToLearnDesc}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button variant="hero" size="xl" asChild>
-              <Link to="/register">Register Now <ArrowRight className="h-5 w-5" /></Link>
+              <Link to="/register">{t.common.registerNow} <ArrowRight className="h-5 w-5" /></Link>
             </Button>
             <Button variant="heroOutline" size="xl" asChild>
-              <Link to="/quickstart">Quickstart Guide</Link>
+              <Link to="/quickstart">{t.lms.quickstartGuide}</Link>
             </Button>
           </div>
         </div>
