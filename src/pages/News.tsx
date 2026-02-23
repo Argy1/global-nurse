@@ -5,21 +5,21 @@ import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useContent } from "@/hooks/useContent";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 export default function News() {
+  const { t } = useTranslation();
   const { data: articles, isLoading } = useContent("News");
   const [search, setSearch] = useState("");
 
-  const filtered = articles?.filter((a) => {
-    return !search || a.title.toLowerCase().includes(search.toLowerCase()) || (a.excerpt || "").toLowerCase().includes(search.toLowerCase());
-  });
+  const filtered = articles?.filter((a) => !search || a.title.toLowerCase().includes(search.toLowerCase()) || (a.excerpt || "").toLowerCase().includes(search.toLowerCase()));
 
   return (
     <Layout>
       <section className="gradient-hero py-16 lg:py-24">
         <div className="container text-center">
-          <h1 className="text-4xl lg:text-5xl font-extrabold text-primary-foreground mb-4">News & Insights</h1>
-          <p className="text-lg text-primary-foreground/90 max-w-2xl mx-auto">Stay informed with the latest guidance on international nursing careers.</p>
+          <h1 className="text-4xl lg:text-5xl font-extrabold text-primary-foreground mb-4">{t.news.title}</h1>
+          <p className="text-lg text-primary-foreground/90 max-w-2xl mx-auto">{t.news.subtitle}</p>
         </div>
       </section>
 
@@ -27,7 +27,7 @@ export default function News() {
         <div className="container">
           <div className="relative max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Search articles..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
+            <Input placeholder={t.news.searchPlaceholder} value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
           </div>
         </div>
       </section>
@@ -52,8 +52,8 @@ export default function News() {
           ) : (
             <div className="text-center py-12 bg-card rounded-xl border border-border">
               <Newspaper className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="font-bold text-foreground mb-2">No articles found</h3>
-              <p className="text-muted-foreground">Check back soon for new content.</p>
+              <h3 className="font-bold text-foreground mb-2">{t.news.noArticles}</h3>
+              <p className="text-muted-foreground">{t.news.noArticlesDesc}</p>
             </div>
           )}
         </div>
@@ -61,9 +61,9 @@ export default function News() {
 
       <section className="py-16 gradient-hero">
         <div className="container text-center">
-          <h2 className="text-3xl font-extrabold text-primary-foreground mb-8">Ready to take the next step?</h2>
+          <h2 className="text-3xl font-extrabold text-primary-foreground mb-8">{t.news.readyNextStep}</h2>
           <Button variant="hero" size="xl" asChild>
-            <Link to="/register">Register Now <ArrowRight className="h-5 w-5" /></Link>
+            <Link to="/register">{t.common.registerNow} <ArrowRight className="h-5 w-5" /></Link>
           </Button>
         </div>
       </section>

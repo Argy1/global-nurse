@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/useAuth";
+import { useTranslation } from "@/i18n/LanguageContext";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -15,6 +16,7 @@ export default function Auth() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get("redirect");
+  const { t } = useTranslation();
   const [view, setView] = useState<View>("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,13 +32,13 @@ export default function Auth() {
         navigate(redirectTo === "portal" ? "/portal" : "/admin");
       } else if (view === "signup") {
         await signUp(email, password, displayName);
-        toast({ title: "Check your email", description: "We sent you a confirmation link." });
+        toast({ title: t.auth.checkEmail, description: t.auth.confirmationSent });
       } else {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
           redirectTo: `${window.location.origin}/reset-password`,
         });
         if (error) throw error;
-        toast({ title: "Reset link sent", description: "Check your email for the password reset link." });
+        toast({ title: t.auth.resetLinkSent, description: t.auth.resetLinkDesc });
         setView("login");
       }
     } catch (err: any) {
@@ -49,15 +51,15 @@ export default function Auth() {
   const isPortal = redirectTo === "portal";
 
   const titles: Record<View, string> = {
-    login: isPortal ? "Candidate Login" : "Admin Login",
-    signup: "Create Account",
-    forgot: "Forgot Password",
+    login: isPortal ? t.auth.candidateLogin : t.auth.adminLogin,
+    signup: t.auth.createAccount,
+    forgot: t.auth.forgotPassword,
   };
 
   const subtitles: Record<View, string> = {
-    login: isPortal ? "Sign in to view your application status." : "Sign in to access the admin panel.",
-    signup: isPortal ? "Create an account to track your application." : "Create an admin account.",
-    forgot: "Enter your email and we'll send you a reset link.",
+    login: isPortal ? t.auth.candidateLoginDesc : t.auth.adminLoginDesc,
+    signup: isPortal ? t.auth.createAccountPortalDesc : t.auth.createAccountAdminDesc,
+    forgot: t.auth.forgotPasswordDesc,
   };
 
   return (
@@ -69,21 +71,21 @@ export default function Auth() {
         <form onSubmit={handleSubmit} className="space-y-4">
           {view === "signup" && (
             <div className="space-y-1">
-              <Label htmlFor="displayName">Display Name</Label>
+              <Label htmlFor="displayName">{t.auth.displayName}</Label>
               <Input id="displayName" value={displayName} onChange={(e) => setDisplayName(e.target.value)} placeholder="Your name" />
             </div>
           )}
           <div className="space-y-1">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t.auth.email}</Label>
             <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={isPortal ? "your@email.com" : "admin@example.com"} required />
           </div>
           {view !== "forgot" && (
             <div className="space-y-1">
               <div className="flex items-center justify-between">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">{t.auth.password}</Label>
                 {view === "login" && (
                   <button type="button" onClick={() => setView("forgot")} className="text-xs text-primary hover:underline">
-                    Forgot password?
+                    {t.auth.forgotPasswordLink}
                   </button>
                 )}
               </div>
@@ -92,23 +94,20 @@ export default function Auth() {
           )}
           <Button type="submit" variant="cta" className="w-full" disabled={loading}>
             {loading && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
-            {view === "login" ? "Sign In" : view === "signup" ? "Create Account" : "Send Reset Link"}
+            {view === "login" ? t.common.signIn : view === "signup" ? t.auth.createAccount : t.auth.sendResetLink}
           </Button>
         </form>
 
         <div className="text-sm text-muted-foreground text-center mt-4 space-y-1">
           {view === "forgot" ? (
             <button onClick={() => setView("login")} className="text-primary hover:underline font-medium">
-              ← Back to Sign In
+              {t.auth.backToSignIn}
             </button>
           ) : (
             <p>
-              {view === "login" ? "Need an account?" : "Already have an account?"}{" "}
-              <button
-                onClick={() => setView(view === "login" ? "signup" : "login")}
-                className="text-primary hover:underline font-medium"
-              >
-                {view === "login" ? "Sign Up" : "Sign In"}
+              {view === "login" ? t.auth.needAccount : t.auth.haveAccount}{" "}
+              <button onClick={() => setView(view === "login" ? "signup" : "login")} className="text-primary hover:underline font-medium">
+                {view === "login" ? t.common.signUp : t.common.signIn}
               </button>
             </p>
           )}

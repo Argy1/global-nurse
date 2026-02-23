@@ -11,29 +11,22 @@ import { TutorialModal } from "@/components/home/TutorialModal";
 import { useSiteSettings, useSetting } from "@/hooks/useSiteSettings";
 import { useContent } from "@/hooks/useContent";
 import { useSuccessStories } from "@/hooks/useSuccessStories";
+import { useTranslation } from "@/i18n/LanguageContext";
 import heroImage from "@/assets/hero-nurses.jpg";
 
-/* ── Quickstart topics (hardcoded — DB empty) ── */
 const quickstartTopics = [
-  { title: "Is Working Abroad Right for You?", slug: "is-working-abroad-right" },
-  { title: "Understanding Licensing", slug: "understanding-licensing" },
-  { title: "English Proficiency (IELTS / OET)", slug: "english-proficiency" },
-  { title: "NCLEX Preparation", slug: "nclex-preparation" },
-  { title: "CGFNS & VisaScreen", slug: "cgfns-visascreen" },
-  { title: "Document Checklist", slug: "document-checklist" },
-  { title: "Financial Planning", slug: "financial-planning" },
-  { title: "Employer Red vs Green Flags", slug: "employer-red-green-flags" },
-  { title: "Life Abroad: What to Expect", slug: "life-abroad" },
-  { title: "Your First 90 Days", slug: "first-90-days" },
+  { title_en: "Is Working Abroad Right for You?", title_id: "Apakah Bekerja di Luar Negeri Tepat untuk Anda?", slug: "is-working-abroad-right" },
+  { title_en: "Understanding Licensing", title_id: "Memahami Lisensi", slug: "understanding-licensing" },
+  { title_en: "English Proficiency (IELTS / OET)", title_id: "Kemahiran Bahasa Inggris (IELTS / OET)", slug: "english-proficiency" },
+  { title_en: "NCLEX Preparation", title_id: "Persiapan NCLEX", slug: "nclex-preparation" },
+  { title_en: "CGFNS & VisaScreen", title_id: "CGFNS & VisaScreen", slug: "cgfns-visascreen" },
+  { title_en: "Document Checklist", title_id: "Daftar Periksa Dokumen", slug: "document-checklist" },
+  { title_en: "Financial Planning", title_id: "Perencanaan Keuangan", slug: "financial-planning" },
+  { title_en: "Employer Red vs Green Flags", title_id: "Tanda Bahaya vs Tanda Aman Pemberi Kerja", slug: "employer-red-green-flags" },
+  { title_en: "Life Abroad: What to Expect", title_id: "Kehidupan di Luar Negeri: Apa yang Diharapkan", slug: "life-abroad" },
+  { title_en: "Your First 90 Days", title_id: "90 Hari Pertama Anda", slug: "first-90-days" },
 ];
 
-const pathways = [
-  { from: "Nurse ID", to: "Singapore", flag: "🇸🇬" },
-  { from: "Nurse ID", to: "Canada", flag: "🇨🇦" },
-  { from: "Nurse ID", to: "USA", flag: "🇺🇸" },
-];
-
-/* ── Helpers ── */
 function VideoOrPlaceholder({ url, className = "" }: { url: string | null; className?: string }) {
   if (!url) {
     return (
@@ -60,7 +53,8 @@ function VideoOrPlaceholder({ url, className = "" }: { url: string | null; class
   return <video src={url} controls className={`rounded-xl object-cover ${className}`} />;
 }
 
-function SocialCard({ icon: Icon, label, url }: { icon: React.ElementType; label: string; url: string | null }) {
+function SocialCard({ icon: Icon, label, url, followText }: { icon: React.ElementType; label: string; url: string | null; followText: string }) {
+  const { t } = useTranslation();
   const available = !!url;
   return (
     <Card className="flex-1 min-w-[160px]">
@@ -68,19 +62,17 @@ function SocialCard({ icon: Icon, label, url }: { icon: React.ElementType; label
         <Icon className="h-7 w-7 text-primary" />
         <p className="font-semibold text-foreground">{label}</p>
         {available ? (
-          <a href={url!} target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline">Follow us</a>
+          <a href={url!} target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline">{followText}</a>
         ) : (
-          <span className="text-xs text-muted-foreground">Coming soon</span>
+          <span className="text-xs text-muted-foreground">{t.common.comingSoon}</span>
         )}
       </CardContent>
     </Card>
   );
 }
 
-/* ══════════════════════════════════════════════ */
 export default function Index() {
   const { data: settings } = useSiteSettings();
-  const { value: aiVideo } = useSetting("ai_intro_video_url");
   const { value: tutorialVideo } = useSetting("site_tutorial_video_url");
   const { value: whatsappLink } = useSetting("whatsapp_direct_chat_link");
   const { value: supportEmail } = useSetting("support_email");
@@ -88,6 +80,7 @@ export default function Index() {
   const { value: instagramUrl } = useSetting("instagram_url");
   const { value: linkedinUrl } = useSetting("linkedin_url");
   const { value: facebookUrl } = useSetting("facebook_url");
+  const { lang, t } = useTranslation();
 
   const { data: newsItems } = useContent("News");
   const { data: stories } = useSuccessStories();
@@ -108,33 +101,24 @@ export default function Index() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="text-center lg:text-left">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary-foreground mb-6 leading-tight">
-                Prepare for a{" "}
-                <span className="text-mint">Global Healthcare</span>{" "}
-                Career
+                {t.home.heroTitle}{" "}
+                <span className="text-mint">{t.home.heroHighlight}</span>{" "}
+                {t.home.heroTitleEnd}
               </h1>
-
               <p className="text-lg lg:text-xl text-primary-foreground/90 max-w-xl mb-8">
-                Empowering local talents for international success — through ethical recruitment, AI-driven learning, and transparent pathways.
+                {t.home.heroSubtitle}
               </p>
-
               <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
                 <Button variant="hero" size="xl" asChild>
-                  <Link to="/register">Get Started <ArrowRight className="h-5 w-5" /></Link>
+                  <Link to="/register">{t.common.getStarted} <ArrowRight className="h-5 w-5" /></Link>
                 </Button>
                 <Button variant="heroOutline" size="xl" asChild>
-                  <Link to="/programs">Learn More</Link>
+                  <Link to="/programs">{t.common.learnMore}</Link>
                 </Button>
               </div>
             </div>
-
-            {/* Hero right — nurse image */}
             <div className="hidden lg:flex justify-end">
-              <img
-                src={heroImage}
-                alt="Professional nurses ready for global healthcare careers"
-                className="rounded-2xl shadow-2xl object-cover w-full max-h-[500px]"
-                loading="eager"
-              />
+              <img src={heroImage} alt="Professional nurses ready for global healthcare careers" className="rounded-2xl shadow-2xl object-cover w-full max-h-[500px]" loading="eager" />
             </div>
           </div>
         </div>
@@ -150,16 +134,14 @@ export default function Index() {
                   <VideoOrPlaceholder url={tutorialVideo} className="w-full h-full min-h-[200px]" />
                 </div>
                 <div className="p-6 flex flex-col justify-center">
-                  <h2 className="text-xl font-bold text-foreground mb-2">How to Use This Website in 60 Seconds</h2>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Get a quick overview of everything available to you — from guides and registration to community support.
-                  </p>
+                  <h2 className="text-xl font-bold text-foreground mb-2">{t.home.tutorialTitle}</h2>
+                  <p className="text-sm text-muted-foreground mb-4">{t.home.tutorialDesc}</p>
                   {tutorialVideo ? (
                     <Button size="sm" className="self-start" asChild>
-                      <a href={tutorialVideo} target="_blank" rel="noopener noreferrer"><Play className="h-4 w-4" /> Watch Tutorial</a>
+                      <a href={tutorialVideo} target="_blank" rel="noopener noreferrer"><Play className="h-4 w-4" /> {t.home.watchTutorial}</a>
                     </Button>
                   ) : (
-                    <Button size="sm" className="self-start" disabled><Play className="h-4 w-4" /> Video Coming Soon</Button>
+                    <Button size="sm" className="self-start" disabled><Play className="h-4 w-4" /> {t.home.videoComingSoon}</Button>
                   )}
                 </div>
               </div>
@@ -176,27 +158,29 @@ export default function Index() {
         <div className="container">
           <div className="flex items-end justify-between mb-6">
             <div>
-              <h2 className="text-2xl lg:text-3xl font-extrabold text-foreground">Your Quickstart Guide</h2>
-              <p className="text-muted-foreground text-sm mt-1">10 essential topics every aspiring global nurse should explore.</p>
+              <h2 className="text-2xl lg:text-3xl font-extrabold text-foreground">{t.home.quickstartTitle}</h2>
+              <p className="text-muted-foreground text-sm mt-1">{t.home.quickstartSubtitle}</p>
             </div>
             <Button variant="link" asChild className="hidden sm:inline-flex">
-              <Link to="/quickstart">View all <ArrowRight className="h-4 w-4" /></Link>
+              <Link to="/quickstart">{t.common.viewAll} <ArrowRight className="h-4 w-4" /></Link>
             </Button>
           </div>
           <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 snap-x">
-            {quickstartTopics.map((t, i) => (
+            {quickstartTopics.map((topic, i) => (
               <Link
-                key={t.slug}
+                key={topic.slug}
                 to="/quickstart"
                 className="snap-start shrink-0 w-56 bg-card border border-border rounded-xl p-5 hover:border-primary/40 hover:shadow-md transition-all group"
               >
-                <span className="text-xs font-bold text-accent mb-2 block">Chapter {String(i + 1).padStart(2, "0")}</span>
-                <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors leading-snug">{t.title}</h3>
+                <span className="text-xs font-bold text-accent mb-2 block">{t.common.chapter} {String(i + 1).padStart(2, "0")}</span>
+                <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors leading-snug">
+                  {lang === "id" ? topic.title_id : topic.title_en}
+                </h3>
               </Link>
             ))}
           </div>
           <Button variant="link" asChild className="sm:hidden mt-2">
-            <Link to="/quickstart">View all chapters <ArrowRight className="h-4 w-4" /></Link>
+            <Link to="/quickstart">{t.home.viewAllChapters} <ArrowRight className="h-4 w-4" /></Link>
           </Button>
         </div>
       </section>
@@ -205,24 +189,19 @@ export default function Index() {
       <section className="py-16 lg:py-20 gradient-hero">
         <div className="container text-center max-w-2xl">
           <Lock className="h-8 w-8 text-primary-foreground/60 mx-auto mb-4" />
-          <h2 className="text-3xl lg:text-4xl font-extrabold text-primary-foreground mb-4">
-            Start Your Journey Today
-          </h2>
-          <p className="text-primary-foreground/85 mb-6">
-            Your information is safe with us. We never share data without your consent,
-            charge fees, or make promises we can't keep. Just real, transparent support.
-          </p>
+          <h2 className="text-3xl lg:text-4xl font-extrabold text-primary-foreground mb-4">{t.home.registerCtaTitle}</h2>
+          <p className="text-primary-foreground/85 mb-6">{t.home.registerCtaDesc}</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button variant="hero" size="xl" asChild>
-              <Link to="/register">Register Now <ArrowRight className="h-5 w-5" /></Link>
+              <Link to="/register">{t.common.registerNow} <ArrowRight className="h-5 w-5" /></Link>
             </Button>
             <Button variant="heroOutline" size="xl" asChild>
               <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
-                <MessageCircle className="h-5 w-5" /> WhatsApp Support
+                <MessageCircle className="h-5 w-5" /> {t.common.whatsappSupport}
               </a>
             </Button>
           </div>
-          <p className="text-xs text-primary-foreground/50 mt-4">Consent-based communication only. Zero fees charged to nurses.</p>
+          <p className="text-xs text-primary-foreground/50 mt-4">{t.home.registerCtaDisclaimer}</p>
         </div>
       </section>
 
@@ -231,19 +210,17 @@ export default function Index() {
         <div className="container">
           <div className="flex items-end justify-between mb-8">
             <div>
-              <h2 className="text-2xl lg:text-3xl font-extrabold text-foreground">News & Insights</h2>
-              <p className="text-muted-foreground text-sm mt-1">Stay informed about global nursing careers.</p>
+              <h2 className="text-2xl lg:text-3xl font-extrabold text-foreground">{t.home.newsTitle}</h2>
+              <p className="text-muted-foreground text-sm mt-1">{t.home.newsSubtitle}</p>
             </div>
-            <Button variant="link" asChild><Link to="/news">View All <ArrowRight className="h-4 w-4" /></Link></Button>
+            <Button variant="link" asChild><Link to="/news">{t.common.viewAll} <ArrowRight className="h-4 w-4" /></Link></Button>
           </div>
           {publishedNews.length > 0 ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {publishedNews.map((item) => (
                 <Link key={item.id} to={`/news/${item.slug}`} className="group">
                   <Card className="h-full hover:shadow-md transition-shadow">
-                    {item.cover_image_url && (
-                      <img src={item.cover_image_url} alt={item.title} className="w-full h-40 object-cover rounded-t-lg" loading="lazy" />
-                    )}
+                    {item.cover_image_url && <img src={item.cover_image_url} alt={item.title} className="w-full h-40 object-cover rounded-t-lg" loading="lazy" />}
                     <CardContent className={item.cover_image_url ? "p-4" : "p-6"}>
                       <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 mb-1">{item.title}</h3>
                       {item.excerpt && <p className="text-sm text-muted-foreground line-clamp-2">{item.excerpt}</p>}
@@ -253,7 +230,7 @@ export default function Index() {
               ))}
             </div>
           ) : (
-            <Card><CardContent className="py-12 text-center text-muted-foreground">Articles coming soon — stay tuned.</CardContent></Card>
+            <Card><CardContent className="py-12 text-center text-muted-foreground">{t.home.newsEmpty}</CardContent></Card>
           )}
         </div>
       </section>
@@ -263,19 +240,17 @@ export default function Index() {
         <div className="container">
           <div className="flex items-end justify-between mb-8">
             <div>
-              <h2 className="text-2xl lg:text-3xl font-extrabold text-foreground">Success Stories</h2>
-              <p className="text-muted-foreground text-sm mt-1">Real journeys from nurses who made the leap.</p>
+              <h2 className="text-2xl lg:text-3xl font-extrabold text-foreground">{t.home.storiesTitle}</h2>
+              <p className="text-muted-foreground text-sm mt-1">{t.home.storiesSubtitle}</p>
             </div>
-            <Button variant="link" asChild><Link to="/success-stories">View All <ArrowRight className="h-4 w-4" /></Link></Button>
+            <Button variant="link" asChild><Link to="/success-stories">{t.common.viewAll} <ArrowRight className="h-4 w-4" /></Link></Button>
           </div>
           {publishedStories.length > 0 ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {publishedStories.map((story) => (
                 <Link key={story.id} to={`/success-stories/${story.slug}`} className="group">
                   <Card className="h-full hover:shadow-md transition-shadow">
-                    {story.hero_image && (
-                      <img src={story.hero_image} alt={story.title} className="w-full h-44 object-cover rounded-t-lg" loading="lazy" />
-                    )}
+                    {story.hero_image && <img src={story.hero_image} alt={story.title} className="w-full h-44 object-cover rounded-t-lg" loading="lazy" />}
                     <CardContent className={story.hero_image ? "p-4" : "p-6"}>
                       <p className="text-xs text-accent font-semibold mb-1">{story.origin_country} → {story.destination_country}</p>
                       <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors mb-1">{story.nurse_name}</h3>
@@ -286,7 +261,7 @@ export default function Index() {
               ))}
             </div>
           ) : (
-            <Card><CardContent className="py-12 text-center text-muted-foreground">Stories coming soon — yours could be next.</CardContent></Card>
+            <Card><CardContent className="py-12 text-center text-muted-foreground">{t.home.storiesEmpty}</CardContent></Card>
           )}
         </div>
       </section>
@@ -294,11 +269,11 @@ export default function Index() {
       {/* ─── 8. Social + Contact Strip ─── */}
       <section className="py-12 lg:py-16">
         <div className="container">
-          <h2 className="text-2xl font-extrabold text-foreground text-center mb-8">Connect With Us</h2>
+          <h2 className="text-2xl font-extrabold text-foreground text-center mb-8">{t.home.connectTitle}</h2>
           <div className="flex flex-wrap gap-4 justify-center mb-8">
-            <SocialCard icon={Instagram} label="Instagram" url={instagramUrl} />
-            <SocialCard icon={Linkedin} label="LinkedIn" url={linkedinUrl} />
-            <SocialCard icon={Facebook} label="Facebook" url={facebookUrl} />
+            <SocialCard icon={Instagram} label="Instagram" url={instagramUrl} followText={t.common.followUs} />
+            <SocialCard icon={Linkedin} label="LinkedIn" url={linkedinUrl} followText={t.common.followUs} />
+            <SocialCard icon={Facebook} label="Facebook" url={facebookUrl} followText={t.common.followUs} />
           </div>
           <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
             {supportEmail && (
