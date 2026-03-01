@@ -1,77 +1,151 @@
 
-# Home Page Rebuild — Trust + Conversion Focused
+# Redesign Website Global Paro Sesuai PPT
 
-## Overview
-Completely rewrite `src/pages/Index.tsx` to follow the exact 9-section layout, plus add a new `TutorialModal` component for the first-time-visit welcome video.
+## Ringkasan
+Merombak seluruh tampilan website agar sesuai dengan desain yang ada di PPT, mencakup perubahan layout, navigasi, typography, warna, halaman-halaman utama, dan struktur konten.
 
-## Sections (in order)
+---
 
-### 1. Hero Section with AI Intro Video
-- New title: "The Journey to Becoming a Global Nurse"
-- Subtitle covering: global demand, aging populations, readiness gaps (CGFNS/TrueMerit, IELTS 6.5+7 speaking, NCLEX), structured preparation
-- Visual pathway pills: "Nurse ID -> Singapore", "Nurse ID -> Canada", "Nurse ID -> USA"
-- Video embed: reads `ai_intro_video_url` from site_settings; if UPDATE_ME, show a placeholder card with play icon
-- 3 CTAs: Register (primary), WhatsApp Support (secondary), Quickstart Guide (tertiary)
+## Perubahan Besar yang Akan Dilakukan
 
-### 2. Tutorial Video Block
-- Card with "How to Use This Website in 60 Seconds"
-- Reads `site_tutorial_video_url`; if UPDATE_ME, show placeholder with "Video coming soon"
-- "Watch Tutorial" button opens video or placeholder
-- New component: `src/components/home/TutorialModal.tsx`
-  - Triggered on first visit when `enable_tutorial_modal === "true"`
-  - Stores `gp_tutorial_seen` in localStorage
-  - Modal with embedded video (autoplay muted if available), "Watch Now", "Skip", and "Don't show again" checkbox
-  - Dismissing sets localStorage flag
+### 1. Header / Navbar (2 baris)
+Desain PPT menunjukkan navbar dengan 2 baris:
+- **Baris atas**: Language switcher (English dropdown), Search bar, Help, Phone icon, Mail icon, Login button (teal rounded)
+- **Baris bawah**: Logo "Global PARO" + navigasi utama (About Us, What We Do, How We Do It, Why Choose Us, Programs, QuickStart, LMS, Our Team, Register)
+- Menu dropdown pada hover (About Us -> Global Paro, Our Vision, Our Mission, Our Value; How We Do It -> Our Approach, Know The Different, Your Journey Step by Step; Programs -> Batch Program, Requirement Criteria, Webinar; LMS -> IELTS Preparation, Certified Global Nurse, NCLEX 2026 Resources)
 
-### 3. Trust Badges Row
-- Reuse existing `TrustBadgesStrip` component (default variant) with 4 badges:
-  - Ethical pathway, Transparent steps, Community support, Nurse-focused education
+### 2. Typography
+- **Headers**: Garet Bold / Montserrat Black (karena Garet bukan Google Font gratis, kita gunakan Montserrat untuk semua heading dengan weight 900/800/700)
+- **Body**: Garet / Montserrat regular (kita gunakan Montserrat sebagai primary font, mengganti Plus Jakarta Sans)
+- Update Google Fonts import dan tailwind config
 
-### 4. Quickstart Guide Teaser
-- Horizontal scrollable row of 10 journey topic cards
-- Hardcoded topic titles (since DB is empty) as clickable links to `/quickstart`
-- Topics like: "Is Working Abroad Right for You?", "Understanding Licensing", "English Proficiency", "NCLEX Preparation", etc.
+### 3. Logo
+- Menggunakan logo transparan dari PPT (speech bubble "P" dengan plus icon berwarna teal)
+- Logo sudah ada di project, tapi perlu diperbarui dengan versi dari PPT yang lebih jelas
 
-### 5. Register CTA Section
-- Reassuring privacy text with lock icon
-- Big Register button (primary CTA)
-- WhatsApp button (secondary)
-- Disclaimer: consent-based, no fees
+### 4. Halaman-Halaman yang Dirombak
 
-### 6. News & Insights Highlights
-- Fetch latest 4 published News from `content_items` using `useContent("News")`
-- Grid of article cards linking to `/news/[slug]`
-- Empty state: "Articles coming soon"
-- "View All News" link
+#### Homepage (Index.tsx)
+- Hero: Background foto nurse Asia + overlay, logo besar di kiri, "Global PARO / Global Career Gateway for Nurses", tombol "Get Started" dan "Learn More" (teal)
+- Chat widget floating di kanan bawah hero
 
-### 7. Success Stories Highlights
-- Fetch latest 3 published stories from `success_stories` using `useSuccessStories()`
-- Card grid with nurse name, route, excerpt
-- Empty state: "Stories coming soon — yours could be next"
-- "View All Stories" link
+#### About Us (About.tsx)
+Menjadi satu halaman panjang dengan anchor sections:
+- **Global Paro**: Intro dengan foto nurse + logo + deskripsi
+- **Our Vision**: "to become the leader and the preferred global partner platform..."
+- **Our Mission**: Tabel 3 kolom (Providing, Accelerating, Empowering)
+- **Our Value / Core VALUES**: PARO akronim (Passion, Accountability, Resilience, Opportunity) dengan numbered circles
+- **Banner**: "NURSES ARE THE HEART OF HEALTHCARE"
+- **Join Our Mission CTA**: Teal gradient background + "Register Now" button
 
-### 8. Social + Contact Strip
-- Read `instagram_url`, `linkedin_url`, `facebook_url` from settings
-- Show cards for each platform; if UPDATE_ME show "Coming soon" label
-- Contact email from `support_email`
+#### What We Do (WhatWeDo.tsx)
+Tabbed/sectioned layout:
+- **For Candidates**: 6 service cards (Personalized Learning, IELTS/NCLEX Prep, STR Verification, Job Matching, Visa & Relocation, Human + AI Support)
+- **For Employers**: 4 cards (Verified Credentials, English Proficiency, Ready-to-Relocate, Ethical Compliance)
+- **What We Don't Do**: Transparency list (no fees, no guarantees, no pressure, no data sharing)
+- CTA: "Ready to Get Started? Register today"
 
-### 9. Footer
-- Already handled by Layout component — no changes needed
+#### How We Do It (HowWeDoIt.tsx)
+Sectioned layout:
+- **Our Approach**: 4 cards (AI-Driven Assessment, Guided Learning, Ethical Recruitment, Human + AI Support)
+- **Know the Difference**: Red Flags vs Green Flags comparison cards
+- **Your Journey Step by Step**: 4-step vertical timeline (01-04)
+- CTA: "Start Your Journey Today"
 
-## Files to Create/Modify
+#### Why Choose Us (baru, atau gabung ke About)
+- P.A.R.O akronim visual dengan foto nurse di kiri:
+  - **P**ersonalized Platform
+  - **A**ccessible Anytime Anywhere, Affordable
+  - **R**eputable Team with Global Healthcare Access
+  - **O** (logo icon) ne stop career journey
 
-| File | Action |
-|------|--------|
-| `src/pages/Index.tsx` | Full rewrite with all 9 sections |
-| `src/components/home/TutorialModal.tsx` | New — welcome modal with video + localStorage |
+#### Programs (Programs.tsx)
+- **Batch Program**: Hero banner "50 NURSES ONLY", Nurse in Singapore Batch #1 card
+- **Requirement Criteria**: Tabel RN / EN / HA requirements
+- **Webinar**: Event section
+- **Choose Your Plan**: Pricing cards (Starter 9 SGD, Professional 19 SGD recommended)
+- **SG Nurse Detail**: Requirements & Documents + Compensation & Benefits tables
 
-## Technical Details
+#### LMS (LMS.tsx)
+- Hero: "Learning Management System" with teal banner
+- 3 feature cards (Comprehensive Training, Personalized Matching, Full Support)
+- Tabs: IELTS Preparation, Certified Global Nurse, NCLEX 2026 Resources
+- Resource links per section
+- CTA: "Ready to Start Learning?"
 
-- **Settings access**: Use `useSiteSettings()` hook to read all keys (`ai_intro_video_url`, `site_tutorial_video_url`, `enable_tutorial_modal`, `support_email`, `whatsapp_direct_chat_link`, `instagram_url`, `linkedin_url`, `facebook_url`, `help_mobile`)
-- **Content hooks**: `useContent("News")` for news, `useSuccessStories()` for stories
-- **Video handling**: Render an `<iframe>` for YouTube/Vimeo URLs, or `<video>` for direct URLs; if UPDATE_ME, render a styled placeholder with play icon
-- **Tutorial modal**: Uses Radix Dialog via `@/components/ui/dialog`; checks `localStorage.getItem("gp_tutorial_seen")` on mount; autoplay muted via iframe params or video element attributes
-- **Quickstart topics**: Hardcoded array of 10 topic objects (title + slug), rendered as a horizontally scrollable row using `overflow-x-auto`
-- **Social strip**: Read from site_settings directly (not from the old `social_links` table), include Facebook alongside Instagram and LinkedIn
-- **Global layout**: FloatingWhatsApp and StickyBottomCTA already exist in Layout and are unchanged
-- **No database changes needed** — all data sources already exist
+#### Our Team (Team.tsx)
+- Banner "Our TEAM" dengan desain teal + page fold effect
+- 6 team member cards dalam grid 3x2:
+  - DUMA Evi (Founder)
+  - ANN Marie C (Workplace Culture Nurse Expert)
+  - MEGAWATI Santoso (Strategic Business)
+  - Dr. TIMOTHY Low (Board Advisor)
+  - Prof. AGUS Setiawan (Independence Board Advisor)
+  - LIA Retnani (Board Advisor - Pharma)
+- Setiap card: foto placeholder (lingkaran teal), QR code LinkedIn, nama dengan format FIRSTNAME bold
+
+#### Register (Register.tsx)
+- "CREATE MY PROFILE" form: Full Name, Date of Birth, Email, Mobile/WhatsApp, Are you a Nursing Graduate?
+- Document upload flow (setelah verify email)
+
+#### Footer
+- Background dark navy
+- 3 kolom: Brand info + social icons, Explore links, More links + email
+- Tagline: "Prepare. Beyond. Global."
+- Bottom: copyright + disclaimer
+
+### 5. Warna (tetap sama, sudah sesuai)
+- Primary Dark Navy: #015779
+- Primary Teal: #03989E
+- Background: light warm (#faf8f5-ish)
+- CTA buttons: teal rounded
+
+### 6. Gambar
+- Saya akan menggunakan gambar nurse dari PPT yang sudah di-extract
+- Untuk foto-foto tambahan yang perlu AI generate (nurse Asia), saya akan menggunakan Lovable AI image generation
+- Saya membutuhkan foto tim dari Anda (DUMA Evi, ANN Marie C, dll) - untuk sementara akan menggunakan placeholder
+
+---
+
+## Yang Saya Butuhkan dari Anda
+
+1. **Foto tim** (DUMA Evi, ANN Marie C, MEGAWATI Santoso, Dr. TIMOTHY Low, Prof. AGUS Setiawan, LIA Retnani) - jika ingin foto asli, tolong upload. Jika tidak, saya pakai placeholder circle teal
+2. **Logo high-res** - logo dari PPT sudah cukup jelas, saya akan gunakan yang sudah di-extract
+
+---
+
+## Rencana Implementasi (akan dikerjakan bertahap)
+
+**Batch 1 - Foundation**
+- Update typography (Garet/Montserrat)
+- Update Navbar menjadi 2 baris dengan dropdown menus
+- Copy logo dari PPT ke project
+- Update Footer sesuai desain
+
+**Batch 2 - Homepage + About**
+- Rombak Homepage hero sesuai PPT
+- Rombak About page (Vision, Mission, Value, CTA)
+- Generate/pasang gambar nurse Asia
+
+**Batch 3 - What We Do + How We Do It**
+- Rombak What We Do (tabbed: Candidates, Employers, What We Don't Do)
+- Rombak How We Do It (Our Approach, Red/Green Flags, Journey Steps)
+
+**Batch 4 - Programs + LMS + Why Choose Us**
+- Buat halaman Why Choose Us (PARO visual)
+- Rombak Programs (Batch, Requirements, Pricing)
+- Rombak LMS
+
+**Batch 5 - Team + Register + Finishing**
+- Rombak Our Team page
+- Update Register/Create My Profile
+- Polish semua halaman, pastikan i18n tetap berfungsi
+
+---
+
+## Catatan Teknis
+- Semua perubahan tetap mempertahankan sistem i18n (EN/ID)
+- Routing: tambah route `/why-choose-us` untuk halaman baru
+- Navbar dropdown menggunakan CSS hover atau Radix NavigationMenu
+- Tidak ada perubahan database/backend
+- Semua halaman admin tidak terpengaruh
