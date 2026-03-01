@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Instagram, Linkedin } from "lucide-react";
+import { Instagram, Linkedin, Mail, Phone } from "lucide-react";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { useTranslation } from "@/i18n/LanguageContext";
 import logoIcon from "@/assets/logo-icon.png";
@@ -15,54 +15,63 @@ export function Footer() {
   const { t } = useTranslation();
   const isValid = (url?: string) => url && url !== "UPDATE_ME" && url.startsWith("http");
   const helpEmail = settings?.support_email || "globalparo@gmail.com";
+  const helpMobile = settings?.help_mobile;
 
-  const quickLinks = [
-    { href: "/about", label: t.nav.about },
-    { href: "/what-we-do", label: t.nav.whatWeDo },
-    { href: "/how-we-do-it", label: t.nav.howWeDoIt },
-    { href: "/programs", label: t.footer.programsPricing },
-    { href: "/team", label: t.footer.ourTeam },
-    { href: "/quickstart", label: t.footer.quickstartGuide },
-    { href: "/register", label: t.nav.register },
+  const exploreLinks = [
+    { href: "/about", label: "About Global Paro" },
+    { href: "/what-we-do", label: "What We Do" },
+    { href: "/how-we-do-it", label: "How We Do It" },
+    { href: "/why-choose-us", label: "Why Choose Us" },
+    { href: "/programs", label: "Programs & Pricing" },
+    { href: "/quickstart", label: "Quickstart Guide" },
   ];
 
-  const supportLinks = [
-    { href: "/help", label: t.footer.helpCenter },
-    { href: "/news", label: t.footer.newsInsights },
-    { href: "/success-stories", label: t.footer.successStories },
-    { href: "/employer", label: t.footer.forEmployers },
-    { href: "/privacy", label: t.footer.privacy },
+  const moreLinks = [
+    { href: "/lms", label: "LMS" },
+    { href: "/team", label: "Our Team" },
+    { href: "/news", label: "News & Insights" },
+    { href: "/success-stories", label: "Success Stories" },
+    { href: "/employer", label: "For Employers" },
+    { href: "/privacy", label: "Privacy Policy" },
   ];
 
   return (
-    <footer className="bg-primary text-primary-foreground">
+    <footer style={{ backgroundColor: 'hsl(var(--primary))' }} className="text-primary-foreground">
       <div className="container py-12 lg:py-16">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-          <div className="lg:col-span-2">
-            <Link to="/" className="flex items-center gap-2 font-bold text-xl mb-4">
-              <img src={logoIcon} alt="Global Paro" className="h-8 w-8 brightness-0 invert" />
-              <span className="font-heading">Global Paro</span>
+        <div className="grid gap-10 md:grid-cols-3">
+          {/* Brand Column */}
+          <div>
+            <Link to="/" className="flex items-center gap-3 mb-5">
+              <img src={logoIcon} alt="Global Paro" className="h-12 w-12 brightness-0 invert" />
+              <div>
+                <div className="font-heading font-black text-2xl text-primary-foreground leading-none">
+                  Global <span style={{ color: 'hsl(var(--accent))' }}>PARO</span>
+                </div>
+                <div className="text-xs text-primary-foreground/70 mt-0.5">Global Career Gateway for Nurses</div>
+              </div>
             </Link>
-            <p className="text-primary-foreground/80 max-w-sm mb-4 text-sm font-heading italic">
-              "{t.footer.tagline}"
+            <p className="text-primary-foreground/80 text-sm mb-6 leading-relaxed max-w-xs">
+              Empowering nurses to build global careers through ethical recruitment, AI-driven learning, and transparent pathways.
             </p>
-            <p className="text-primary-foreground/80 max-w-sm mb-6">
-              {t.footer.description}
+            <p className="font-heading font-black text-lg italic text-primary-foreground/90 mb-6">
+              "Prepare. Beyond. Global."
             </p>
-            <div className="flex items-center gap-4">
+
+            {/* Social Icons */}
+            <div className="flex items-center gap-3">
               {[
-                { url: settings?.instagram_url, icon: <Instagram className="h-5 w-5" />, label: "Instagram" },
-                { url: settings?.linkedin_url, icon: <Linkedin className="h-5 w-5" />, label: "LinkedIn" },
-                { url: settings?.tiktok_url, icon: <TikTokIcon className="h-5 w-5" />, label: "TikTok" },
+                { url: settings?.instagram_url, icon: <Instagram className="h-4 w-4" />, label: "Instagram" },
+                { url: settings?.linkedin_url, icon: <Linkedin className="h-4 w-4" />, label: "LinkedIn" },
+                { url: settings?.tiktok_url, icon: <TikTokIcon className="h-4 w-4" />, label: "TikTok" },
               ].map((social) => (
                 <a
                   key={social.label}
                   href={isValid(social.url) ? social.url! : `mailto:${helpEmail}`}
                   target={isValid(social.url) ? "_blank" : undefined}
                   rel={isValid(social.url) ? "noopener noreferrer" : undefined}
-                  className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-colors"
-                  aria-label={isValid(social.url) ? social.label : `${social.label} — ${t.common.comingSoon}, contact ${helpEmail}`}
-                  title={!isValid(social.url) ? `${t.common.comingSoon} — contact ${helpEmail}` : social.label}
+                  className="flex h-9 w-9 items-center justify-center rounded-full transition-colors"
+                  style={{ backgroundColor: 'hsl(var(--accent) / 0.25)' }}
+                  aria-label={social.label}
                 >
                   {social.icon}
                 </a>
@@ -70,12 +79,16 @@ export function Footer() {
             </div>
           </div>
 
+          {/* Explore Column */}
           <div>
-            <h4 className="font-bold mb-4">{t.footer.explore}</h4>
-            <ul className="space-y-2">
-              {quickLinks.map((link) => (
+            <h4 className="font-heading font-bold text-base mb-5 text-primary-foreground uppercase tracking-wide">Explore</h4>
+            <ul className="space-y-2.5">
+              {exploreLinks.map((link) => (
                 <li key={link.href}>
-                  <Link to={link.href} className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  <Link
+                    to={link.href}
+                    className="text-sm text-primary-foreground/75 hover:text-primary-foreground transition-colors"
+                  >
                     {link.label}
                   </Link>
                 </li>
@@ -83,29 +96,50 @@ export function Footer() {
             </ul>
           </div>
 
+          {/* More + Contact Column */}
           <div>
-            <h4 className="font-bold mb-4">{t.footer.support}</h4>
-            <ul className="space-y-2">
-              {supportLinks.map((link) => (
+            <h4 className="font-heading font-bold text-base mb-5 text-primary-foreground uppercase tracking-wide">More</h4>
+            <ul className="space-y-2.5 mb-6">
+              {moreLinks.map((link) => (
                 <li key={link.href}>
-                  <Link to={link.href} className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  <Link
+                    to={link.href}
+                    className="text-sm text-primary-foreground/75 hover:text-primary-foreground transition-colors"
+                  >
                     {link.label}
                   </Link>
                 </li>
               ))}
-              <li>
-                <a href={`mailto:${helpEmail}`} className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                  {helpEmail}
-                </a>
-              </li>
             </ul>
+
+            {/* Contact */}
+            <div className="space-y-2">
+              <a
+                href={`mailto:${helpEmail}`}
+                className="flex items-center gap-2 text-sm text-primary-foreground/75 hover:text-primary-foreground transition-colors"
+              >
+                <Mail className="h-4 w-4 shrink-0" />
+                {helpEmail}
+              </a>
+              {helpMobile && helpMobile !== "UPDATE_ME" && (
+                <a
+                  href={`tel:${helpMobile}`}
+                  className="flex items-center gap-2 text-sm text-primary-foreground/75 hover:text-primary-foreground transition-colors"
+                >
+                  <Phone className="h-4 w-4 shrink-0" />
+                  {helpMobile}
+                </a>
+              )}
+            </div>
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-primary-foreground/20">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-primary-foreground/60">
-            <p>© {new Date().getFullYear()} Global Paro. {t.footer.copyright}</p>
-            <p>{t.footer.disclaimer}</p>
+        {/* Bottom Bar */}
+        <div className="mt-12 pt-6 border-t border-primary-foreground/20">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-primary-foreground/50">
+            <p>© {new Date().getFullYear()} Global Paro. All rights reserved.</p>
+            <p className="text-center">We do not guarantee outcomes. Guidance-first, consent-based support.</p>
+            <Link to="/privacy" className="hover:text-primary-foreground/80 transition-colors">Privacy Policy</Link>
           </div>
         </div>
       </div>
