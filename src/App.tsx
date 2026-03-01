@@ -35,6 +35,7 @@ import AdminEmployers from "./pages/admin/Employers";
 import AdminContentManager from "./pages/admin/ContentManager";
 import AdminChatEscalations from "./pages/admin/ChatEscalations";
 import AdminSettings from "./pages/admin/Settings";
+import WhyChooseUs from "./pages/WhyChooseUs";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -53,6 +54,7 @@ const App = () => (
             <Route path="/about" element={<About />} />
             <Route path="/what-we-do" element={<WhatWeDo />} />
             <Route path="/how-we-do-it" element={<HowWeDoIt />} />
+            <Route path="/why-choose-us" element={<WhyChooseUs />} />
             <Route path="/register" element={<Register />} />
             <Route path="/register/success" element={<RegisterSuccess />} />
             <Route path="/quickstart" element={<Quickstart />} />

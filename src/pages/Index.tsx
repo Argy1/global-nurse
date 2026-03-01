@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import {
-  ArrowRight, MessageCircle, BookOpen, Play, Lock, Globe,
-  Instagram, Linkedin, Facebook, Mail, Phone, MapPin
+  ArrowRight, MessageCircle, Play, Lock,
+  Instagram, Linkedin, Mail, Phone,
+  Globe, BookOpen, Users, Sparkles, ChevronRight
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -12,7 +13,8 @@ import { useSiteSettings, useSetting } from "@/hooks/useSiteSettings";
 import { useContent } from "@/hooks/useContent";
 import { useSuccessStories } from "@/hooks/useSuccessStories";
 import { useTranslation } from "@/i18n/LanguageContext";
-import heroImage from "@/assets/hero-nurses.jpg";
+import logoIcon from "@/assets/logo-icon.png";
+import heroNurse from "@/assets/hero-nurse-asia.png";
 
 const quickstartTopics = [
   { title_en: "Is Working Abroad Right for You?", title_id: "Apakah Bekerja di Luar Negeri Tepat untuk Anda?", slug: "is-working-abroad-right" },
@@ -25,6 +27,13 @@ const quickstartTopics = [
   { title_en: "Employer Red vs Green Flags", title_id: "Tanda Bahaya vs Tanda Aman Pemberi Kerja", slug: "employer-red-green-flags" },
   { title_en: "Life Abroad: What to Expect", title_id: "Kehidupan di Luar Negeri: Apa yang Diharapkan", slug: "life-abroad" },
   { title_en: "Your First 90 Days", title_id: "90 Hari Pertama Anda", slug: "first-90-days" },
+];
+
+const pathwayPills = [
+  { flag: "🇮🇩", label: "Nurse ID", sub: "Starting Point" },
+  { flag: "🇺🇸", label: "USA", sub: "NCLEX + CGFNS" },
+  { flag: "🇨🇦", label: "Canada", sub: "NCLEX-RN" },
+  { flag: "🇸🇬", label: "Singapore", sub: "SNB Reg." },
 ];
 
 function VideoOrPlaceholder({ url, className = "" }: { url: string | null; className?: string }) {
@@ -53,33 +62,13 @@ function VideoOrPlaceholder({ url, className = "" }: { url: string | null; class
   return <video src={url} controls className={`rounded-xl object-cover ${className}`} />;
 }
 
-function SocialCard({ icon: Icon, label, url, followText }: { icon: React.ElementType; label: string; url: string | null; followText: string }) {
-  const { t } = useTranslation();
-  const available = !!url;
-  return (
-    <Card className="flex-1 min-w-[160px]">
-      <CardContent className="flex flex-col items-center gap-2 p-6 text-center">
-        <Icon className="h-7 w-7 text-primary" />
-        <p className="font-semibold text-foreground">{label}</p>
-        {available ? (
-          <a href={url!} target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline">{followText}</a>
-        ) : (
-          <span className="text-xs text-muted-foreground">{t.common.comingSoon}</span>
-        )}
-      </CardContent>
-    </Card>
-  );
-}
-
 export default function Index() {
-  const { data: settings } = useSiteSettings();
   const { value: tutorialVideo } = useSetting("site_tutorial_video_url");
   const { value: whatsappLink } = useSetting("whatsapp_direct_chat_link");
   const { value: supportEmail } = useSetting("support_email");
   const { value: helpMobile } = useSetting("help_mobile");
   const { value: instagramUrl } = useSetting("instagram_url");
   const { value: linkedinUrl } = useSetting("linkedin_url");
-  const { value: facebookUrl } = useSetting("facebook_url");
   const { lang, t } = useTranslation();
 
   const { data: newsItems } = useContent("News");
@@ -94,37 +83,137 @@ export default function Index() {
     <Layout>
       <TutorialModal />
 
-      {/* ─── 1. Hero ─── */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 gradient-hero" />
-        <div className="relative container py-20 lg:py-32">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+      {/* ─── 1. HERO ─── */}
+      <section className="relative overflow-hidden min-h-[85vh] flex items-center" style={{ background: 'linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(198 80% 20%) 50%, hsl(var(--accent)) 100%)' }}>
+        {/* Background pattern */}
+        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
+
+        <div className="relative container py-16 lg:py-24 z-10">
+          <div className="grid lg:grid-cols-2 gap-8 items-center">
+            {/* Left: Branding + CTAs */}
             <div className="text-center lg:text-left">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary-foreground mb-6 leading-tight">
-                {t.home.heroTitle}{" "}
-                <span className="text-mint">{t.home.heroHighlight}</span>{" "}
-                {t.home.heroTitleEnd}
+              {/* Logo mark */}
+              <div className="flex items-center gap-3 justify-center lg:justify-start mb-6">
+                <img src={logoIcon} alt="Global Paro" className="h-14 w-14 brightness-0 invert" />
+                <div>
+                  <div className="font-heading font-black text-3xl text-primary-foreground leading-none">Global PARO</div>
+                  <div className="text-xs text-primary-foreground/70 mt-0.5 font-medium tracking-wide uppercase">Global Career Gateway for Nurses</div>
+                </div>
+              </div>
+
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-primary-foreground mb-4 leading-tight font-heading">
+                Your Global<br />
+                <span style={{ color: 'hsl(var(--mint))' }}>Healthcare</span><br />
+                Career Starts Here
               </h1>
-              <p className="text-lg lg:text-xl text-primary-foreground/90 max-w-xl mb-8">
-                {t.home.heroSubtitle}
+              <p className="text-base lg:text-lg text-primary-foreground/85 max-w-md mb-8 mx-auto lg:mx-0">
+                Empowering nurses from Indonesia to build thriving careers abroad — through ethical recruitment, AI-driven learning, and transparent pathways.
               </p>
+
+              {/* Pathway Pills */}
+              <div className="flex flex-wrap gap-2 justify-center lg:justify-start mb-8">
+                {pathwayPills.map((p, i) => (
+                  <div key={p.label} className="flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-semibold text-primary-foreground" style={{ backgroundColor: 'hsl(var(--primary-foreground) / 0.15)', border: '1px solid hsl(var(--primary-foreground) / 0.3)' }}>
+                    <span>{p.flag}</span>
+                    <span>{p.label}</span>
+                    {i < pathwayPills.length - 1 && <ChevronRight className="h-3 w-3 opacity-60" />}
+                  </div>
+                ))}
+              </div>
+
               <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
-                <Button variant="hero" size="xl" asChild>
-                  <Link to="/register">{t.common.getStarted} <ArrowRight className="h-5 w-5" /></Link>
+                <Button
+                  size="xl"
+                  asChild
+                  className="rounded-full font-bold shadow-lg"
+                  style={{ backgroundColor: 'hsl(var(--accent))', color: 'hsl(var(--accent-foreground))' }}
+                >
+                  <Link to="/register">Get Started <ArrowRight className="h-5 w-5" /></Link>
                 </Button>
-                <Button variant="heroOutline" size="xl" asChild>
-                  <Link to="/programs">{t.common.learnMore}</Link>
+                <Button
+                  variant="heroOutline"
+                  size="xl"
+                  asChild
+                  className="rounded-full font-bold"
+                >
+                  <Link to="/programs">Learn More</Link>
                 </Button>
               </div>
             </div>
-            <div className="hidden lg:flex justify-end">
-              <img src={heroImage} alt="Professional nurses ready for global healthcare careers" className="rounded-2xl shadow-2xl object-cover w-full max-h-[500px]" loading="eager" />
+
+            {/* Right: Nurse Image */}
+            <div className="hidden lg:flex justify-center lg:justify-end relative">
+              {/* Decorative circle */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-[420px] h-[420px] rounded-full opacity-20" style={{ background: 'radial-gradient(circle, hsl(var(--accent)) 0%, transparent 70%)' }} />
+              </div>
+              <div className="relative z-10">
+                <img
+                  src={heroNurse}
+                  alt="Professional Asian nurse smiling"
+                  className="h-[500px] w-auto object-contain drop-shadow-2xl"
+                  loading="eager"
+                />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ─── 2. Tutorial Video Block ─── */}
+      {/* ─── 2. Stats Bar ─── */}
+      <section className="py-6 border-b border-border" style={{ backgroundColor: 'hsl(var(--card))' }}>
+        <div className="container">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            {[
+              { num: "500+", label: "Nurses Registered" },
+              { num: "3", label: "Destination Countries" },
+              { num: "AI+Human", label: "Support Model" },
+              { num: "0 Fee", label: "To Nurses, Always" },
+            ].map((stat) => (
+              <div key={stat.label}>
+                <div className="font-heading font-black text-2xl" style={{ color: 'hsl(var(--accent))' }}>{stat.num}</div>
+                <div className="text-sm text-muted-foreground mt-0.5">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── 3. Why Choose Us - PARO ─── */}
+      <section className="py-16 lg:py-20 bg-muted">
+        <div className="container">
+          <div className="text-center mb-12">
+            <p className="text-sm font-bold tracking-widest uppercase mb-2" style={{ color: 'hsl(var(--accent))' }}>Why Global PARO</p>
+            <h2 className="text-3xl lg:text-4xl font-black font-heading text-foreground">Built for Nurses. <span style={{ color: 'hsl(var(--accent))' }}>By People Who Care.</span></h2>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { letter: "P", title: "Personalized Platform", desc: "AI-matched learning paths and job opportunities tailored to your profile.", icon: Sparkles },
+              { letter: "A", title: "Accessible & Affordable", desc: "Available anytime, anywhere. Zero fees charged directly to nurses.", icon: Globe },
+              { letter: "R", title: "Reputable Team", desc: "Global healthcare experts, board advisors, and dedicated support agents.", icon: Users },
+              { letter: "O", title: "One-Stop Journey", desc: "From IELTS prep to job placement — everything in one trusted platform.", icon: BookOpen },
+            ].map((item) => (
+              <div key={item.letter} className="bg-card rounded-2xl p-6 shadow-card border border-border group hover:border-accent/50 transition-all">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full font-black text-xl font-heading text-primary-foreground shrink-0" style={{ backgroundColor: 'hsl(var(--primary))' }}>
+                    {item.letter}
+                  </span>
+                  <item.icon className="h-5 w-5" style={{ color: 'hsl(var(--accent))' }} />
+                </div>
+                <h3 className="font-bold text-foreground mb-2">{item.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <Button asChild variant="outline" className="rounded-full">
+              <Link to="/why-choose-us">Explore Why Global PARO <ArrowRight className="h-4 w-4" /></Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── 4. Tutorial Video Block ─── */}
       <section className="py-12 lg:py-16">
         <div className="container max-w-3xl">
           <Card className="overflow-hidden">
@@ -150,10 +239,10 @@ export default function Index() {
         </div>
       </section>
 
-      {/* ─── 3. Trust Badges ─── */}
+      {/* ─── 5. Trust Badges ─── */}
       <TrustBadgesStrip />
 
-      {/* ─── 4. Quickstart Guide Teaser ─── */}
+      {/* ─── 6. Quickstart Guide Teaser ─── */}
       <section className="py-12 lg:py-16 bg-muted">
         <div className="container">
           <div className="flex items-end justify-between mb-6">
@@ -170,32 +259,34 @@ export default function Index() {
               <Link
                 key={topic.slug}
                 to="/quickstart"
-                className="snap-start shrink-0 w-56 bg-card border border-border rounded-xl p-5 hover:border-primary/40 hover:shadow-md transition-all group"
+                className="snap-start shrink-0 w-56 bg-card border border-border rounded-xl p-5 hover:border-accent/40 hover:shadow-md transition-all group"
               >
-                <span className="text-xs font-bold text-accent mb-2 block">{t.common.chapter} {String(i + 1).padStart(2, "0")}</span>
+                <span className="text-xs font-bold mb-2 block" style={{ color: 'hsl(var(--accent))' }}>{t.common.chapter} {String(i + 1).padStart(2, "0")}</span>
                 <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors leading-snug">
                   {lang === "id" ? topic.title_id : topic.title_en}
                 </h3>
               </Link>
             ))}
           </div>
-          <Button variant="link" asChild className="sm:hidden mt-2">
-            <Link to="/quickstart">{t.home.viewAllChapters} <ArrowRight className="h-4 w-4" /></Link>
-          </Button>
         </div>
       </section>
 
-      {/* ─── 5. Register CTA ─── */}
-      <section className="py-16 lg:py-20 gradient-hero">
+      {/* ─── 7. Register CTA ─── */}
+      <section className="py-16 lg:py-20" style={{ background: 'linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%)' }}>
         <div className="container text-center max-w-2xl">
           <Lock className="h-8 w-8 text-primary-foreground/60 mx-auto mb-4" />
-          <h2 className="text-3xl lg:text-4xl font-extrabold text-primary-foreground mb-4">{t.home.registerCtaTitle}</h2>
+          <h2 className="text-3xl lg:text-4xl font-black font-heading text-primary-foreground mb-4">{t.home.registerCtaTitle}</h2>
           <p className="text-primary-foreground/85 mb-6">{t.home.registerCtaDesc}</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Button variant="hero" size="xl" asChild>
+            <Button
+              size="xl"
+              asChild
+              className="rounded-full font-bold"
+              style={{ backgroundColor: 'hsl(var(--card))', color: 'hsl(var(--primary))' }}
+            >
               <Link to="/register">{t.common.registerNow} <ArrowRight className="h-5 w-5" /></Link>
             </Button>
-            <Button variant="heroOutline" size="xl" asChild>
+            <Button variant="heroOutline" size="xl" asChild className="rounded-full font-bold">
               <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="h-5 w-5" /> {t.common.whatsappSupport}
               </a>
@@ -205,7 +296,7 @@ export default function Index() {
         </div>
       </section>
 
-      {/* ─── 6. News & Insights ─── */}
+      {/* ─── 8. News & Insights ─── */}
       <section className="py-12 lg:py-16">
         <div className="container">
           <div className="flex items-end justify-between mb-8">
@@ -235,7 +326,7 @@ export default function Index() {
         </div>
       </section>
 
-      {/* ─── 7. Success Stories ─── */}
+      {/* ─── 9. Success Stories ─── */}
       <section className="py-12 lg:py-16 bg-muted">
         <div className="container">
           <div className="flex items-end justify-between mb-8">
@@ -252,7 +343,7 @@ export default function Index() {
                   <Card className="h-full hover:shadow-md transition-shadow">
                     {story.hero_image && <img src={story.hero_image} alt={story.title} className="w-full h-44 object-cover rounded-t-lg" loading="lazy" />}
                     <CardContent className={story.hero_image ? "p-4" : "p-6"}>
-                      <p className="text-xs text-accent font-semibold mb-1">{story.origin_country} → {story.destination_country}</p>
+                      <p className="text-xs font-semibold mb-1" style={{ color: 'hsl(var(--accent))' }}>{story.origin_country} → {story.destination_country}</p>
                       <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors mb-1">{story.nurse_name}</h3>
                       <p className="text-sm text-muted-foreground line-clamp-2">{story.excerpt}</p>
                     </CardContent>
@@ -266,14 +357,27 @@ export default function Index() {
         </div>
       </section>
 
-      {/* ─── 8. Social + Contact Strip ─── */}
+      {/* ─── 10. Social + Contact Strip ─── */}
       <section className="py-12 lg:py-16">
         <div className="container">
-          <h2 className="text-2xl font-extrabold text-foreground text-center mb-8">{t.home.connectTitle}</h2>
-          <div className="flex flex-wrap gap-4 justify-center mb-8">
-            <SocialCard icon={Instagram} label="Instagram" url={instagramUrl} followText={t.common.followUs} />
-            <SocialCard icon={Linkedin} label="LinkedIn" url={linkedinUrl} followText={t.common.followUs} />
-            <SocialCard icon={Facebook} label="Facebook" url={facebookUrl} followText={t.common.followUs} />
+          <h2 className="text-2xl font-extrabold text-foreground text-center mb-8">{t.home.connectTitle || "Connect With Us"}</h2>
+          <div className="flex flex-wrap gap-4 justify-center mb-6">
+            {[
+              { icon: Instagram, label: "Instagram", url: instagramUrl },
+              { icon: Linkedin, label: "LinkedIn", url: linkedinUrl },
+            ].map(({ icon: Icon, label, url }) => (
+              <Card key={label} className="flex-1 min-w-[140px] max-w-[200px]">
+                <CardContent className="flex flex-col items-center gap-2 p-6 text-center">
+                  <Icon className="h-7 w-7" style={{ color: 'hsl(var(--primary))' }} />
+                  <p className="font-semibold text-foreground">{label}</p>
+                  {url ? (
+                    <a href={url} target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: 'hsl(var(--accent))' }}>Follow Us</a>
+                  ) : (
+                    <span className="text-xs text-muted-foreground">Coming soon</span>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
           </div>
           <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
             {supportEmail && (
