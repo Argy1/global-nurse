@@ -1,27 +1,39 @@
-import { Link } from "react-router-dom";
-import { BookOpen, ArrowRight, ExternalLink, Languages, Award, Building2, FileText, Briefcase, DollarSign, Globe } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { BookOpen, ArrowRight, Languages, Award, Building2, FileText, Briefcase, DollarSign, Globe, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/layout/Layout";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
+import { useEffect } from "react";
 
-const ieltsResources = [
-  { name: "British Council", url: "https://www.britishcouncil.org/exam/ielts", desc: "Official IELTS preparation materials and practice tests" },
-  { name: "Cambridge English", url: "https://www.cambridgeenglish.org/", desc: "Free preparation resources from Cambridge" },
-  { name: "IELTS Online Tests", url: "https://ieltsonlinetests.com/", desc: "Free full practice tests with scoring" },
-  { name: "IELTS Liz", url: "https://ieltsliz.com/", desc: "Tips, strategies, and free lessons for all IELTS sections" },
-  { name: "IELTSbuddy", url: "https://www.ieltsbuddy.com/", desc: "Sample questions, model answers, and study guides" },
-];
-
-const nclexResources = [
-  { name: "NCSBN", url: "https://www.ncsbn.org/nclex.htm", desc: "Official NCLEX information and candidate resources" },
-  { name: "Nurses International", url: "https://www.nursesinternational.com/", desc: "NCLEX review courses for international nurses" },
-  { name: "Kaplan Test Prep", url: "https://www.kaptest.com/nclex", desc: "Comprehensive NCLEX prep courses and practice questions" },
-  { name: "Simple Nursing", url: "https://simplenursing.com/", desc: "Visual learning resources and nursing concept reviews" },
-  { name: "NursesLabs", url: "https://nurseslabs.com/", desc: "Practice questions, study guides, and nursing resources" },
-];
+function ComingSoonCard({ title, desc }: { title: string; desc: string }) {
+  return (
+    <div className="relative bg-card rounded-xl p-6 border border-border shadow-card overflow-hidden group">
+      {/* Coming Soon overlay on hover */}
+      <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl pointer-events-none" />
+      <div className="flex items-start justify-between mb-3">
+        <h3 className="font-bold text-foreground">{title}</h3>
+        <Badge variant="secondary" className="bg-accent/10 text-accent border border-accent/20 text-xs font-semibold shrink-0 ml-2">
+          <Lock className="h-3 w-3 mr-1" />
+          Soon
+        </Badge>
+      </div>
+      <p className="text-sm text-muted-foreground">{desc}</p>
+    </div>
+  );
+}
 
 export default function LMS() {
   const { t } = useTranslation();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const el = document.getElementById(location.hash.replace("#", ""));
+      if (el) setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+    }
+  }, [location.hash]);
 
   const usHealthcareTopics = [
     { icon: Building2, title: t.lms.healthcareSystem, desc: t.lms.healthcareSystemDesc },
@@ -32,6 +44,7 @@ export default function LMS() {
 
   return (
     <Layout>
+      {/* Hero */}
       <section className="gradient-hero py-16 lg:py-24">
         <div className="container text-center">
           <h1 className="text-4xl lg:text-5xl font-extrabold text-primary-foreground mb-4">{t.lms.title}</h1>
@@ -39,7 +52,7 @@ export default function LMS() {
         </div>
       </section>
 
-      {/* What We Provide */}
+      {/* Feature Cards */}
       <section className="py-12 bg-muted">
         <div className="container">
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -62,64 +75,87 @@ export default function LMS() {
         </div>
       </section>
 
-      {/* IELTS Preparation */}
+      {/* Main Tabs */}
       <section className="py-16 lg:py-24">
         <div className="container">
-          <div className="max-w-4xl mx-auto">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="h-12 w-12 rounded-xl bg-accent/10 flex items-center justify-center">
-                <Languages className="h-6 w-6 text-accent" />
-              </div>
-              <div>
-                <h2 className="text-2xl font-extrabold text-foreground">{t.lms.ieltsPrep}</h2>
-                <p className="text-sm text-muted-foreground">{t.lms.ieltsSubtitle}</p>
-              </div>
-            </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {ieltsResources.map((r) => (
-                <a key={r.name} href={r.url} target="_blank" rel="noopener noreferrer" className="bg-card rounded-xl p-5 shadow-card border border-border hover:border-accent hover:shadow-lg transition-all group">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="font-bold text-foreground group-hover:text-accent transition-colors">{r.name}</h3>
-                    <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-accent" />
-                  </div>
-                  <p className="text-sm text-muted-foreground">{r.desc}</p>
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+          <div className="max-w-5xl mx-auto">
+            <Tabs defaultValue="ielts" className="w-full">
+              <TabsList className="w-full h-auto flex-wrap gap-1 bg-muted p-1.5 rounded-xl mb-10">
+                <TabsTrigger
+                  value="ielts"
+                  id="ielts"
+                  className="flex-1 min-w-[140px] py-3 rounded-lg font-semibold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                >
+                  <Languages className="h-4 w-4 mr-2" />
+                  {t.lms.ieltsPrep}
+                </TabsTrigger>
+                <TabsTrigger
+                  value="certified"
+                  id="certified"
+                  className="flex-1 min-w-[140px] py-3 rounded-lg font-semibold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                >
+                  <Award className="h-4 w-4 mr-2" />
+                  {t.lms.certifiedGlobalNurse}
+                  <Badge variant="secondary" className="ml-2 bg-accent/10 text-accent text-[10px] px-1.5 py-0 border border-accent/20">Soon</Badge>
+                </TabsTrigger>
+                <TabsTrigger
+                  value="nclex"
+                  id="nclex"
+                  className="flex-1 min-w-[140px] py-3 rounded-lg font-semibold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                >
+                  <BookOpen className="h-4 w-4 mr-2" />
+                  {t.lms.nclexResources}
+                </TabsTrigger>
+              </TabsList>
 
-      {/* NCLEX Resources */}
-      <section className="py-16 lg:py-24 bg-muted">
-        <div className="container">
-          <div className="max-w-4xl mx-auto">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                <Award className="h-6 w-6 text-primary" />
-              </div>
-              <div>
-                <h2 className="text-2xl font-extrabold text-foreground">{t.lms.nclexResources}</h2>
-                <p className="text-sm text-muted-foreground">{t.lms.nclexSubtitle}</p>
-              </div>
-            </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {nclexResources.map((r) => (
-                <a key={r.name} href={r.url} target="_blank" rel="noopener noreferrer" className="bg-card rounded-xl p-5 shadow-card border border-border hover:border-primary hover:shadow-lg transition-all group">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="font-bold text-foreground group-hover:text-primary transition-colors">{r.name}</h3>
-                    <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
+              {/* IELTS Tab */}
+              <TabsContent value="ielts">
+                <div className="mb-6">
+                  <h2 className="text-2xl font-extrabold text-foreground">{t.lms.ieltsPrep}</h2>
+                  <p className="text-muted-foreground mt-1">{t.lms.ieltsSubtitle}</p>
+                </div>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  {t.lms.ieltsModules.map((mod) => (
+                    <ComingSoonCard key={mod.title} title={mod.title} desc={mod.desc} />
+                  ))}
+                </div>
+              </TabsContent>
+
+              {/* Certified Global Nurse Tab */}
+              <TabsContent value="certified">
+                <div className="mb-6">
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-2xl font-extrabold text-foreground">{t.lms.certifiedGlobalNurse}</h2>
+                    <Badge className="bg-accent/10 text-accent border border-accent/20 text-xs">Coming Soon</Badge>
                   </div>
-                  <p className="text-sm text-muted-foreground">{r.desc}</p>
-                </a>
-              ))}
-            </div>
+                  <p className="text-muted-foreground mt-1">{t.lms.certifiedGlobalNurseSubtitle}</p>
+                </div>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  {t.lms.certModules.map((mod) => (
+                    <ComingSoonCard key={mod.title} title={mod.title} desc={mod.desc} />
+                  ))}
+                </div>
+              </TabsContent>
+
+              {/* NCLEX Tab */}
+              <TabsContent value="nclex">
+                <div className="mb-6">
+                  <h2 className="text-2xl font-extrabold text-foreground">{t.lms.nclexResources}</h2>
+                  <p className="text-muted-foreground mt-1">{t.lms.nclexSubtitle}</p>
+                </div>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {t.lms.nclexModules.map((mod) => (
+                    <ComingSoonCard key={mod.title} title={mod.title} desc={mod.desc} />
+                  ))}
+                </div>
+              </TabsContent>
+            </Tabs>
           </div>
         </div>
       </section>
 
       {/* US Healthcare Basics */}
-      <section className="py-16 lg:py-24">
+      <section className="py-16 lg:py-24 bg-muted">
         <div className="container">
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center gap-3 mb-8">
@@ -133,11 +169,14 @@ export default function LMS() {
             </div>
             <div className="grid sm:grid-cols-2 gap-6">
               {usHealthcareTopics.map((topic) => (
-                <div key={topic.title} className="bg-card rounded-xl p-6 shadow-card border border-border">
+                <div key={topic.title} className="bg-card rounded-xl p-6 shadow-card border border-border relative">
                   <topic.icon className="h-8 w-8 text-accent mb-3" />
                   <h3 className="font-bold text-foreground mb-2">{topic.title}</h3>
-                  <p className="text-sm text-muted-foreground">{topic.desc}</p>
-                  <span className="inline-block mt-3 px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-medium">{t.common.comingSoon}</span>
+                  <p className="text-sm text-muted-foreground mb-4">{topic.desc}</p>
+                  <Badge className="bg-accent/10 text-accent border border-accent/20 text-xs">
+                    <Lock className="h-3 w-3 mr-1" />
+                    {t.common.comingSoon}
+                  </Badge>
                 </div>
               ))}
             </div>
@@ -145,6 +184,7 @@ export default function LMS() {
         </div>
       </section>
 
+      {/* CTA */}
       <section className="py-16 gradient-hero">
         <div className="container text-center">
           <h2 className="text-3xl font-extrabold text-primary-foreground mb-4">{t.lms.readyToLearn}</h2>

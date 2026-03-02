@@ -52,6 +52,13 @@ const paroItems = [
   },
 ];
 
+const stats = [
+  { value: "1,000+", label: "Nurses Registered" },
+  { value: "3", label: "Target Countries" },
+  { value: "100%", label: "Ethical & Free" },
+  { value: "24/7", label: "AI + Human Support" },
+];
+
 export default function WhyChooseUs() {
   return (
     <Layout>
@@ -82,6 +89,20 @@ export default function WhyChooseUs() {
               </div>
               <img src={heroNurse} alt="Professional nurse" className="relative z-10 h-[400px] w-auto object-contain drop-shadow-2xl" />
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Bar */}
+      <section className="py-8 bg-card border-b border-border">
+        <div className="container">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
+            {stats.map((s) => (
+              <div key={s.label} className="text-center">
+                <p className="text-3xl font-black text-primary">{s.value}</p>
+                <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide mt-1">{s.label}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -124,6 +145,27 @@ export default function WhyChooseUs() {
                     ))}
                   </ul>
                 </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Trust Section */}
+      <section className="py-16 bg-muted">
+        <div className="container max-w-4xl">
+          <h2 className="text-3xl font-black font-heading text-foreground text-center mb-10">What Makes Us Different</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            {[
+              { title: "No Fees. Ever.", desc: "We never charge nurses any placement fees, application fees, or hidden costs. Our mission is to empower nurses, not exploit them." },
+              { title: "Ethical by Design", desc: "We follow WHO's Global Code on international health worker recruitment and only partner with verified, ethical employers." },
+              { title: "AI + Human Support", desc: "Our platform combines AI-driven matching and learning with real human mentors who've walked the same path." },
+              { title: "Transparent Process", desc: "Every step is communicated clearly. No vague timelines, no pressure, no surprises — just honest, structured guidance." },
+            ].map((item) => (
+              <div key={item.title} className="bg-card rounded-xl p-6 border border-border shadow-card">
+                <CheckCircle className="h-7 w-7 text-accent mb-3" />
+                <h3 className="font-bold text-foreground text-lg mb-2">{item.title}</h3>
+                <p className="text-sm text-muted-foreground">{item.desc}</p>
               </div>
             ))}
           </div>
