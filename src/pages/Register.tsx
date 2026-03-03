@@ -36,11 +36,11 @@ const helpOptions = [
 ];
 
 const steps = [
-  { id: 1, title: "Basic Details", icon: User },
-  { id: 2, title: "Professional", icon: Shield },
-  { id: 3, title: "Contact", icon: Mail },
-  { id: 4, title: "Motivation", icon: Heart },
-  { id: 5, title: "Consent", icon: FileText },
+  { id: 1, title: "Personal Info", icon: User },
+  { id: 2, title: "Your Background", icon: Shield },
+  { id: 3, title: "Stay Connected", icon: Mail },
+  { id: 4, title: "Your Goals", icon: Heart },
+  { id: 5, title: "Final Step", icon: FileText },
 ];
 
 interface FormData {
@@ -216,24 +216,30 @@ export default function Register() {
   if (submitted) {
     return (
       <Layout>
-        <section className="py-20 lg:py-32">
-          <div className="container max-w-lg mx-auto text-center">
-            <div className="h-16 w-16 rounded-full bg-accent/20 flex items-center justify-center mx-auto mb-6">
-              <CheckCircle className="h-8 w-8 text-accent" />
+        <section
+          className="relative py-20 lg:py-32 overflow-hidden"
+          style={{ background: 'linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%)' }}
+        >
+          <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 30% 50%, white 1px, transparent 1px)', backgroundSize: '50px 50px' }} />
+          <div className="relative container max-w-lg mx-auto text-center z-10">
+            <div className="h-24 w-24 rounded-full bg-primary-foreground/20 flex items-center justify-center mx-auto mb-6 ring-4 ring-primary-foreground/30">
+              <CheckCircle className="h-12 w-12 text-primary-foreground" />
             </div>
-            <h1 className="text-3xl font-extrabold text-foreground mb-3">Thank You for Registering!</h1>
-            <p className="text-muted-foreground mb-2">We've received your profile and will review it within 48 hours.</p>
-            <p className="text-sm text-muted-foreground mb-8">Here's what to do next:</p>
+            <h1 className="text-4xl font-black font-heading text-primary-foreground mb-3">Profile Created! 🎉</h1>
+            <p className="text-primary-foreground/85 mb-2 text-lg">Welcome to Global PARO!</p>
+            <p className="text-sm text-primary-foreground/70 mb-10">We've received your profile and will review it within 48 hours. Here's what to do next:</p>
             <div className="flex flex-col gap-3">
-              <Button variant="cta" size="lg" asChild>
+              <Button size="lg" asChild className="rounded-full font-bold"
+                style={{ backgroundColor: 'hsl(var(--card))', color: 'hsl(var(--primary))' }}>
                 <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
                   <MessageCircle className="h-5 w-5" /> Join WhatsApp Support
                 </a>
               </Button>
-              <Button variant="default" size="lg" asChild>
+              <Button size="lg" asChild className="rounded-full font-bold"
+                style={{ backgroundColor: 'hsl(var(--primary-foreground) / 0.2)', color: 'hsl(var(--primary-foreground))' }}>
                 <Link to="/quickstart"><BookOpen className="h-5 w-5" /> Read the Quickstart Guide</Link>
               </Button>
-              <Button variant="outline" size="lg" asChild>
+              <Button variant="heroOutline" size="lg" asChild className="rounded-full font-bold">
                 <Link to="/help"><Phone className="h-5 w-5" /> Chat With Us</Link>
               </Button>
             </div>
@@ -249,10 +255,17 @@ export default function Register() {
   return (
     <Layout>
       {/* Hero */}
-      <section className="gradient-hero py-10 lg:py-14">
-        <div className="container text-center max-w-2xl mx-auto">
-          <h1 className="text-3xl md:text-4xl font-extrabold text-primary-foreground mb-3">Register in Under 3 Minutes</h1>
-          <p className="text-primary-foreground/85">Take the first step toward your international nursing career.</p>
+      <section
+        className="relative py-12 lg:py-16 overflow-hidden"
+        style={{ background: 'linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(198 80% 22%) 60%, hsl(var(--accent)) 100%)' }}
+      >
+        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, white 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+        <div className="relative container text-center max-w-2xl mx-auto z-10">
+          <p className="text-sm font-bold tracking-widest uppercase text-primary-foreground/70 mb-2">Global PARO</p>
+          <h1 className="text-3xl md:text-4xl font-black font-heading text-primary-foreground mb-3">
+            Create My Profile
+          </h1>
+          <p className="text-primary-foreground/85 text-lg">Start your global nursing career journey</p>
           <p className="text-xs text-primary-foreground/60 mt-3 flex items-center justify-center gap-1">
             <Lock className="h-3 w-3" /> Your data stays private. We contact you only with consent.
           </p>
@@ -262,9 +275,9 @@ export default function Register() {
       {/* Stepper */}
       <section className="py-4 bg-card border-b border-border">
         <div className="container max-w-2xl mx-auto">
-          {/* Progress bar */}
+          {/* Progress bar — accent color */}
           <div className="h-1.5 bg-muted rounded-full mb-4 overflow-hidden">
-            <div className="h-full bg-primary rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
+            <div className="h-full rounded-full transition-all duration-300" style={{ width: `${progress}%`, backgroundColor: 'hsl(var(--accent))' }} />
           </div>
           {/* Step indicators */}
           <div className="flex justify-between">
@@ -288,7 +301,7 @@ export default function Register() {
       {/* Form body */}
       <section className="py-10 lg:py-14">
         <div className="container max-w-2xl mx-auto">
-          <div className="bg-card rounded-xl p-6 lg:p-8 shadow-card border border-border">
+          <div className="bg-card rounded-xl p-6 lg:p-8 shadow-card border border-border border-l-4" style={{ borderLeftColor: 'hsl(var(--accent))' }}>
 
             {/* Error summary */}
             {Object.keys(errors).length > 0 && (
