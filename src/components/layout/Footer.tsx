@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Instagram, Linkedin, Mail, Phone } from "lucide-react";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { useTranslation } from "@/i18n/LanguageContext";
-import logoIcon from "@/assets/logo-icon.png";
+import logoFull from "@/assets/logo-full.png";
 
 const TikTokIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
@@ -41,14 +41,9 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-3">
           {/* Brand Column */}
           <div>
-            <Link to="/" className="flex items-center gap-3 mb-5">
-              <img src={logoIcon} alt="Global Paro" className="h-12 w-12 brightness-0 invert" />
-              <div>
-                <div className="font-heading font-black text-2xl text-primary-foreground leading-none">
-                  Global <span style={{ color: 'hsl(var(--accent))' }}>PARO</span>
-                </div>
-                <div className="text-xs text-primary-foreground/70 mt-0.5">Global Career Gateway for Nurses</div>
-              </div>
+          <Link to="/" className="flex flex-col gap-1 mb-5">
+              <img src={logoFull} alt="Global Paro" className="h-10 w-auto max-w-[180px] object-contain brightness-0 invert" />
+              <div className="text-xs text-primary-foreground/60 mt-1">Global Career Gateway for Nurses</div>
             </Link>
             <p className="text-primary-foreground/80 text-sm mb-6 leading-relaxed max-w-xs">
               Empowering nurses to build global careers through ethical recruitment, AI-driven learning, and transparent pathways.
@@ -69,8 +64,10 @@ export function Footer() {
                   href={isValid(social.url) ? social.url! : `mailto:${helpEmail}`}
                   target={isValid(social.url) ? "_blank" : undefined}
                   rel={isValid(social.url) ? "noopener noreferrer" : undefined}
-                  className="flex h-9 w-9 items-center justify-center rounded-full transition-colors"
-                  style={{ backgroundColor: 'hsl(var(--accent) / 0.25)' }}
+                  className="flex h-9 w-9 items-center justify-center rounded-full transition-all hover:scale-110"
+                  style={{ backgroundColor: 'hsl(var(--accent) / 0.25)', color: 'hsl(var(--primary-foreground))' }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'hsl(var(--accent))'; }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = 'hsl(var(--accent) / 0.25)'; }}
                   aria-label={social.label}
                 >
                   {social.icon}

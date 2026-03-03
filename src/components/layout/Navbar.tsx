@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Phone, Mail, Globe, Search, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import logoIcon from "@/assets/logo-icon.png";
 import logoFull from "@/assets/logo-full.png";
 import { cn } from "@/lib/utils";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
@@ -22,7 +21,6 @@ interface NavItem {
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const location = useLocation();
   const { data: settings } = useSiteSettings();
@@ -132,15 +130,10 @@ export function Navbar() {
           <img src={logoFull} alt="Global PARO" className="h-10 w-auto max-w-[180px] object-contain" />
         </Link>
 
-        {/* Desktop Nav */}
+        {/* Desktop Nav — CSS group/group-hover, no JS state needed */}
         <nav className="hidden xl:flex items-center gap-0.5">
           {navItems.map((item) => (
-            <div
-              key={item.label}
-              className="relative"
-              onMouseEnter={() => item.dropdown && setActiveDropdown(item.label)}
-              onMouseLeave={() => setActiveDropdown(null)}
-            >
+            <div key={item.label} className="relative group">
               {item.href && !item.dropdown ? (
                 <Link
                   to={item.href}
@@ -159,29 +152,31 @@ export function Navbar() {
                     "flex items-center gap-1 px-3 py-2 text-sm font-semibold rounded-md transition-colors whitespace-nowrap",
                     item.dropdown?.some(d => location.pathname === d.href)
                       ? "text-accent"
-                      : "text-foreground hover:text-accent"
+                      : "text-foreground hover:text-accent group-hover:text-accent"
                   )}
                 >
                   {item.label}
-                  <ChevronDown className="h-3.5 w-3.5" />
+                  <ChevronDown className="h-3.5 w-3.5 transition-transform group-hover:rotate-180" />
                 </button>
               )}
 
-              {/* Dropdown */}
-              {item.dropdown && activeDropdown === item.label && (
-                <div
-                  className="absolute top-full left-0 mt-1 w-52 rounded-xl shadow-lg border border-border py-2 z-50"
-                  style={{ backgroundColor: 'hsl(var(--card))' }}
-                >
-                  {item.dropdown.map((sub) => (
-                    <Link
-                      key={sub.href}
-                      to={sub.href}
-                      className="block px-4 py-2.5 text-sm font-medium text-foreground hover:text-accent hover:bg-muted transition-colors"
-                    >
-                      {sub.label}
-                    </Link>
-                  ))}
+              {/* Dropdown — uses CSS group-hover, seamless bridge with pt-2 */}
+              {item.dropdown && (
+                <div className="absolute top-full left-0 pt-2 hidden group-hover:block z-50">
+                  <div
+                    className="w-52 rounded-xl shadow-lg border border-border py-2"
+                    style={{ backgroundColor: 'hsl(var(--card))' }}
+                  >
+                    {item.dropdown.map((sub) => (
+                      <Link
+                        key={sub.href}
+                        to={sub.href}
+                        className="block px-4 py-2.5 text-sm font-medium text-foreground hover:text-accent hover:bg-muted transition-colors"
+                      >
+                        {sub.label}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
