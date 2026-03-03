@@ -14,7 +14,10 @@ import { useContent } from "@/hooks/useContent";
 import { useSuccessStories } from "@/hooks/useSuccessStories";
 import { useTranslation } from "@/i18n/LanguageContext";
 import logoIcon from "@/assets/logo-icon.png";
-import heroNurse from "@/assets/hero-nurse-asia.png";
+import heroNurseAsia from "@/assets/hero-nurse-asia.png";
+import heroNurses from "@/assets/hero-nurses.jpg";
+import logo3dClay from "@/assets/logo-3d-clay.png";
+import logo3dNeon from "@/assets/logo-3d-neon.png";
 
 const quickstartTopics = [
   { title_en: "Is Working Abroad Right for You?", title_id: "Apakah Bekerja di Luar Negeri Tepat untuk Anda?", slug: "is-working-abroad-right" },
@@ -94,7 +97,7 @@ export default function Index() {
             <div className="text-center lg:text-left">
               {/* Logo mark */}
               <div className="flex items-center gap-3 justify-center lg:justify-start mb-6">
-                <img src={logoIcon} alt="Global Paro" className="h-14 w-14 brightness-0 invert" />
+                <img src={logo3dClay} alt="Global Paro Icon" className="h-16 w-16 object-contain drop-shadow-lg" />
                 <div>
                   <div className="font-heading font-black text-3xl text-primary-foreground leading-none">Global PARO</div>
                   <div className="text-xs text-primary-foreground/70 mt-0.5 font-medium tracking-wide uppercase">Global Career Gateway for Nurses</div>
@@ -143,15 +146,19 @@ export default function Index() {
 
             {/* Right: Nurse Image */}
             <div className="hidden lg:flex justify-center lg:justify-end relative">
-              {/* Decorative circle */}
+              {/* Decorative glow */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-[420px] h-[420px] rounded-full opacity-20" style={{ background: 'radial-gradient(circle, hsl(var(--accent)) 0%, transparent 70%)' }} />
               </div>
-              <div className="relative z-10">
+              {/* Neon logo watermark - top right */}
+              <div className="absolute -top-4 -right-4 z-20 opacity-60">
+                <img src={logo3dNeon} alt="" className="h-24 w-24 object-contain" aria-hidden="true" />
+              </div>
+              <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl border-2 border-primary-foreground/20">
                 <img
-                  src={heroNurse}
-                  alt="Professional Asian nurse smiling"
-                  className="h-[500px] w-auto object-contain drop-shadow-2xl"
+                  src={heroNurses}
+                  alt="Professional Asian nurses smiling"
+                  className="h-[460px] w-[520px] object-cover object-top"
                   loading="eager"
                 />
               </div>

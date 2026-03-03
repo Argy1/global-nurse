@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Phone, Mail, Globe, Search, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logoIcon from "@/assets/logo-icon.png";
+import logoFull from "@/assets/logo-full.png";
 import { cn } from "@/lib/utils";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { useTranslation } from "@/i18n/LanguageContext";
@@ -128,11 +129,7 @@ export function Navbar() {
       <div className="container flex h-16 items-center justify-between gap-4" style={{ backgroundColor: 'hsl(var(--card))' }}>
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 shrink-0">
-          <img src={logoIcon} alt="Global Paro" className="h-10 w-10" />
-          <span className="font-heading font-black text-xl leading-tight">
-            <span style={{ color: 'hsl(var(--primary))' }}>Global </span>
-            <span style={{ color: 'hsl(var(--accent))' }}>PARO</span>
-          </span>
+          <img src={logoFull} alt="Global PARO" className="h-10 w-auto max-w-[180px] object-contain" />
         </Link>
 
         {/* Desktop Nav */}
