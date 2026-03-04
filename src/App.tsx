@@ -14,6 +14,10 @@ import WhatWeDoForCandidates from "./pages/WhatWeDoForCandidates";
 import WhatWeDoForEmployers from "./pages/WhatWeDoForEmployers";
 import WhatWeDontDo from "./pages/WhatWeDontDo";
 import HowWeDoIt from "./pages/HowWeDoIt";
+import HowWeDoItMain from "./pages/HowWeDoItMain";
+import HowWeDoItApproach from "./pages/HowWeDoItApproach";
+import HowWeDoItDifference from "./pages/HowWeDoItDifference";
+import HowWeDoItJourney from "./pages/HowWeDoItJourney";
 import Register from "./pages/Register";
 import RegisterSuccess from "./pages/RegisterSuccess";
 import Quickstart from "./pages/Quickstart";
@@ -63,7 +67,10 @@ const App = () => (
             <Route path="/what-we-do/candidates" element={<WhatWeDoForCandidates />} />
             <Route path="/what-we-do/employers" element={<WhatWeDoForEmployers />} />
             <Route path="/what-we-do/dont-do" element={<WhatWeDontDo />} />
-            <Route path="/how-we-do-it" element={<HowWeDoIt />} />
+            <Route path="/how-we-do-it" element={<HowWeDoItMain />} />
+            <Route path="/how-we-do-it/approach" element={<HowWeDoItApproach />} />
+            <Route path="/how-we-do-it/difference" element={<HowWeDoItDifference />} />
+            <Route path="/how-we-do-it/journey" element={<HowWeDoItJourney />} />
             <Route path="/why-choose-us" element={<WhyChooseUs />} />
             <Route path="/about/vision" element={<AboutVision />} />
             <Route path="/about/mission" element={<AboutMission />} />
