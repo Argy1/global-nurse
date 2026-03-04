@@ -68,7 +68,7 @@ export default function WhyChooseUs() {
           <img
             src={nursePointing}
             alt="Professional nurse"
-            className="w-full h-full object-cover object-right-top"
+            className="w-full h-full object-cover object-left-top"
             style={{ maskImage: "linear-gradient(to left, rgba(0,0,0,0.85) 60%, transparent 100%)", WebkitMaskImage: "linear-gradient(to left, rgba(0,0,0,0.85) 60%, transparent 100%)" }}
           />
           {/* Overlay gradient to blend */}
