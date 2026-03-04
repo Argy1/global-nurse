@@ -1,76 +1,58 @@
 
-## Analisis Gambar Referensi
+## Redesign `/about` — Global Paro Page (image-22 style)
 
-- **image-13**: Halaman **Our Values** — layout 2-kolom: kiri ada ikon checkmark besar (navy) + judul "Core VALUES" + tagline "Talent is EVERYWHERE, opportunity is not." | Kanan: 4 value items bernomor (1-4) dengan format huruf pertama besar (drop cap style): **P**ASSION, **A**CCOUNTABILITY, **R**ESILIENCE, **O**PPORTUNITY. Di bawah ada banner teal "NURSES ARE THE HEART OF HEALTHCARE"
+### Apa yang User Inginkan
+Berdasarkan image-22 dan deskripsi user:
+1. **Hero card glassmorphism** persis seperti image-22: background split (navy kiri + teal kanan), card putih rounded besar di tengah, foto 2 nurses (image-23) sebagai background kanan card dengan efek faded, kiri card ada logo icon + "Global **PARO**" teal + paragraf deskripsi
+2. **2 kotak warna di bawah card** — seperti terlihat di image-22: ada 2 blok warna (teal dan navy) tepat di bawah card
+3. **Strip putih** tipis di atas kotak warna
+4. **"About Us" text header** di atas semua elemen (seperti judul halaman di atas card)
 
-- **image-14**: Halaman **Our Mission** — judul "MISSION" di kiri teal besar | Kanan: 3 kartu bernomor (1,2,3) dengan rounded card style, teks bold teal untuk kata kunci (AFFORDABLE MOBILE, ANYTIME ANYWHERE, NURSE, GLOBAL ECOSYSTEM, AI-powered platform)
+### Asset
+- **image-23.png** → `src/assets/nurses-pair.png` (foto 2 nurses teal scrubs, untuk background card)
 
-- **image-15**: Halaman **Our Vision** — layout sederhana: "VISION" besar teal di kiri, teks deskripsi di kanan. User minta diperbagus
+### Design Detail
 
-- **image-16**: **CTA Banner** "Join Our Mission" — gradient teal-to-navy background, teks putih bold, tombol putih "Register Now →". Ini yang dimaksud user sebagai "yang dibawah setiap halaman tapi diatas footer"
-
-## Yang Akan Dibuat
-
-### File Baru:
-1. `src/pages/AboutVision.tsx` — Vision page yang diperbagus (bukan hanya teks polos)
-2. `src/pages/AboutMission.tsx` — Mission page dengan 3 numbered cards
-3. `src/pages/AboutValues.tsx` — Values page dengan layout 2-kolom + checkmark icon + PARO acronym + CTA banner
-
-### File Diubah:
-4. `src/App.tsx` — tambah 3 route baru `/about/vision`, `/about/mission`, `/about/values`
-5. `src/components/layout/Navbar.tsx` — update dropdown href dari `#anchor` ke route baru
-
----
-
-## Design per Halaman
-
-### `/about/vision` — Vision (diperbagus)
-- Hero: teal background dengan "VISION" besar di kiri, teks di kanan (seperti referensi tapi tidak polos)
-- Tambahkan: visual decorative element (globe/target icon), highlight kata kunci "healthcare talents" dan "healthcare providers" dalam warna teal bold
-- Section tambahan: quote card dengan border teal, stats kecil (jumlah negara, dsb)
-- CTA Banner (image-16 style) di bawah sebelum footer
-
-### `/about/mission` — Mission (ikut image-14)
-- Header "MISSION" besar teal di kiri
-- 3 numbered cards (1, 2, 3) dengan rounded border navy, nomor besar di pojok
-- Card 1: Providing **AFFORDABLE MOBILE** platform... **ANYTIME ANYWHERE**
-- Card 2: Accelerating international career for **NURSE** through AI-powered platform
-- Card 3: Empowering sustainable **GLOBAL ECOSYSTEM** by partnering
-- CTA Banner di bawah
-
-### `/about/values` — Values (ikut image-13)
-- Layout 2-kolom:
-  - Kiri: Big checkmark icon (navy circle dengan centang putih), "Core **VALUES**" (VALUES teal bold), tagline "Talent is EVERYWHERE, opportunity is not."
-  - Kanan: 4 numbered items dengan drop-cap style: **P**ASSION, **A**CCOUNTABILITY, **R**ESILIENCE, **O**PPORTUNITY + deskripsi singkat
-- Banner bawah: "NURSES ARE THE HEART OF HEALTHCARE" (teal, seperti di image-13)
-- CTA Banner di atas footer
-
-### CTA Banner (reusable)
-Buat komponen `src/components/about/JoinMissionBanner.tsx`:
-- Background: `linear-gradient(to right, #03989E, #015779)`
-- "Join Our Mission" bold putih
-- Subtitle: "Ready to explore international nursing opportunities..."
-- Tombol putih rounded "Register Now →"
-
----
-
-## Update Navbar
-
-```
-About Us dropdown:
-  - Global Paro  → /about          (tetap)
-  - Our Vision   → /about/vision   (ubah dari /about#vision)
-  - Our Mission  → /about/mission  (ubah dari /about#mission)
-  - Our Value    → /about/values   (ubah dari /about#values)
+```text
+┌─────────────────────────────────────────────────────────┐
+│  ABOUT US  (label teks teal, font-bold kecil di atas)   │
+├──────────────────────────────────────────────────────────┤
+│  [BG: split navy kiri / teal kanan]                      │
+│  ┌──────────────────────────────────────────────────┐    │
+│  │  [CARD: bg-white/90 backdrop-blur rounded-2xl]   │    │
+│  │  ┌─────────────────────┐ ┌────────────────────┐  │    │
+│  │  │  LEFT (50%): white  │ │  RIGHT (50%): nurse │  │    │
+│  │  │                     │ │  photo opacity-60   │  │    │
+│  │  │  🔵 Global PARO     │ │  object-cover       │  │    │
+│  │  │  (icon + PARO teal) │ │  rounded-r-2xl      │  │    │
+│  │  │                     │ │                     │  │    │
+│  │  │  "empowers every    │ │                     │  │    │
+│  │  │   international     │ │                     │  │    │
+│  │  │   nurse..."         │ │                     │  │    │
+│  │  └─────────────────────┘ └────────────────────┘  │    │
+│  └──────────────────────────────────────────────────┘    │
+│  ──────── strip putih tipis ────────────────────────     │
+│  [TEAL kotak kiri ~50%] │ [NAVY kotak kanan ~50%]        │
+└──────────────────────────────────────────────────────────┘
 ```
 
----
+### Konten yang Tetap Dipertahankan (di bawah hero)
+- Brand Philosophy Banner
+- Red/Green Flags section
+- JoinMissionBanner (CTA di atas footer)
 
-## Urutan Implementasi
+Bagian Vision, Mission, Values **dihapus** dari About.tsx (sudah punya halaman sendiri).
 
-1. Buat `JoinMissionBanner` komponen (dipakai di semua 3 halaman)
-2. Buat `AboutVision.tsx`
-3. Buat `AboutMission.tsx`
-4. Buat `AboutValues.tsx`
-5. Update `App.tsx` — tambah 3 route
-6. Update `Navbar.tsx` — update dropdown href
+### Files yang Diubah
+1. **Copy** `user-uploads://image-23.png` → `src/assets/nurses-pair.png`
+2. **`src/pages/About.tsx`** — redesign total hero + simplify konten:
+   - Hero baru dengan card glassmorphism + foto nurses + 2 kotak warna
+   - Hapus section Vision, Mission, Values (sudah punya halaman terpisah)
+   - Pertahankan Brand Philosophy + Red/Green Flags
+   - Pakai `JoinMissionBanner` di bawah
+3. **`src/components/layout/Navbar.tsx`** — `What We Do` belum jadi dropdown (dari plan sebelumnya yang belum diimplementasi), tapi fokus utama adalah About page redesign
+
+### Tidak Ada Perubahan Pada
+- Routing App.tsx (sudah benar)
+- Halaman AboutVision, AboutMission, AboutValues (sudah dibuat)
+- Bagian lain dari site
