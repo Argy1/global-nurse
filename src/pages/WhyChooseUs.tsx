@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Sparkles, Globe, Users, BookOpen, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/layout/Layout";
-import heroNurse from "@/assets/hero-nurse-asia.png";
+import nursePointing from "@/assets/nurse-pointing.png";
 import logoIcon from "@/assets/logo-icon.png";
 
 const paroItems = [
@@ -52,57 +52,49 @@ const paroItems = [
   },
 ];
 
-const stats = [
-  { value: "1,000+", label: "Nurses Registered" },
-  { value: "3", label: "Target Countries" },
-  { value: "100%", label: "Ethical & Free" },
-  { value: "24/7", label: "AI + Human Support" },
-];
-
 export default function WhyChooseUs() {
   return (
     <Layout>
-      {/* Hero */}
-      <section className="gradient-hero py-16 lg:py-24">
-        <div className="container">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="text-sm font-bold tracking-widest uppercase text-primary-foreground/70 mb-2">Why Choose Global PARO</p>
-              <h1 className="text-4xl lg:text-5xl font-black font-heading text-primary-foreground mb-4 leading-tight">
-                The Platform Built <span style={{ color: 'hsl(var(--mint))' }}>For Nurses.</span><br />By People Who Care.
-              </h1>
-              <p className="text-lg text-primary-foreground/85 max-w-md mb-8">
-                We're not just a job board. We're your complete career partner — from your first English lesson to your first day working abroad.
-              </p>
-              <Button
-                size="xl"
-                asChild
-                className="rounded-full font-bold"
-                style={{ backgroundColor: 'hsl(var(--card))', color: 'hsl(var(--primary))' }}
-              >
-                <Link to="/register">Create My Profile <ArrowRight className="h-5 w-5" /></Link>
-              </Button>
-            </div>
-            <div className="hidden lg:flex justify-center relative">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-80 h-80 rounded-full opacity-20" style={{ background: 'radial-gradient(circle, white 0%, transparent 70%)' }} />
-              </div>
-              <img src={heroNurse} alt="Professional nurse" className="relative z-10 h-[400px] w-auto object-contain drop-shadow-2xl" />
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Hero — split panel: teal bar left + nurse photo right, text overlay */}
+      <section className="relative overflow-hidden" style={{ minHeight: 480 }}>
+        {/* Background: full gradient */}
+        <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, #015779 0%, #03989E 100%)" }} />
 
-      {/* Stats Bar */}
-      <section className="py-8 bg-card border-b border-border">
-        <div className="container">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
-            {stats.map((s) => (
-              <div key={s.label} className="text-center">
-                <p className="text-3xl font-black text-primary">{s.value}</p>
-                <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide mt-1">{s.label}</p>
-              </div>
-            ))}
+        {/* Teal accent bar far left */}
+        <div className="absolute left-0 top-0 bottom-0 w-3" style={{ background: "#03989E" }} />
+
+        {/* Nurse photo right side */}
+        <div className="absolute right-0 top-0 bottom-0 w-1/2 hidden lg:block">
+          <img
+            src={nursePointing}
+            alt="Professional nurse"
+            className="w-full h-full object-cover object-center"
+            style={{ maskImage: "linear-gradient(to left, rgba(0,0,0,0.85) 60%, transparent 100%)", WebkitMaskImage: "linear-gradient(to left, rgba(0,0,0,0.85) 60%, transparent 100%)" }}
+          />
+          {/* Overlay gradient to blend */}
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to right, #015779 0%, transparent 50%)" }} />
+        </div>
+
+        {/* Content */}
+        <div className="relative container py-20 lg:py-28">
+          <div className="max-w-lg">
+            <p className="text-sm font-bold tracking-widest uppercase mb-3" style={{ color: "rgba(255,255,255,0.65)" }}>Why Choose Global PARO</p>
+            <h1 className="text-4xl lg:text-5xl font-black font-heading leading-tight mb-5 text-white">
+              The Platform Built<br />
+              <span style={{ color: "hsl(var(--accent))" }}>For Nurses.</span><br />
+              By People Who Care.
+            </h1>
+            <p className="text-lg mb-8" style={{ color: "rgba(255,255,255,0.85)" }}>
+              We're not just a job board. We're your complete career partner — from your first English lesson to your first day working abroad.
+            </p>
+            <Button
+              size="xl"
+              asChild
+              className="rounded-full font-bold shadow-lg"
+              style={{ backgroundColor: "white", color: "#015779" }}
+            >
+              <Link to="/register">Create My Profile <ArrowRight className="h-5 w-5" /></Link>
+            </Button>
           </div>
         </div>
       </section>
