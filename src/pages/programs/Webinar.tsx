@@ -1,8 +1,10 @@
 import { Layout } from "@/components/layout/Layout";
 import { Link } from "react-router-dom";
-import { ArrowRight, Share2, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import webinarIcon from "@/assets/webinar-icon.png";
+import gratisBadge from "@/assets/gratis-badge.png";
+import shareIcon from "@/assets/share-icon.png";
 
 export default function Webinar() {
   const handleShare = async () => {
@@ -40,16 +42,11 @@ export default function Webinar() {
               {/* GRATIS burst + webinar icon */}
               <div className="relative">
                 {/* Burst badge */}
-                <div
-                  className="absolute -top-5 -left-5 z-10 flex items-center justify-center w-20 h-20 rounded-full font-black text-white text-sm text-center leading-tight shadow-lg"
-                  style={{
-                    background: "#FFD600",
-                    clipPath: "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)",
-                    color: "#015779",
-                  }}
-                >
-                  GRATIS
-                </div>
+                <img
+                  src={gratisBadge}
+                  alt="GRATIS"
+                  className="absolute -top-8 -left-8 z-10 w-24 h-24 object-contain drop-shadow-lg"
+                />
                 <div className="bg-card rounded-2xl p-8 shadow-xl border border-border">
                   <img src={webinarIcon} alt="Webinar" className="h-40 w-auto mx-auto object-contain" />
                 </div>
@@ -104,20 +101,24 @@ export default function Webinar() {
             <p className="text-white font-bold text-lg">Secure your seat</p>
           </div>
           <div className="flex items-center gap-3">
-            <Button asChild size="lg" className="font-black text-white px-8" style={{ backgroundColor: "#03989E" }}>
-              <Link to="/register">
-                Register Now <ArrowRight className="h-4 w-4 ml-1" />
-              </Link>
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-white/40 text-white hover:bg-white/10"
+            <Link
+              to="/register"
+              className="inline-flex items-center justify-center px-8 h-12 rounded-xl font-bold text-white text-base transition-opacity hover:opacity-90"
+              style={{
+                background: "linear-gradient(180deg, #03d4db 0%, #03989E 40%, #027f84 100%)",
+                boxShadow: "0 4px 14px rgba(3,152,158,0.5), inset 0 1px 0 rgba(255,255,255,0.3)",
+                border: "1.5px solid #03b8be",
+              }}
+            >
+              Register Now
+            </Link>
+            <button
               onClick={handleShare}
               title="Share to WhatsApp / social media"
+              className="h-12 w-12 flex items-center justify-center hover:opacity-80 transition-opacity"
             >
-              <Share2 className="h-5 w-5" />
-            </Button>
+              <img src={shareIcon} alt="Share" className="h-10 w-10 object-contain" />
+            </button>
           </div>
         </div>
       </section>
