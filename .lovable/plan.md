@@ -1,135 +1,76 @@
 
-# Batch 5: Team Redesign, Register Polish & Dropdown Fix
+## Analisis Gambar Referensi
 
-## Masalah Utama: Dropdown Navbar Hilang
+- **image-13**: Halaman **Our Values** — layout 2-kolom: kiri ada ikon checkmark besar (navy) + judul "Core VALUES" + tagline "Talent is EVERYWHERE, opportunity is not." | Kanan: 4 value items bernomor (1-4) dengan format huruf pertama besar (drop cap style): **P**ASSION, **A**CCOUNTABILITY, **R**ESILIENCE, **O**PPORTUNITY. Di bawah ada banner teal "NURSES ARE THE HEART OF HEALTHCARE"
 
-**Root Cause**: Ketika kursor bergerak dari tombol nav ke dropdown menu, ada "gap" (jarak 4px dari `mt-1`) antara tombol dan menu. Saat kursor melewati gap ini, event `onMouseLeave` terpicu di parent `div`, sehingga `activeDropdown` di-reset ke `null` sebelum kursor sempat masuk ke menu.
+- **image-14**: Halaman **Our Mission** — judul "MISSION" di kiri teal besar | Kanan: 3 kartu bernomor (1,2,3) dengan rounded card style, teks bold teal untuk kata kunci (AFFORDABLE MOBILE, ANYTIME ANYWHERE, NURSE, GLOBAL ECOSYSTEM, AI-powered platform)
 
-**Solusi**: Tambahkan `paddingTop` transparan pada dropdown agar tidak ada gap antara trigger dan menu, sehingga kursor tidak pernah "meninggalkan" area hover. Gunakan `pt-2` pada wrapper dropdown dan kurangi `mt-1` menjadi `mt-0`, atau tambahkan bridge invisible `before:` pseudo-element. Pendekatan paling bersih: ganti implementasi hover dengan **CSS pure hover** menggunakan Tailwind `group` dan `group-hover`, sehingga tidak bergantung pada JavaScript state sama sekali — tidak ada gap, tidak ada race condition.
+- **image-15**: Halaman **Our Vision** — layout sederhana: "VISION" besar teal di kiri, teks deskripsi di kanan. User minta diperbagus
+
+- **image-16**: **CTA Banner** "Join Our Mission" — gradient teal-to-navy background, teks putih bold, tombol putih "Register Now →". Ini yang dimaksud user sebagai "yang dibawah setiap halaman tapi diatas footer"
+
+## Yang Akan Dibuat
+
+### File Baru:
+1. `src/pages/AboutVision.tsx` — Vision page yang diperbagus (bukan hanya teks polos)
+2. `src/pages/AboutMission.tsx` — Mission page dengan 3 numbered cards
+3. `src/pages/AboutValues.tsx` — Values page dengan layout 2-kolom + checkmark icon + PARO acronym + CTA banner
+
+### File Diubah:
+4. `src/App.tsx` — tambah 3 route baru `/about/vision`, `/about/mission`, `/about/values`
+5. `src/components/layout/Navbar.tsx` — update dropdown href dari `#anchor` ke route baru
 
 ---
 
-## 1. Fix Navbar Dropdown (PRIORITAS UTAMA)
+## Design per Halaman
 
-**Perubahan di `Navbar.tsx`**:
-- Hapus `onMouseEnter`/`onMouseLeave` + `useState activeDropdown`
-- Ganti dengan pendekatan CSS `group` / `group-hover` Tailwind
-- Dropdown akan menggunakan `hidden group-hover:block` — selama kursor ada di parent `div` (termasuk dropdown itu sendiri), menu tetap visible
-- Tambahkan `absolute` wrapper dengan `pt-2` agar ada area hover yang seamless dari trigger ke menu
-- Mobile tetap menggunakan click + `mobileExpanded` state seperti sekarang
+### `/about/vision` — Vision (diperbagus)
+- Hero: teal background dengan "VISION" besar di kiri, teks di kanan (seperti referensi tapi tidak polos)
+- Tambahkan: visual decorative element (globe/target icon), highlight kata kunci "healthcare talents" dan "healthcare providers" dalam warna teal bold
+- Section tambahan: quote card dengan border teal, stats kecil (jumlah negara, dsb)
+- CTA Banner (image-16 style) di bawah sebelum footer
 
-```text
-BEFORE (JavaScript hover — ada gap race condition):
-┌─────────────┐
-│  About Us ▾ │  ← onMouseEnter → setActiveDropdown
-└─────────────┘
-   ← GAP 4px → kursor melewati gap → onMouseLeave fired! → dropdown hilang
-┌─────────────────────┐
-│ • Global Paro       │
-│ • Our Vision        │
-└─────────────────────┘
+### `/about/mission` — Mission (ikut image-14)
+- Header "MISSION" besar teal di kiri
+- 3 numbered cards (1, 2, 3) dengan rounded border navy, nomor besar di pojok
+- Card 1: Providing **AFFORDABLE MOBILE** platform... **ANYTIME ANYWHERE**
+- Card 2: Accelerating international career for **NURSE** through AI-powered platform
+- Card 3: Empowering sustainable **GLOBAL ECOSYSTEM** by partnering
+- CTA Banner di bawah
 
-AFTER (CSS group-hover — seamless):
-┌─────────────┐
-│  About Us ▾ │  ← group-hover active
-└─────────────┘
- ← area pt-2 masih dalam group div →
-┌─────────────────────┐
-│ • Global Paro       │  ← hover tetap aktif
-│ • Our Vision        │
-└─────────────────────┘
+### `/about/values` — Values (ikut image-13)
+- Layout 2-kolom:
+  - Kiri: Big checkmark icon (navy circle dengan centang putih), "Core **VALUES**" (VALUES teal bold), tagline "Talent is EVERYWHERE, opportunity is not."
+  - Kanan: 4 numbered items dengan drop-cap style: **P**ASSION, **A**CCOUNTABILITY, **R**ESILIENCE, **O**PPORTUNITY + deskripsi singkat
+- Banner bawah: "NURSES ARE THE HEART OF HEALTHCARE" (teal, seperti di image-13)
+- CTA Banner di atas footer
+
+### CTA Banner (reusable)
+Buat komponen `src/components/about/JoinMissionBanner.tsx`:
+- Background: `linear-gradient(to right, #03989E, #015779)`
+- "Join Our Mission" bold putih
+- Subtitle: "Ready to explore international nursing opportunities..."
+- Tombol putih rounded "Register Now →"
+
+---
+
+## Update Navbar
+
+```
+About Us dropdown:
+  - Global Paro  → /about          (tetap)
+  - Our Vision   → /about/vision   (ubah dari /about#vision)
+  - Our Mission  → /about/mission  (ubah dari /about#mission)
+  - Our Value    → /about/values   (ubah dari /about#values)
 ```
 
 ---
 
-## 2. Our Team Page Redesign
+## Urutan Implementasi
 
-**Perubahan di `Team.tsx`**:
-
-### Hero Banner (PPT style)
-- Background teal gradient dengan wave/fold decoration
-- Judul besar "Our **TEAM**" dengan TEAM bold berwarna putih/aksen
-- Subtitle tagline
-
-### 6 Member Cards dalam Grid 3x2
-
-**Row 1 - Core Team:**
-| DUMA Evi | ANN MARIE Christopher | MEGAWATI Santoso |
-|---|---|---|
-| Founder | Workplace Culture Nurse Expert | Strategic Business |
-
-**Row 2 - Advisors:**
-| Dr. TIMOTHY Low | Prof. AGUS Setiawan | LIA Retnani |
-|---|---|---|
-| Board Advisor | Independent Board Advisor | Board Advisor - Pharma |
-
-### Card Design per Member:
-- Placeholder avatar lingkaran teal gradient (ukuran lebih besar, 96px)
-- Nama dengan format **FIRSTNAME** bold uppercase, lastname regular
-- Badge role dengan warna teal/navy
-- Bio 2-3 kalimat
-- Ikon LinkedIn kecil (placeholder — bisa diisi link nanti)
-- Tidak ada pembagian "leadership" vs "advisors" yang terpisah — satu grid unified
-
----
-
-## 3. Register Page - Update ke "Create My Profile"
-
-**Perubahan di `Register.tsx`**:
-
-### Visual Overhaul (konten/logic tetap sama):
-- Header Hero: ganti teks "Register in Under 3 Minutes" → **"Create My Profile"**
-- Subtitle: "Start your global nursing career journey"
-- Step labels lebih friendly:
-  - Step 1: "Basic Details" → **"Personal Info"**
-  - Step 2: "Professional" → **"Your Background"**
-  - Step 3: "Contact" → **"Stay Connected"**
-  - Step 4: "Motivation" → **"Your Goals"**
-  - Step 5: "Consent" → **"Final Step"**
-- Progress bar: ganti warna dari `bg-primary` ke `bg-accent` (teal lebih sesuai PPT)
-- Card form: tambahkan subtle teal left-border accent per step
-- Thank you screen: tambahkan icon lebih besar, warna lebih celebratory
-
----
-
-## 4. Polish Visual Konsistensi
-
-### Halaman-halaman yang di-polish:
-
-**Index.tsx (Homepage)**:
-- Pastikan hero image `hero-nurses.jpg` tampil dengan benar dengan overlay gradient
-- Logo 3D clay di posisi yang tepat
-- Stats bar 4-kolom tetap
-- Spacing dan typography konsisten
-
-**About.tsx**:
-- Pastikan anchor section `#vision`, `#mission`, `#values` berfungsi
-- Banner "NURSES ARE THE HEART OF HEALTHCARE" styling yang lebih bold
-
-**WhyChooseUs.tsx**:
-- Tambahkan visual PARO akronim yang lebih kuat (huruf besar P/A/R/O dengan highlight teal)
-
-**Footer**:
-- Pastikan logo full tampil dengan benar di footer dark background (mungkin perlu filter invert atau versi putih)
-- Social icons teal hover state
-
----
-
-## 5. Urutan Implementasi
-
-1. **Fix Navbar dropdown** (paling critical, langsung terlihat dampaknya)
-2. **Redesign Team page** (grid 6 member, hero banner)
-3. **Update Register** hero text + visual polish
-4. **Polish Homepage** hero image + overlay
-5. **Footer logo fix** jika diperlukan
-
----
-
-## Detail Teknis
-
-- Navbar: hapus `activeDropdown` state, ganti dengan `group`/`group-hover` Tailwind CSS
-- Team: update data member sesuai PPT (tambah MEGAWATI Santoso)
-- Register: hanya perubahan visual/text, tidak ada perubahan logic/database
-- Tidak ada dependency baru
-- Semua halaman admin tidak terpengaruh
-- i18n keys yang ada tetap dipertahankan
+1. Buat `JoinMissionBanner` komponen (dipakai di semua 3 halaman)
+2. Buat `AboutVision.tsx`
+3. Buat `AboutMission.tsx`
+4. Buat `AboutValues.tsx`
+5. Update `App.tsx` — tambah 3 route
+6. Update `Navbar.tsx` — update dropdown href
