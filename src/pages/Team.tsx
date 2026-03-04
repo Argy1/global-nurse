@@ -11,8 +11,7 @@ import teamHeroBar from "@/assets/team-hero-bar.png";
 import logoIcon from "@/assets/logo-icon.png";
 import dumaPhoto from "@/assets/team-duma.png";
 import annPhoto from "@/assets/team-ann.png";
-import timothyPhoto from "@/assets/team-timothy-photo.png";
-import paroFrame from "@/assets/team-paro-frame.png";
+import timothyPhoto from "@/assets/team-timothy.png";
 import agusPhoto from "@/assets/team-agus.png";
 import liaPhoto from "@/assets/team-lia.png";
 import qrDuma from "@/assets/qr-duma.png";
@@ -67,7 +66,6 @@ const members: Member[] = [
     role_id: "Penasihat Dewan – eks CEO Gleneagles Hospital & Farrer Park Hospital",
     photo: timothyPhoto,
     hasPhoto: true,
-    useComposite: true,
     qr: qrTimothy,
   },
   {
@@ -171,22 +169,7 @@ function MemberCard({ person, lang, index }: { person: Member; lang: string; ind
     >
       {/* Photo area */}
       <div className="relative flex items-center justify-center pt-8 pb-4 px-6 bg-white min-h-[200px]">
-        {person.useComposite && person.photo ? (
-          /* Composite: paro frame behind, circular photo on top */
-          <div className="relative w-48 h-44">
-            <img
-              src={paroFrame}
-              alt=""
-              className="absolute inset-0 w-full h-full object-contain"
-              aria-hidden="true"
-            />
-            <img
-              src={person.photo}
-              alt={`${person.firstName} ${person.lastName}`}
-              className="absolute top-2 left-1/2 -translate-x-1/2 w-24 h-24 rounded-full object-cover border-4 border-white shadow-md"
-            />
-          </div>
-        ) : person.hasPhoto && person.photo ? (
+        {person.hasPhoto && person.photo ? (
           <div className="relative">
             {/* The photo already has the teal P-logo frame baked in */}
             <img
