@@ -39,7 +39,15 @@ export function Navbar() {
         { href: "/about/values", label: "Our Value" },
       ],
     },
-    { href: "/what-we-do", label: "What We Do" },
+    {
+      label: "What We Do",
+      dropdown: [
+        { href: "/what-we-do", label: "What We Do" },
+        { href: "/what-we-do/candidates", label: "For Candidates" },
+        { href: "/what-we-do/employers", label: "For Employers" },
+        { href: "/what-we-do/dont-do", label: "What We Don't Do" },
+      ],
+    },
     {
       label: "How We Do It",
       dropdown: [
