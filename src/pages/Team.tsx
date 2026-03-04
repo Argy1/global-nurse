@@ -14,6 +14,11 @@ import annPhoto from "@/assets/team-ann.png";
 import timothyPhoto from "@/assets/team-timothy.png";
 import agusPhoto from "@/assets/team-agus.png";
 import liaPhoto from "@/assets/team-lia.png";
+import qrDuma from "@/assets/qr-duma.png";
+import qrAnn from "@/assets/qr-ann.png";
+import qrTimothy from "@/assets/qr-timothy.png";
+import qrAgus from "@/assets/qr-agus.png";
+import qrLia from "@/assets/qr-lia.png";
 
 interface Member {
   firstName: string;
@@ -23,6 +28,7 @@ interface Member {
   linkedIn?: string;
   photo?: string;
   hasPhoto: boolean;
+  qr?: string;
 }
 
 const members: Member[] = [
@@ -33,6 +39,7 @@ const members: Member[] = [
     role_id: "Pendiri",
     photo: dumaPhoto,
     hasPhoto: true,
+    qr: qrDuma,
   },
   {
     firstName: "ANN",
@@ -41,6 +48,7 @@ const members: Member[] = [
     role_id: "Ahli Budaya Kerja Keperawatan",
     photo: annPhoto,
     hasPhoto: true,
+    qr: qrAnn,
   },
   {
     firstName: "MEGAWATI",
@@ -57,6 +65,7 @@ const members: Member[] = [
     role_id: "Penasihat Dewan – eks CEO Gleneagles Hospital & Farrer Park Hospital",
     photo: timothyPhoto,
     hasPhoto: true,
+    qr: qrTimothy,
   },
   {
     firstName: "Prof. AGUS",
@@ -65,6 +74,7 @@ const members: Member[] = [
     role_id: "Penasihat Dewan Independen – eks Dekan Fakultas Keperawatan UI",
     photo: agusPhoto,
     hasPhoto: true,
+    qr: qrAgus,
   },
   {
     firstName: "LIA",
@@ -73,6 +83,7 @@ const members: Member[] = [
     role_id: "Penasihat Dewan – Ahli Pemasaran Farmasi",
     photo: liaPhoto,
     hasPhoto: true,
+    qr: qrLia,
   },
 ];
 
@@ -184,23 +195,21 @@ function MemberCard({ person, lang, index }: { person: Member; lang: string; ind
 
       {/* Name / role info */}
       <div className="px-4 pb-5 flex items-start gap-3">
-        {/* QR placeholder */}
-        <div
-          className="shrink-0 w-10 h-10 rounded border-2 flex items-center justify-center"
-          style={{ borderColor: "#015779" }}
-        >
-          <div className="grid grid-cols-3 gap-0.5 p-0.5">
-            {Array.from({ length: 9 }).map((_, i) => (
-              <div
-                key={i}
-                className="w-2 h-2 rounded-sm"
-                style={{
-                  backgroundColor: [0,1,3,4,5,7,8].includes(i) ? "#015779" : "white",
-                }}
-              />
-            ))}
+        {/* QR code */}
+        {person.qr ? (
+          <img
+            src={person.qr}
+            alt={`${person.firstName} LinkedIn QR`}
+            className="shrink-0 w-12 h-12 object-contain rounded"
+          />
+        ) : (
+          <div
+            className="shrink-0 w-12 h-12 rounded border-2 flex items-center justify-center opacity-30"
+            style={{ borderColor: "#015779" }}
+          >
+            <span className="text-xs font-bold" style={{ color: "#015779" }}>QR</span>
           </div>
-        </div>
+        )}
 
         {/* Vertical navy bar */}
         <div className="self-stretch w-0.5 rounded-full shrink-0" style={{ backgroundColor: "#015779" }} />
