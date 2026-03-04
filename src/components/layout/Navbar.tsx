@@ -61,9 +61,9 @@ export function Navbar() {
     {
       label: "Programs",
       dropdown: [
-        { href: "/programs#batch", label: "Batch Program" },
-        { href: "/programs#requirements", label: "Requirement Criteria" },
-        { href: "/programs#webinar", label: "Webinar" },
+        { href: "/programs/batch", label: "Batch Program" },
+        { href: "/programs/requirements", label: "Requirement Criteria" },
+        { href: "/programs/webinar", label: "Webinar" },
       ],
     },
     { href: "/quickstart", label: "QuickStart" },

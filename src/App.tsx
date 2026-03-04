@@ -29,6 +29,9 @@ import SuccessStoryDetail from "./pages/SuccessStoryDetail";
 import LMS from "./pages/LMS";
 import Team from "./pages/Team";
 import Programs from "./pages/Programs";
+import BatchProgram from "./pages/programs/BatchProgram";
+import RequirementCriteria from "./pages/programs/RequirementCriteria";
+import Webinar from "./pages/programs/Webinar";
 import Help from "./pages/Help";
 import Employer from "./pages/Employer";
 import EmployerThanks from "./pages/EmployerThanks";
@@ -85,7 +88,10 @@ const App = () => (
             <Route path="/success-stories/:slug" element={<SuccessStoryDetail />} />
             <Route path="/lms" element={<LMS />} />
             <Route path="/team" element={<Team />} />
-            <Route path="/programs" element={<Programs />} />
+            <Route path="/programs" element={<BatchProgram />} />
+            <Route path="/programs/batch" element={<BatchProgram />} />
+            <Route path="/programs/requirements" element={<RequirementCriteria />} />
+            <Route path="/programs/webinar" element={<Webinar />} />
             <Route path="/help" element={<Help />} />
             <Route path="/employer" element={<Employer />} />
             <Route path="/employer/thanks" element={<EmployerThanks />} />
