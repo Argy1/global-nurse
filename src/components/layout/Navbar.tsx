@@ -51,9 +51,10 @@ export function Navbar() {
     {
       label: "How We Do It",
       dropdown: [
-        { href: "/how-we-do-it#approach", label: "Our Approach" },
-        { href: "/how-we-do-it#difference", label: "Know The Difference" },
-        { href: "/how-we-do-it#journey", label: "Your Journey Step by Step" },
+        { href: "/how-we-do-it", label: "How We Do It" },
+        { href: "/how-we-do-it/approach", label: "Our Approach" },
+        { href: "/how-we-do-it/difference", label: "Know The Difference" },
+        { href: "/how-we-do-it/journey", label: "Your Journey Step by Step" },
       ],
     },
     { href: "/why-choose-us", label: "Why Choose Us" },
