@@ -34,9 +34,9 @@ export function Navbar() {
       label: "About Us",
       dropdown: [
         { href: "/about", label: "Global Paro" },
-        { href: "/about#vision", label: "Our Vision" },
-        { href: "/about#mission", label: "Our Mission" },
-        { href: "/about#values", label: "Our Value" },
+        { href: "/about/vision", label: "Our Vision" },
+        { href: "/about/mission", label: "Our Mission" },
+        { href: "/about/values", label: "Our Value" },
       ],
     },
     { href: "/what-we-do", label: "What We Do" },
