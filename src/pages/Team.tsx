@@ -1,95 +1,80 @@
 import { Layout } from "@/components/layout/Layout";
 import { Link } from "react-router-dom";
-import { ArrowRight, Linkedin } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "@/i18n/LanguageContext";
+
+// Assets
+import teamLogoIcon from "@/assets/team-logo-icon.png";
+import teamArrow from "@/assets/team-arrow.png";
+import teamHeroBar from "@/assets/team-hero-bar.png";
+import logoIcon from "@/assets/logo-icon.png";
+import dumaPhoto from "@/assets/team-duma.png";
+import annPhoto from "@/assets/team-ann.png";
+import timothyPhoto from "@/assets/team-timothy.png";
+import agusPhoto from "@/assets/team-agus.png";
+import liaPhoto from "@/assets/team-lia.png";
 
 interface Member {
   firstName: string;
   lastName: string;
   role_en: string;
   role_id: string;
-  bio_en: string;
-  bio_id: string;
   linkedIn?: string;
-  category: "core" | "advisor";
-  categoryLabel_en: string;
-  categoryLabel_id: string;
+  photo?: string;
+  hasPhoto: boolean;
 }
 
 const members: Member[] = [
   {
     firstName: "DUMA",
     lastName: "Evi",
-    role_en: "Founder & CEO",
-    role_id: "Pendiri & CEO",
-    bio_en: "Visionary founder leading Global Paro's mission to bridge healthcare talents with international opportunities through ethical recruitment and AI-powered solutions.",
-    bio_id: "Pendiri visioner yang memimpin misi Global Paro untuk menjembatani talenta kesehatan dengan peluang internasional melalui rekrutmen etis dan solusi berbasis AI.",
-    category: "core",
-    categoryLabel_en: "Core Team",
-    categoryLabel_id: "Tim Inti",
+    role_en: "Founder",
+    role_id: "Pendiri",
+    photo: dumaPhoto,
+    hasPhoto: true,
   },
   {
-    firstName: "ANN MARIE",
-    lastName: "Christopher",
-    role_en: "Key Appointment Holder",
-    role_id: "Pemegang Janji Kunci",
-    bio_en: "Senior healthcare executive with deep industry expertise ensuring Global Paro meets the highest standards of ethical recruitment and workplace culture excellence.",
-    bio_id: "Eksekutif senior kesehatan dengan keahlian industri mendalam yang memastikan Global Paro memenuhi standar tertinggi rekrutmen etis dan keunggulan budaya kerja.",
-    category: "core",
-    categoryLabel_en: "Core Team",
-    categoryLabel_id: "Tim Inti",
+    firstName: "ANN",
+    lastName: "Marie C",
+    role_en: "Workplace Culture Nurse Expert",
+    role_id: "Ahli Budaya Kerja Keperawatan",
+    photo: annPhoto,
+    hasPhoto: true,
   },
   {
     firstName: "MEGAWATI",
     lastName: "Santoso",
     role_en: "Strategic Business",
     role_id: "Bisnis Strategis",
-    bio_en: "Strategic business leader driving Global Paro's partnerships, market expansion, and organizational growth across key healthcare markets in the Asia-Pacific region.",
-    bio_id: "Pemimpin bisnis strategis yang mendorong kemitraan Global Paro, ekspansi pasar, dan pertumbuhan organisasi di pasar kesehatan utama di kawasan Asia-Pasifik.",
-    category: "core",
-    categoryLabel_en: "Core Team",
-    categoryLabel_id: "Tim Inti",
+    linkedIn: "https://www.linkedin.com/in/megasantoso/",
+    hasPhoto: false,
   },
   {
     firstName: "Dr. TIMOTHY",
     lastName: "Low",
-    role_en: "Board Advisor",
-    role_id: "Penasihat Dewan",
-    bio_en: "Executive VP at QuikBot Technologies. Former CEO & Board Director at Temasek Holdings. Brings extensive healthcare leadership and strategic partnership experience across Asia.",
-    bio_id: "Wakil Presiden Eksekutif di QuikBot Technologies. Mantan CEO & Direktur Dewan di Temasek Holdings. Membawa pengalaman kepemimpinan kesehatan dan kemitraan strategis yang luas.",
-    category: "advisor",
-    categoryLabel_en: "Board Advisor",
-    categoryLabel_id: "Penasihat Dewan",
+    role_en: "Board Advisor – ex CEO Gleneagles Hospital & Farrer Park Hospital",
+    role_id: "Penasihat Dewan – eks CEO Gleneagles Hospital & Farrer Park Hospital",
+    photo: timothyPhoto,
+    hasPhoto: true,
   },
   {
     firstName: "Prof. AGUS",
     lastName: "Setiawan",
-    role_en: "Independent Board Advisor",
-    role_id: "Penasihat Dewan Independen",
-    bio_en: "Distinguished Professor at the Faculty of Nursing, University of Indonesia. Brings deep expertise in nursing education, community health, and talent development.",
-    bio_id: "Profesor terkemuka di Fakultas Keperawatan, Universitas Indonesia. Membawa keahlian mendalam dalam pendidikan keperawatan, kesehatan komunitas, dan pengembangan talenta.",
-    category: "advisor",
-    categoryLabel_en: "Independent Board Advisor",
-    categoryLabel_id: "Penasihat Dewan Independen",
+    role_en: "Independence Board Advisor – ex Dean Faculty of Nurse University of Indonesia",
+    role_id: "Penasihat Dewan Independen – eks Dekan Fakultas Keperawatan UI",
+    photo: agusPhoto,
+    hasPhoto: true,
   },
   {
     firstName: "LIA",
     lastName: "Retnani",
-    role_en: "Board Advisor – Pharma & Digital",
-    role_id: "Penasihat Dewan – Farmasi & Digital",
-    bio_en: "Marketing Lead at APL, a Zuellig Pharma Company. Former Digital Marketing & Omnichannel Strategy at Boehringer Ingelheim. Expert in healthcare marketing and digital innovation.",
-    bio_id: "Pemimpin Pemasaran di APL, perusahaan Zuellig Pharma. Mantan Strategi Pemasaran Digital & Omnichannel di Boehringer Ingelheim. Ahli pemasaran kesehatan dan inovasi digital.",
-    category: "advisor",
-    categoryLabel_en: "Board Advisor – Pharma",
-    categoryLabel_id: "Penasihat Dewan – Farmasi",
+    role_en: "Board Advisor – Pharma Marketing Expert",
+    role_id: "Penasihat Dewan – Ahli Pemasaran Farmasi",
+    photo: liaPhoto,
+    hasPhoto: true,
   },
 ];
-
-// Different gradient per row to distinguish core vs advisor
-const coreGradient = "from-primary to-accent";
-const advisorGradient = "from-accent to-primary";
 
 export default function Team() {
   const { lang, t } = useTranslation();
@@ -97,85 +82,44 @@ export default function Team() {
   return (
     <Layout>
       {/* ── Hero Banner ── */}
-      <section
-        className="relative py-20 lg:py-28 overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(198 80% 22%) 50%, hsl(var(--accent)) 100%)' }}
-      >
-        {/* Decorative circles */}
-        <div className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-10 -translate-y-1/2 translate-x-1/3"
-          style={{ background: 'radial-gradient(circle, white 0%, transparent 70%)' }} />
-        <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full opacity-10 translate-y-1/2 -translate-x-1/4"
-          style={{ background: 'radial-gradient(circle, hsl(var(--accent)) 0%, transparent 70%)' }} />
+      <section className="relative overflow-hidden" style={{ backgroundColor: "#03989E" }}>
+        {/* Teal bar with white diamond cutouts */}
+        <img src={teamHeroBar} alt="" className="absolute inset-0 w-full h-full object-cover opacity-60" aria-hidden="true" />
+        <div className="relative z-10 py-8 lg:py-10">
+          <div className="container flex items-center justify-center gap-6">
+            {/* Left teal block */}
+            <div className="hidden md:block h-16 w-32 lg:w-48 rounded-sm" style={{ backgroundColor: "#03989E" }} />
 
-        <div className="relative container text-center z-10">
-          <p className="text-sm font-bold tracking-widest uppercase text-primary-foreground/70 mb-3">
-            {lang === "id" ? "Tim Kami" : "Our People"}
-          </p>
-          <h1 className="text-5xl lg:text-7xl font-black font-heading text-primary-foreground mb-4 leading-none">
-            Our <span style={{ color: 'hsl(var(--mint, var(--accent)))' }}>TEAM</span>
-          </h1>
-          <p className="text-lg text-primary-foreground/85 max-w-2xl mx-auto">
-            {lang === "id"
-              ? "Dipimpin oleh para pakar industri global, penasihat kesehatan, dan profesional berdedikasi yang bersatu untuk memberdayakan perawat Indonesia."
-              : "Led by global industry experts, healthcare advisors, and dedicated professionals united to empower Indonesian nurses worldwide."}
-          </p>
+            {/* Title */}
+            <div className="flex items-center gap-3">
+              <img src={logoIcon} alt="Global Paro" className="h-12 w-12 object-contain" />
+              <h1 className="text-5xl lg:text-6xl font-black font-heading text-white tracking-tight">
+                <span className="italic">ur</span>{" "}
+                <span style={{ color: "#015779" }}>TEAM</span>
+              </h1>
+            </div>
+
+            {/* Right teal block */}
+            <div className="hidden md:block h-16 w-32 lg:w-48 rounded-sm" style={{ backgroundColor: "#03989E" }} />
+          </div>
         </div>
       </section>
 
       {/* ── 6-Member Grid ── */}
-      <section className="py-16 lg:py-24">
-        <div className="container">
-          {/* Section label row 1 */}
-          <div className="flex items-center gap-4 mb-8">
-            <div className="h-px flex-1 bg-border" />
-            <span className="text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full"
-              style={{ backgroundColor: 'hsl(var(--primary) / 0.1)', color: 'hsl(var(--primary))' }}>
-              {lang === "id" ? "Tim Inti" : "Core Team"}
-            </span>
-            <div className="h-px flex-1 bg-border" />
-          </div>
-
-          {/* Row 1: Core Team */}
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-12">
-            {members.filter(m => m.category === "core").map((person) => (
-              <MemberCard key={person.firstName} person={person} lang={lang} gradientClass={coreGradient} />
+      <section className="py-12 bg-white">
+        <div className="container max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-gray-200">
+            {members.map((person, i) => (
+              <MemberCard key={person.firstName} person={person} lang={lang} index={i} />
             ))}
           </div>
 
-          {/* Section label row 2 */}
-          <div className="flex items-center gap-4 mb-8">
-            <div className="h-px flex-1 bg-border" />
-            <span className="text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full"
-              style={{ backgroundColor: 'hsl(var(--accent) / 0.1)', color: 'hsl(var(--accent))' }}>
-              {lang === "id" ? "Penasihat Dewan" : "Board Advisors"}
-            </span>
-            <div className="h-px flex-1 bg-border" />
-          </div>
-
-          {/* Row 2: Advisors */}
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {members.filter(m => m.category === "advisor").map((person) => (
-              <MemberCard key={person.firstName} person={person} lang={lang} gradientClass={advisorGradient} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Values Strip ── */}
-      <section className="py-12 bg-muted">
-        <div className="container">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto text-center">
-            {[
-              { num: "6", label: lang === "id" ? "Anggota Tim" : "Team Members" },
-              { num: "3", label: lang === "id" ? "Negara Tujuan" : "Target Countries" },
-              { num: "20+", label: lang === "id" ? "Tahun Pengalaman" : "Years Experience" },
-              { num: "100%", label: lang === "id" ? "Didedikasikan" : "Dedicated" },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <p className="text-3xl font-black font-heading" style={{ color: 'hsl(var(--accent))' }}>{stat.num}</p>
-                <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide mt-1">{stat.label}</p>
-              </div>
-            ))}
+          {/* Bottom navy bar */}
+          <div
+            className="flex items-center justify-center py-3"
+            style={{ backgroundColor: "#015779" }}
+          >
+            <span className="text-white text-sm font-medium tracking-wide">www.GlobalParo.com</span>
           </div>
         </div>
       </section>
@@ -183,7 +127,7 @@ export default function Team() {
       {/* ── Join Mission CTA ── */}
       <section
         className="py-16"
-        style={{ background: 'linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%)' }}
+        style={{ background: "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%)" }}
       >
         <div className="container text-center">
           <h2 className="text-3xl font-extrabold text-primary-foreground mb-4">{t.team.joinMission}</h2>
@@ -197,50 +141,91 @@ export default function Team() {
   );
 }
 
-function MemberCard({ person, lang, gradientClass }: { person: Member; lang: string; gradientClass: string }) {
-  const initials = person.firstName.replace("Dr. ", "").replace("Prof. ", "").split(" ")[0].slice(0, 2);
+function MemberCard({ person, lang, index }: { person: Member; lang: string; index: number }) {
+  const isBottomRow = index >= 3;
+  const col = index % 3;
+  const showRightBorder = col < 2;
+  const showBottomBorder = !isBottomRow;
 
   return (
-    <div className="bg-card rounded-2xl shadow-card border border-border overflow-hidden group hover:border-accent/40 hover:shadow-lg transition-all duration-300">
-      {/* Avatar Area */}
-      <div className="relative pt-8 pb-4 flex flex-col items-center"
-        style={{ background: 'hsl(var(--muted))' }}>
-        <div className={`h-24 w-24 rounded-full bg-gradient-to-br ${gradientClass} flex items-center justify-center shadow-lg mb-3 group-hover:scale-105 transition-transform duration-300`}>
-          <span className="text-3xl font-black text-white font-heading">{initials}</span>
-        </div>
-        {/* LinkedIn icon (placeholder) */}
-        <a
-          href={person.linkedIn ?? "#"}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="absolute top-4 right-4 flex h-7 w-7 items-center justify-center rounded-full transition-colors"
-          style={{ backgroundColor: 'hsl(var(--accent) / 0.15)', color: 'hsl(var(--accent))' }}
-          aria-label={`${person.firstName} LinkedIn`}
-          onClick={(e) => { if (!person.linkedIn) e.preventDefault(); }}
-        >
-          <Linkedin className="h-3.5 w-3.5" />
-        </a>
+    <div
+      className="bg-white flex flex-col"
+      style={{
+        borderRight: showRightBorder ? "1px solid #e5e7eb" : "none",
+        borderBottom: showBottomBorder ? "1px solid #e5e7eb" : "none",
+      }}
+    >
+      {/* Photo area */}
+      <div className="relative flex items-center justify-center pt-8 pb-4 px-6 bg-white min-h-[200px]">
+        {person.hasPhoto && person.photo ? (
+          <div className="relative">
+            {/* The photo already has the teal P-logo frame baked in */}
+            <img
+              src={person.photo}
+              alt={`${person.firstName} ${person.lastName}`}
+              className="w-48 h-40 object-contain"
+            />
+          </div>
+        ) : (
+          /* Placeholder: teal P-logo with no photo */
+          <div className="relative flex items-center justify-center">
+            <img src={teamLogoIcon} alt="Global Paro" className="w-32 h-32 object-contain opacity-60" />
+          </div>
+        )}
+
+        {/* Arrow icon — bottom right of photo */}
+        <img
+          src={teamArrow}
+          alt=""
+          className="absolute bottom-6 right-8 w-6 h-6 object-contain"
+          aria-hidden="true"
+        />
       </div>
 
-      {/* Content */}
-      <div className="p-5 text-center">
-        <h3 className="font-black font-heading text-lg leading-tight mb-0.5">
-          <span style={{ color: 'hsl(var(--primary))' }}>{person.firstName}</span>{" "}
-          <span className="text-foreground font-normal">{person.lastName}</span>
-        </h3>
-        <Badge
-          className="mb-3 text-xs font-semibold"
-          style={{
-            backgroundColor: 'hsl(var(--accent) / 0.12)',
-            color: 'hsl(var(--accent))',
-            border: '1px solid hsl(var(--accent) / 0.3)'
-          }}
+      {/* Name / role info */}
+      <div className="px-4 pb-5 flex items-start gap-3">
+        {/* QR placeholder */}
+        <div
+          className="shrink-0 w-10 h-10 rounded border-2 flex items-center justify-center"
+          style={{ borderColor: "#015779" }}
         >
-          {lang === "id" ? person.role_id : person.role_en}
-        </Badge>
-        <p className="text-sm text-muted-foreground leading-relaxed">
-          {lang === "id" ? person.bio_id : person.bio_en}
-        </p>
+          <div className="grid grid-cols-3 gap-0.5 p-0.5">
+            {Array.from({ length: 9 }).map((_, i) => (
+              <div
+                key={i}
+                className="w-2 h-2 rounded-sm"
+                style={{
+                  backgroundColor: [0,1,3,4,5,7,8].includes(i) ? "#015779" : "white",
+                }}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Vertical navy bar */}
+        <div className="self-stretch w-0.5 rounded-full shrink-0" style={{ backgroundColor: "#015779" }} />
+
+        {/* Text */}
+        <div className="min-w-0">
+          <p className="font-black font-heading text-base leading-tight">
+            <span style={{ color: "#03989E" }}>{person.firstName}</span>{" "}
+            <span style={{ color: "#015779" }}>{person.lastName}</span>
+          </p>
+          <p className="text-xs text-gray-500 leading-snug mt-0.5">
+            {lang === "id" ? person.role_id : person.role_en}
+          </p>
+          {person.linkedIn && (
+            <a
+              href={person.linkedIn}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs underline mt-1 block"
+              style={{ color: "#03989E" }}
+            >
+              {person.linkedIn}
+            </a>
+          )}
+        </div>
       </div>
     </div>
   );
