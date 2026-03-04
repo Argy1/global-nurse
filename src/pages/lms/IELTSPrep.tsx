@@ -1,5 +1,5 @@
 import { Layout } from "@/components/layout/Layout";
-import { Languages, ExternalLink, ArrowRight } from "lucide-react";
+import { Languages, ExternalLink, ArrowRight, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const resources = [
@@ -44,6 +44,12 @@ export default function IELTSPrep() {
       {/* Hero */}
       <section className="bg-white border-b border-border py-10 lg:py-14">
         <div className="container max-w-4xl mx-auto">
+          {/* Breadcrumb */}
+          <nav className="flex items-center gap-1.5 text-xs text-muted-foreground mb-5">
+            <Link to="/lms" className="hover:text-foreground transition-colors font-medium" style={{ color: "#015779" }}>LMS</Link>
+            <ChevronRight className="h-3.5 w-3.5" />
+            <span className="text-foreground font-semibold">IELTS Preparation</span>
+          </nav>
           <div className="flex items-center gap-3 mb-1">
             <div
               className="h-10 w-10 rounded-xl flex items-center justify-center"
