@@ -70,9 +70,10 @@ export function Navbar() {
     {
       label: "LMS",
       dropdown: [
-        { href: "/lms#ielts", label: "IELTS Preparation" },
-        { href: "/lms#certified", label: "Certified Global Nurse" },
-        { href: "/lms#nclex", label: "NCLEX 2026 Resources" },
+        { href: "/lms", label: "LMS" },
+        { href: "/lms/ielts", label: "IELTS Preparation" },
+        { href: "/lms/certified", label: "Certified Global Nurse" },
+        { href: "/lms/nclex", label: "NCLEX 2026 Resources" },
       ],
     },
     { href: "/team", label: "Our Team" },

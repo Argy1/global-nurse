@@ -27,6 +27,9 @@ import NewsDetail from "./pages/NewsDetail";
 import SuccessStories from "./pages/SuccessStories";
 import SuccessStoryDetail from "./pages/SuccessStoryDetail";
 import LMS from "./pages/LMS";
+import IELTSPrep from "./pages/lms/IELTSPrep";
+import CertifiedGlobalNurse from "./pages/lms/CertifiedGlobalNurse";
+import NCLEX from "./pages/lms/NCLEX";
 import Team from "./pages/Team";
 import Programs from "./pages/Programs";
 import BatchProgram from "./pages/programs/BatchProgram";
@@ -87,6 +90,9 @@ const App = () => (
             <Route path="/success-stories" element={<SuccessStories />} />
             <Route path="/success-stories/:slug" element={<SuccessStoryDetail />} />
             <Route path="/lms" element={<LMS />} />
+            <Route path="/lms/ielts" element={<IELTSPrep />} />
+            <Route path="/lms/certified" element={<CertifiedGlobalNurse />} />
+            <Route path="/lms/nclex" element={<NCLEX />} />
             <Route path="/team" element={<Team />} />
             <Route path="/programs" element={<BatchProgram />} />
             <Route path="/programs/batch" element={<BatchProgram />} />
