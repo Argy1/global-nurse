@@ -9,6 +9,10 @@ import { ProtectedRoute } from "@/components/admin/ProtectedRoute";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import WhatWeDo from "./pages/WhatWeDo";
+import WhatWeDoMain from "./pages/WhatWeDoMain";
+import WhatWeDoForCandidates from "./pages/WhatWeDoForCandidates";
+import WhatWeDoForEmployers from "./pages/WhatWeDoForEmployers";
+import WhatWeDontDo from "./pages/WhatWeDontDo";
 import HowWeDoIt from "./pages/HowWeDoIt";
 import Register from "./pages/Register";
 import RegisterSuccess from "./pages/RegisterSuccess";
@@ -55,7 +59,10 @@ const App = () => (
             {/* Public */}
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
-            <Route path="/what-we-do" element={<WhatWeDo />} />
+            <Route path="/what-we-do" element={<WhatWeDoMain />} />
+            <Route path="/what-we-do/candidates" element={<WhatWeDoForCandidates />} />
+            <Route path="/what-we-do/employers" element={<WhatWeDoForEmployers />} />
+            <Route path="/what-we-do/dont-do" element={<WhatWeDontDo />} />
             <Route path="/how-we-do-it" element={<HowWeDoIt />} />
             <Route path="/why-choose-us" element={<WhyChooseUs />} />
             <Route path="/about/vision" element={<AboutVision />} />
