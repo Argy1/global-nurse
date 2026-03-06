@@ -80,7 +80,7 @@ export default function Index() {
   const publishedNews = (newsItems ?? []).filter((n) => n.published).slice(0, 4);
   const publishedStories = (stories ?? []).filter((s) => s.is_published).slice(0, 3);
 
-  const whatsappHref = whatsappLink ?? "mailto:globalparo@gmail.com";
+  const whatsappHref = whatsappLink ?? "mailto:hello@globalparo.com";
 
   return (
     <Layout>

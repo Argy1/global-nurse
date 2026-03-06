@@ -8,7 +8,7 @@ import { useTranslation } from "@/i18n/LanguageContext";
 export default function Help() {
   const { data: settings } = useSiteSettings();
   const { t } = useTranslation();
-  const email = settings?.support_email || "globalparo@gmail.com";
+  const email = settings?.support_email || "hello@globalparo.com";
   const mobile = settings?.help_mobile;
   const hasMobile = mobile && mobile !== "UPDATE_ME";
   const whatsapp = settings?.whatsapp_direct_chat_link;

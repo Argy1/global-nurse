@@ -27,7 +27,7 @@ export function Navbar() {
   const { data: settings } = useSiteSettings();
   const { lang, setLang, t } = useTranslation();
 
-  const helpEmail = settings?.support_email || "globalparo@gmail.com";
+  const helpEmail = settings?.support_email || "hello@globalparo.com";
   const helpMobile = settings?.help_mobile;
 
   const navItems: NavItem[] = [
@@ -38,6 +38,7 @@ export function Navbar() {
         { href: "/about/vision", label: "Our Vision" },
         { href: "/about/mission", label: "Our Mission" },
         { href: "/about/values", label: "Our Value" },
+        { href: "/team", label: "Our Team" },
       ],
     },
     {
@@ -47,6 +48,10 @@ export function Navbar() {
         { href: "/what-we-do/candidates", label: "For Candidates" },
         { href: "/what-we-do/employers", label: "For Employers" },
         { href: "/what-we-do/dont-do", label: "What We Don't Do" },
+        { href: "/lms", label: "LMS" },
+        { href: "/lms/ielts", label: "IELTS Preparation" },
+        { href: "/lms/certified", label: "Certified Global Nurse" },
+        { href: "/lms/nclex", label: "NCLEX 2026 Resources" },
       ],
     },
     {
@@ -65,19 +70,9 @@ export function Navbar() {
         { href: "/programs/batch", label: "Batch Program" },
         { href: "/programs/requirements", label: "Requirement Criteria" },
         { href: "/programs/webinar", label: "Webinar" },
+        { href: "/quickstart", label: "Nurse Blog" },
       ],
     },
-    { href: "/quickstart", label: "QuickStart" },
-    {
-      label: "LMS",
-      dropdown: [
-        { href: "/lms", label: "LMS" },
-        { href: "/lms/ielts", label: "IELTS Preparation" },
-        { href: "/lms/certified", label: "Certified Global Nurse" },
-        { href: "/lms/nclex", label: "NCLEX 2026 Resources" },
-      ],
-    },
-    { href: "/team", label: "Our Team" },
     { href: "/register", label: "Register" },
   ];
 

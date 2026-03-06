@@ -14,7 +14,7 @@ export function Footer() {
   const { data: settings } = useSiteSettings();
   const { t } = useTranslation();
   const isValid = (url?: string) => url && url !== "UPDATE_ME" && url.startsWith("http");
-  const helpEmail = settings?.support_email || "globalparo@gmail.com";
+  const helpEmail = settings?.support_email || "hello@globalparo.com";
   const helpMobile = settings?.help_mobile;
 
   const exploreLinks = [

@@ -131,8 +131,8 @@ export function ChatWidget() {
 
   const { value: whatsappLink } = useSetting("whatsapp_direct_chat_link");
   const { value: supportEmail } = useSetting("support_email");
-  const whatsappHref = whatsappLink ?? "mailto:globalparo@gmail.com";
-  const emailAddr = supportEmail ?? "globalparo@gmail.com";
+  const whatsappHref = whatsappLink ?? "mailto:hello@globalparo.com";
+  const emailAddr = supportEmail ?? "hello@globalparo.com";
 
   const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 

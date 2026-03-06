@@ -67,7 +67,7 @@ export default function Register() {
   const navigate = useNavigate();
   const createCandidate = useCreateCandidate();
   const { value: whatsappLink } = useSetting("whatsapp_direct_chat_link");
-  const whatsappHref = whatsappLink ?? "mailto:globalparo@gmail.com";
+  const whatsappHref = whatsappLink ?? "mailto:hello@globalparo.com";
 
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);

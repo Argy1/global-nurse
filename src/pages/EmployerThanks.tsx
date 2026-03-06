@@ -9,7 +9,7 @@ export default function EmployerThanks() {
   const { value: bookingLink } = useSetting("booking_20min_link");
   const { value: supportEmail } = useSetting("support_email");
   const { t } = useTranslation();
-  const email = supportEmail ?? "globalparo@gmail.com";
+  const email = supportEmail ?? "hello@globalparo.com";
 
   return (
     <Layout>
