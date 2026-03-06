@@ -50,7 +50,7 @@ export function SocialStrip() {
     } else {
       toast({
         title: "Coming Soon",
-        description: `Our ${name} link will be available soon. Contact: globalparo@gmail.com`,
+        description: `Our ${name} link will be available soon. Contact: hello@globalparo.com`,
       });
     }
   };

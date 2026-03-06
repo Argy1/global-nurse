@@ -93,9 +93,9 @@ export default function Privacy() {
               <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-6">
                 <p className="text-foreground mb-4">{t.privacy.deletionDesc}</p>
                 <p className="text-foreground mb-4">{t.privacy.deletionHow}</p>
-                <a href="mailto:globalparo@gmail.com?subject=Data Deletion Request" className="inline-flex items-center gap-2 text-primary font-bold hover:underline">
+                <a href="mailto:hello@globalparo.com?subject=Data Deletion Request" className="inline-flex items-center gap-2 text-primary font-bold hover:underline">
                   <Mail className="h-5 w-5" />
-                  globalparo@gmail.com
+                  hello@globalparo.com
                 </a>
                 <p className="text-sm text-muted-foreground mt-4">{t.privacy.deletionNote}</p>
               </div>
@@ -128,7 +128,7 @@ export default function Privacy() {
             <div className="bg-primary/5 border border-primary/10 rounded-lg p-6 text-center">
               <h2 className="text-xl font-bold text-foreground mb-2">{t.privacy.questionsTitle}</h2>
               <p className="text-muted-foreground mb-4">{t.privacy.questionsDesc}</p>
-              <a href="mailto:globalparo@gmail.com" className="text-primary font-bold hover:underline">globalparo@gmail.com</a>
+              <a href="mailto:hello@globalparo.com" className="text-primary font-bold hover:underline">hello@globalparo.com</a>
             </div>
           </div>
         </div>

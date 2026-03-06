@@ -36,7 +36,7 @@ export default function RegisterSuccess() {
               <Link to="/quickstart"><ArrowRight className="h-4 w-4" /> {t.registerSuccess.readQuickstart}</Link>
             </Button>
             <Button variant="outline" asChild>
-              <a href="mailto:globalparo@gmail.com"><Mail className="h-4 w-4" /> {t.common.emailUs}</a>
+              <a href="mailto:hello@globalparo.com"><Mail className="h-4 w-4" /> {t.common.emailUs}</a>
             </Button>
           </div>
         </div>

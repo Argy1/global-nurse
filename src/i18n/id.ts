@@ -269,7 +269,7 @@ const id: Translations = {
       { q: "Berapa lama prosesnya?", a: "Waktu bervariasi tergantung negara dan kesiapan individu. Kami memberikan panduan transparan tentang perkiraan waktu selama peninjauan." },
       { q: "Apakah Anda menjamin penempatan kerja?", a: "Tidak. Kami tidak menjamin hasil. Kami menyediakan panduan etis, dukungan persiapan, dan koneksi ke pemberi kerja terverifikasi." },
       { q: "Bagaimana data saya dilindungi?", a: "Kami mengikuti praktik privasi yang ketat. Data Anda hanya digunakan dengan persetujuan Anda. Lihat Kebijakan Privasi kami untuk detailnya." },
-      { q: "Bisakah saya menghapus profil saya?", a: "Ya. Email globalparo@gmail.com untuk meminta penghapusan data kapan saja." },
+      { q: "Bisakah saya menghapus profil saya?", a: "Ya. Email hello@globalparo.com untuk meminta penghapusan data kapan saja." },
     ],
   },
 

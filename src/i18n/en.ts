@@ -267,7 +267,7 @@ const en = {
       { q: "How long does the process take?", a: "Timelines vary by country and individual readiness. We provide transparent guidance on expected timelines during your review." },
       { q: "Do you guarantee job placement?", a: "No. We do not guarantee outcomes. We provide ethical guidance, preparation support, and connections to verified employers." },
       { q: "How is my data protected?", a: "We follow strict privacy practices. Your data is only used with your consent. See our Privacy Policy for details." },
-      { q: "Can I delete my profile?", a: "Yes. Email globalparo@gmail.com to request data deletion at any time." },
+      { q: "Can I delete my profile?", a: "Yes. Email hello@globalparo.com to request data deletion at any time." },
     ],
   },
 

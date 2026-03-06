@@ -26,7 +26,7 @@ export function useWhatsAppLink() {
     } else {
       toast({
         title: "Link Coming Soon",
-        description: "WhatsApp group link will be available soon. Contact: globalparo@gmail.com",
+        description: "WhatsApp group link will be available soon. Contact: hello@globalparo.com",
         variant: "default",
       });
       // Navigate to community page for more options
@@ -39,7 +39,7 @@ export function useWhatsAppLink() {
       e.preventDefault();
       toast({
         title: "Link Coming Soon",
-        description: "This WhatsApp group link will be available soon. Contact: globalparo@gmail.com",
+        description: "This WhatsApp group link will be available soon. Contact: hello@globalparo.com",
         variant: "default",
       });
     }

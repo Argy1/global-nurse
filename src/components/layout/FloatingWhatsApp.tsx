@@ -13,7 +13,7 @@ export function FloatingWhatsApp() {
     } else {
       toast({
         title: "Coming Soon",
-        description: "WhatsApp support will be available soon. Email: globalparo@gmail.com",
+        description: "WhatsApp support will be available soon. Email: hello@globalparo.com",
       });
     }
   };
