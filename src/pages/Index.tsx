@@ -130,8 +130,62 @@ export default function Index() {
         </div>
       </section>
 
-      {/* ─── 3. Why Choose Us - PARO ─── */}
-      <section className="py-16 lg:py-20 bg-muted">
+       {/* ─── 3. Webinar Section ─── */}
+       <section className="py-12 lg:py-16 bg-white border-b border-border">
+         <div className="container max-w-4xl mx-auto">
+           <div className="grid lg:grid-cols-2 gap-8 items-center">
+             {/* Left: Webinar content */}
+             <div>
+               <p className="text-sm font-bold tracking-widest uppercase mb-2" style={{ color: 'hsl(var(--accent))' }}>Free Event</p>
+               <h2 className="text-3xl lg:text-4xl font-black font-heading text-foreground mb-3">Free Webinar</h2>
+               <p className="text-muted-foreground text-sm mb-6 leading-relaxed">
+                 Learn everything about working as a nurse in Singapore — requirements, salary, benefits, and real stories from nurses already thriving abroad. Live Q&A with our placement advisors.
+               </p>
+               <div className="space-y-3 mb-6">
+                 {[
+                   "Overview of Singapore healthcare system",
+                   "Eligibility & application process",
+                   "Real nursing salaries & benefits breakdown",
+                 ].map((item) => (
+                   <div key={item} className="flex items-start gap-2 text-sm text-foreground">
+                     <span className="text-accent font-bold">✓</span>
+                     <span>{item}</span>
+                   </div>
+                 ))}
+               </div>
+               <Button asChild className="rounded-full font-bold" style={{ backgroundColor: 'hsl(var(--accent))' }}>
+                 <Link to="/programs/webinar">Learn More About Webinar <ArrowRight className="h-4 w-4" /></Link>
+               </Button>
+             </div>
+             {/* Right: Info card */}
+             <div className="bg-card rounded-2xl border-2 overflow-hidden shadow-xl" style={{ borderColor: "#03989E" }}>
+               <div className="px-6 py-4 border-b border-border">
+                 <h3 className="text-xl font-black text-foreground">Coming Soon</h3>
+                 <p className="text-sm text-muted-foreground">Join our next webinar</p>
+               </div>
+               <div className="px-6 py-5 text-white font-semibold text-sm" style={{ background: "#03989E" }}>
+                 <div className="flex items-center gap-2">
+                   <Mail className="h-4 w-4" />
+                   <a href="mailto:hello@globalparo.com" className="underline font-bold">hello@globalparo.com</a>
+                 </div>
+               </div>
+               <div className="px-6 py-4 space-y-3">
+                 <div className="flex items-center justify-between text-sm">
+                   <span className="font-semibold text-foreground">Format</span>
+                   <span className="text-muted-foreground">Online Live</span>
+                 </div>
+                 <div className="flex items-center justify-between text-sm border-t border-border pt-3">
+                   <span className="font-semibold text-foreground">Cost</span>
+                   <span className="font-bold" style={{ color: "#03989E" }}>FREE</span>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       </section>
+
+       {/* ─── 4. Why Choose Us - PARO ─── */}
+       <section className="py-16 lg:py-20 bg-muted">
         <div className="container">
           <div className="text-center mb-12">
             <p className="text-sm font-bold tracking-widest uppercase mb-2" style={{ color: 'hsl(var(--accent))' }}>Why Global PARO</p>
