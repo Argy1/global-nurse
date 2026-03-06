@@ -84,31 +84,29 @@ export default function Index() {
       <TutorialModal />
 
       {/* ─── 1. HERO ─── */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden" style={{ height: "clamp(320px, 55vw, 520px)" }}>
         <img
           src={heroBanner}
           alt="Global PARO - Global Career Gateway for Nurses"
-          className="w-full object-cover"
-          style={{ maxHeight: "480px", objectPosition: "center 30%" }}
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ objectPosition: "center 20%" }}
           loading="eager"
         />
-        {/* Overlay buttons — centered, lower-middle */}
-        <div className="absolute inset-0 flex items-center justify-center" style={{ paddingTop: "55%" }}>
-          <div className="flex gap-4">
-            <Link
-              to="/register"
-              className="inline-flex items-center gap-2 px-7 py-3 rounded-full font-bold text-base text-white shadow-lg transition-all hover:opacity-90"
-              style={{ backgroundColor: "#03989E" }}
-            >
-              Get Started <ArrowRight className="h-4 w-4" />
-            </Link>
-            <Link
-              to="/programs"
-              className="inline-flex items-center px-7 py-3 rounded-full font-bold text-base text-white border-2 border-white transition-all hover:bg-white/20"
-            >
-              Learn More
-            </Link>
-          </div>
+        {/* Overlay buttons — bottom-center */}
+        <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-4 px-4">
+          <Link
+            to="/register"
+            className="inline-flex items-center gap-2 px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold text-sm md:text-base text-white shadow-lg transition-all hover:opacity-90"
+            style={{ backgroundColor: "#03989E" }}
+          >
+            Get Started <ArrowRight className="h-4 w-4" />
+          </Link>
+          <Link
+            to="/programs"
+            className="inline-flex items-center px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold text-sm md:text-base text-white border-2 border-white transition-all hover:bg-white/20"
+          >
+            Learn More
+          </Link>
         </div>
       </section>
 
