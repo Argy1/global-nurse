@@ -23,11 +23,14 @@ export default function AboutMission() {
           </div>
 
           {/* Mission cards image */}
-          <img
-            src={missionCards}
-            alt="Mission cards: Providing, Accelerating, Empowering"
-            className="w-full object-contain"
-          />
+          <div className="w-full min-h-[220px] sm:min-h-[300px] md:min-h-[380px]">
+            <img
+              src={missionCards}
+              alt="Mission cards: Providing, Accelerating, Empowering"
+              className="w-full h-full object-contain"
+              style={{ minHeight: "220px" }}
+            />
+          </div>
         </div>
       </section>
 
