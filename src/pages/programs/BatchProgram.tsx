@@ -178,24 +178,12 @@ export default function BatchProgram() {
             </p>
           </div>
 
-          {/* Compensation */}
-          <div className="bg-card rounded-2xl border border-border shadow-card overflow-hidden">
-            <div className="px-6 py-4 flex items-center gap-3" style={{ background: "#015779" }}>
-              <Award className="h-5 w-5 text-white" />
-              <h3 className="font-bold text-white">Compensation Package</h3>
-            </div>
-            <div className="p-6 space-y-3">
-              {benefits.map((b) => (
-                <div key={b.label} className="flex items-center justify-between py-2 border-b border-border last:border-0">
-                  <span className="text-sm text-muted-foreground">{b.label}</span>
-                  <span className="font-bold text-sm" style={{ color: "#015779" }}>{b.value}</span>
-                </div>
-              ))}
-            </div>
-            <div className="px-6 py-4 text-sm font-medium" style={{ background: "#03989E15", color: "#03989E" }}>
-              📈 Career path: HCA → Enrolled Nurse → Registered Nurse opportunities available
-            </div>
-          </div>
+          {/* Career path note */}
+           <div className="bg-card rounded-2xl border border-border shadow-card overflow-hidden p-6" style={{ background: "#03989E15", borderColor: "#03989E40" }}>
+             <p className="text-sm font-medium" style={{ color: "#03989E" }}>
+               📈 Career path: HCA → Enrolled Nurse → Registered Nurse opportunities available
+             </p>
+           </div>
         </div>
       </section>
 
