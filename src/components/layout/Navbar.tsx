@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Phone, Mail, Globe, Search, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import logoFull from "@/assets/logo-full.png";
+import logoIcon3d from "@/assets/logo-icon-3d.png";
+import logoText from "@/assets/logo-text.png";
 import { cn } from "@/lib/utils";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { useTranslation } from "@/i18n/LanguageContext";
@@ -137,7 +138,8 @@ export function Navbar() {
       <div className="container flex h-16 items-center justify-between gap-4" style={{ backgroundColor: 'hsl(var(--card))' }}>
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 shrink-0">
-          <img src={logoFull} alt="Global PARO" className="h-14 w-auto max-w-[220px] object-contain" />
+          <img src={logoIcon3d} alt="Global PARO Icon" className="h-12 w-auto object-contain" />
+          <img src={logoText} alt="Global PARO" className="h-8 w-auto object-contain" />
         </Link>
 
         {/* Desktop Nav — CSS group/group-hover, no JS state needed */}
