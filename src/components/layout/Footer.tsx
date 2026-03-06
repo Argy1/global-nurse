@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import { Instagram, Linkedin, Mail, Phone } from "lucide-react";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { useTranslation } from "@/i18n/LanguageContext";
-import logoFull from "@/assets/logo-full.png";
+import logoIcon3d from "@/assets/logo-icon-3d.png";
+import logoText from "@/assets/logo-text.png";
 
 const TikTokIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
@@ -41,9 +42,10 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-3">
           {/* Brand Column */}
           <div>
-          <Link to="/" className="flex flex-col gap-1 mb-5">
-              <img src={logoFull} alt="Global Paro" className="h-10 w-auto max-w-[180px] object-contain brightness-0 invert" />
-              <div className="text-xs text-primary-foreground/60 mt-1">Global Career Gateway for Nurses</div>
+          <Link to="/" className="flex items-center gap-2 mb-5">
+              <img src={logoIcon3d} alt="Global PARO Icon" className="h-12 w-auto object-contain brightness-0 invert" />
+              <img src={logoText} alt="Global PARO" className="h-7 w-auto object-contain brightness-0 invert" />
+              <div className="text-xs text-primary-foreground/60 mt-1 sr-only">Global Career Gateway for Nurses</div>
             </Link>
             <p className="text-primary-foreground/80 text-sm mb-6 leading-relaxed max-w-xs">
               Empowering nurses to build global careers through ethical recruitment, AI-driven learning, and transparent pathways.
