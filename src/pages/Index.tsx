@@ -13,11 +13,7 @@ import { useSiteSettings, useSetting } from "@/hooks/useSiteSettings";
 import { useContent } from "@/hooks/useContent";
 import { useSuccessStories } from "@/hooks/useSuccessStories";
 import { useTranslation } from "@/i18n/LanguageContext";
-import logoIcon from "@/assets/logo-icon.png";
-import heroNurseAsia from "@/assets/hero-nurse-asia.png";
-import heroNurses from "@/assets/hero-nurses.jpg";
-import logo3dClay from "@/assets/logo-3d-clay.png";
-import logo3dNeon from "@/assets/logo-3d-neon.png";
+import heroBanner from "@/assets/hero-banner.png";
 
 const quickstartTopics = [
   { title_en: "Is Working Abroad Right for You?", title_id: "Apakah Bekerja di Luar Negeri Tepat untuk Anda?", slug: "is-working-abroad-right" },
@@ -87,83 +83,32 @@ export default function Index() {
       <TutorialModal />
 
       {/* ─── 1. HERO ─── */}
-      <section className="relative overflow-hidden min-h-[85vh] flex items-center" style={{ background: 'linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(198 80% 20%) 50%, hsl(var(--accent)) 100%)' }}>
-        {/* Background pattern */}
-        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
-
-        <div className="relative container py-16 lg:py-24 z-10">
-          <div className="grid lg:grid-cols-2 gap-8 items-center">
-            {/* Left: Branding + CTAs */}
-            <div className="text-center lg:text-left">
-              {/* Logo mark */}
-              <div className="flex items-center gap-3 justify-center lg:justify-start mb-6">
-                <img src={logo3dClay} alt="Global Paro Icon" className="h-16 w-16 object-contain drop-shadow-lg" />
-                <div>
-                  <div className="font-heading font-black text-3xl text-primary-foreground leading-none">Global PARO</div>
-                  <div className="text-xs text-primary-foreground/70 mt-0.5 font-medium tracking-wide uppercase">Global Career Gateway for Nurses</div>
-                </div>
-              </div>
-
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-primary-foreground mb-4 leading-tight font-heading">
-                Your Global<br />
-                <span style={{ color: 'hsl(var(--mint))' }}>Healthcare</span><br />
-                Career Starts Here
-              </h1>
-              <p className="text-base lg:text-lg text-primary-foreground/85 max-w-md mb-8 mx-auto lg:mx-0">
-                Empowering nurses from Indonesia to build thriving careers abroad — through ethical recruitment, AI-driven learning, and transparent pathways.
-              </p>
-
-              {/* Pathway Pills */}
-              <div className="flex flex-wrap gap-2 justify-center lg:justify-start mb-8">
-                {pathwayPills.map((p, i) => (
-                  <div key={p.label} className="flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-semibold text-primary-foreground" style={{ backgroundColor: 'hsl(var(--primary-foreground) / 0.15)', border: '1px solid hsl(var(--primary-foreground) / 0.3)' }}>
-                    <span>{p.flag}</span>
-                    <span>{p.label}</span>
-                    {i < pathwayPills.length - 1 && <ChevronRight className="h-3 w-3 opacity-60" />}
-                  </div>
-                ))}
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
-                <Button
-                  size="xl"
-                  asChild
-                  className="rounded-full font-bold shadow-lg"
-                  style={{ backgroundColor: 'hsl(var(--accent))', color: 'hsl(var(--accent-foreground))' }}
-                >
-                  <Link to="/register">Get Started <ArrowRight className="h-5 w-5" /></Link>
-                </Button>
-                <Button
-                  variant="heroOutline"
-                  size="xl"
-                  asChild
-                  className="rounded-full font-bold"
-                >
-                  <Link to="/programs">Learn More</Link>
-                </Button>
-              </div>
-            </div>
-
-            {/* Right: Nurse Image */}
-            <div className="hidden lg:flex justify-center lg:justify-end relative">
-              {/* Decorative glow */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-[420px] h-[420px] rounded-full opacity-20" style={{ background: 'radial-gradient(circle, hsl(var(--accent)) 0%, transparent 70%)' }} />
-              </div>
-              {/* Neon logo watermark - top right */}
-              <div className="absolute -top-4 -right-4 z-20 opacity-60">
-                <img src={logo3dNeon} alt="" className="h-24 w-24 object-contain" aria-hidden="true" />
-              </div>
-              <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl border-2 border-primary-foreground/20">
-                <img
-                  src={heroNurses}
-                  alt="Professional Asian nurses smiling"
-                  className="h-[460px] w-[520px] object-cover object-top"
-                  loading="eager"
-                />
-              </div>
-            </div>
-          </div>
+      <section className="relative overflow-hidden">
+        <img
+          src={heroBanner}
+          alt="Global PARO - Global Career Gateway for Nurses"
+          className="w-full object-cover object-center"
+          style={{ maxHeight: "420px" }}
+          loading="eager"
+        />
+        {/* Overlay buttons */}
+        <div className="absolute inset-0 flex items-end justify-center pb-10 gap-4">
+          <Button
+            size="xl"
+            asChild
+            className="rounded-full font-bold shadow-lg"
+            style={{ backgroundColor: 'hsl(var(--accent))', color: 'hsl(var(--accent-foreground))' }}
+          >
+            <Link to="/register">Get Started <ArrowRight className="h-5 w-5" /></Link>
+          </Button>
+          <Button
+            variant="heroOutline"
+            size="xl"
+            asChild
+            className="rounded-full font-bold"
+          >
+            <Link to="/programs">Learn More</Link>
+          </Button>
         </div>
       </section>
 
