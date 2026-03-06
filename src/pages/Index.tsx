@@ -92,8 +92,9 @@ export default function Index() {
           style={{ objectPosition: "center 20%" }}
           loading="eager"
         />
-        {/* Overlay buttons — below "Global PARO" text, left-aligned */}
-        <div className="absolute bottom-8 flex gap-4 px-4" style={{ left: "33%" }}>
+        {/* Overlay buttons — centered on mobile, left-aligned under "Global PARO" on desktop */}
+        <div className="absolute bottom-6 md:bottom-8 left-0 right-0 md:left-[33%] md:right-auto flex justify-center md:justify-start gap-3 md:gap-4 px-4">
+
           <Link
             to="/register"
             className="inline-flex items-center gap-2 px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold text-sm md:text-base text-white shadow-lg transition-all hover:opacity-90"
