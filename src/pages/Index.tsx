@@ -14,6 +14,7 @@ import { useContent } from "@/hooks/useContent";
 import { useSuccessStories } from "@/hooks/useSuccessStories";
 import { useTranslation } from "@/i18n/LanguageContext";
 import heroBanner from "@/assets/hero-banner.png";
+// v2
 
 const quickstartTopics = [
   { title_en: "Is Working Abroad Right for You?", title_id: "Apakah Bekerja di Luar Negeri Tepat untuk Anda?", slug: "is-working-abroad-right" },
