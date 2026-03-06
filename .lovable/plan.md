@@ -1,58 +1,69 @@
 
-## Redesign `/about` — Global Paro Page (image-22 style)
 
-### Apa yang User Inginkan
-Berdasarkan image-22 dan deskripsi user:
-1. **Hero card glassmorphism** persis seperti image-22: background split (navy kiri + teal kanan), card putih rounded besar di tengah, foto 2 nurses (image-23) sebagai background kanan card dengan efek faded, kiri card ada logo icon + "Global **PARO**" teal + paragraf deskripsi
-2. **2 kotak warna di bawah card** — seperti terlihat di image-22: ada 2 blok warna (teal dan navy) tepat di bawah card
-3. **Strip putih** tipis di atas kotak warna
-4. **"About Us" text header** di atas semua elemen (seperti judul halaman di atas card)
+## Plan: Fix Mobile/Tablet Responsiveness for 3 Pages
 
-### Asset
-- **image-23.png** → `src/assets/nurses-pair.png` (foto 2 nurses teal scrubs, untuk background card)
+### Page 1 — Mission (`src/pages/AboutMission.tsx`)
 
-### Design Detail
+**Problem:** The `mission-cards.png` is a wide landscape image — on mobile it renders at full width but is very short/small because `object-contain` shrinks it to fit the natural aspect ratio. It needs a minimum height so the cards are readable.
+
+**Fix:**
+- Add `style={{ minHeight: "200px" }}` on mobile and use responsive min-height with clamp
+- Wrap the image in a container div with `min-h-[220px] sm:min-h-[300px]` so the image always renders tall enough to be legible
+- The image will auto-scale upward on larger screens
+
+---
+
+### Page 2 — Homepage Hero (`src/pages/Index.tsx`)
+
+**Problem:** Buttons at hardcoded `left: "33%"` — on mobile the banner image content is centered/full-bleed so this offset is wrong. The buttons end up in an awkward position.
+
+**Fix:**
+- On mobile (`< md`): center the buttons horizontally at the bottom, `justify-center left-0 right-0`
+- On desktop (`md+`): keep `left: 33%` to align under the "Global PARO" text in the banner
+- Use a CSS approach with a responsive wrapper class + inline style only for desktop:
 
 ```text
-┌─────────────────────────────────────────────────────────┐
-│  ABOUT US  (label teks teal, font-bold kecil di atas)   │
-├──────────────────────────────────────────────────────────┤
-│  [BG: split navy kiri / teal kanan]                      │
-│  ┌──────────────────────────────────────────────────┐    │
-│  │  [CARD: bg-white/90 backdrop-blur rounded-2xl]   │    │
-│  │  ┌─────────────────────┐ ┌────────────────────┐  │    │
-│  │  │  LEFT (50%): white  │ │  RIGHT (50%): nurse │  │    │
-│  │  │                     │ │  photo opacity-60   │  │    │
-│  │  │  🔵 Global PARO     │ │  object-cover       │  │    │
-│  │  │  (icon + PARO teal) │ │  rounded-r-2xl      │  │    │
-│  │  │                     │ │                     │  │    │
-│  │  │  "empowers every    │ │                     │  │    │
-│  │  │   international     │ │                     │  │    │
-│  │  │   nurse..."         │ │                     │  │    │
-│  │  └─────────────────────┘ └────────────────────┘  │    │
-│  └──────────────────────────────────────────────────┘    │
-│  ──────── strip putih tipis ────────────────────────     │
-│  [TEAL kotak kiri ~50%] │ [NAVY kotak kanan ~50%]        │
-└──────────────────────────────────────────────────────────┘
+Mobile:  absolute bottom-6 left-0 right-0  →  flex justify-center gap-4
+Desktop: absolute bottom-8 left-[33%]       →  flex gap-4
 ```
 
-### Konten yang Tetap Dipertahankan (di bawah hero)
-- Brand Philosophy Banner
-- Red/Green Flags section
-- JoinMissionBanner (CTA di atas footer)
+This is achieved with `className="absolute bottom-6 md:bottom-8 left-0 right-0 md:left-[33%] md:right-auto flex justify-center md:justify-start gap-4 px-4"`
 
-Bagian Vision, Mission, Values **dihapus** dari About.tsx (sudah punya halaman sendiri).
+---
 
-### Files yang Diubah
-1. **Copy** `user-uploads://image-23.png` → `src/assets/nurses-pair.png`
-2. **`src/pages/About.tsx`** — redesign total hero + simplify konten:
-   - Hero baru dengan card glassmorphism + foto nurses + 2 kotak warna
-   - Hapus section Vision, Mission, Values (sudah punya halaman terpisah)
-   - Pertahankan Brand Philosophy + Red/Green Flags
-   - Pakai `JoinMissionBanner` di bawah
-3. **`src/components/layout/Navbar.tsx`** — `What We Do` belum jadi dropdown (dari plan sebelumnya yang belum diimplementasi), tapi fokus utama adalah About page redesign
+### Page 3 — Batch Program (`src/pages/programs/BatchProgram.tsx`)
 
-### Tidak Ada Perubahan Pada
-- Routing App.tsx (sudah benar)
-- Halaman AboutVision, AboutMission, AboutValues (sudah dibuat)
-- Bagian lain dari site
+**Problem:** The hero section uses `position: absolute` for the nurse image which fills `w-full lg:w-1/2`. On mobile this means the image is hidden behind the full-width white card. Also the "50 NURSES ONLY" red ribbon is placed at a fixed offset that cuts into the card title on mobile.
+
+**Fix:** Switch to a **stacked layout on mobile, split panel on desktop**:
+
+```text
+Mobile layout:
+┌──────────────────────────┐
+│  nurse image (top, 220px)│  ← standard img, not absolute
+│  with teal gradient over │
+├──────────────────────────┤
+│  white info card (below) │  ← normal flow, no overlap
+└──────────────────────────┘
+
+Desktop layout (lg+):
+┌─────────────────┬────────────────┐
+│  nurse image    │  white card    │  ← absolute bg + card on right
+│  (absolute bg)  │                │
+└─────────────────┴────────────────┘
+```
+
+Implementation:
+- Hide the absolute nurse image on mobile (`hidden lg:block`)
+- Add a new mobile-only `<div>` with the nurse image as a standard `<img>` with `h-56 object-cover` and teal gradient overlay
+- On mobile, position the ribbon outside/above the card so it doesn't overlap the "Nurse in Singapore" title — move it to top of the card section, or shrink it
+- Remove `justify-end` from the card container on mobile so the card fills the full screen width naturally
+
+---
+
+### Files to Edit
+
+1. `src/pages/AboutMission.tsx` — add min-height to mission cards image
+2. `src/pages/Index.tsx` — fix hero button positioning with responsive classes
+3. `src/pages/programs/BatchProgram.tsx` — refactor hero to stacked mobile / split desktop layout
+
