@@ -88,28 +88,27 @@ export default function Index() {
         <img
           src={heroBanner}
           alt="Global PARO - Global Career Gateway for Nurses"
-          className="w-full object-cover object-center"
-          style={{ maxHeight: "420px" }}
+          className="w-full object-cover"
+          style={{ maxHeight: "480px", objectPosition: "center 30%" }}
           loading="eager"
         />
-        {/* Overlay buttons */}
-        <div className="absolute inset-0 flex items-end justify-center pb-10 gap-4">
-          <Button
-            size="xl"
-            asChild
-            className="rounded-full font-bold shadow-lg"
-            style={{ backgroundColor: 'hsl(var(--accent))', color: 'hsl(var(--accent-foreground))' }}
-          >
-            <Link to="/register">Get Started <ArrowRight className="h-5 w-5" /></Link>
-          </Button>
-          <Button
-            variant="heroOutline"
-            size="xl"
-            asChild
-            className="rounded-full font-bold"
-          >
-            <Link to="/programs">Learn More</Link>
-          </Button>
+        {/* Overlay buttons — centered, lower-middle */}
+        <div className="absolute inset-0 flex items-center justify-center" style={{ paddingTop: "55%" }}>
+          <div className="flex gap-4">
+            <Link
+              to="/register"
+              className="inline-flex items-center gap-2 px-7 py-3 rounded-full font-bold text-base text-white shadow-lg transition-all hover:opacity-90"
+              style={{ backgroundColor: "#03989E" }}
+            >
+              Get Started <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link
+              to="/programs"
+              className="inline-flex items-center px-7 py-3 rounded-full font-bold text-base text-white border-2 border-white transition-all hover:bg-white/20"
+            >
+              Learn More
+            </Link>
+          </div>
         </div>
       </section>
 
