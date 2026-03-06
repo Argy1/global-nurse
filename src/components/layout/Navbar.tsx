@@ -137,7 +137,7 @@ export function Navbar() {
       <div className="container flex h-16 items-center justify-between gap-4" style={{ backgroundColor: 'hsl(var(--card))' }}>
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 shrink-0">
-          <img src={logoFull} alt="Global PARO" className="h-10 w-auto max-w-[180px] object-contain" />
+          <img src={logoFull} alt="Global PARO" className="h-14 w-auto max-w-[220px] object-contain" />
         </Link>
 
         {/* Desktop Nav — CSS group/group-hover, no JS state needed */}

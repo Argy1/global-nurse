@@ -28,18 +28,15 @@ export default function AboutVision() {
             {/* Right: Vision statement */}
             <div className="md:w-2/3">
               <p className="text-white/90 text-lg md:text-xl leading-relaxed mb-6">
-                To become the world's most trusted bridge between{" "}
+                To become the leader and the preferred global partner platform — as a bridge between{" "}
                 <span className="font-bold text-white bg-white/20 px-2 py-0.5 rounded">
                   healthcare talents
                 </span>{" "}
-                and global{" "}
+                and international opportunities in{" "}
                 <span className="font-bold text-white bg-white/20 px-2 py-0.5 rounded">
                   healthcare providers
                 </span>
-                , empowering nurses from Indonesia and beyond to build meaningful international careers.
-              </p>
-              <p className="text-white/75 text-base leading-relaxed">
-                We envision a world where every qualified nurse has equal access to global opportunities, regardless of their background or location.
+                .
               </p>
             </div>
           </div>
