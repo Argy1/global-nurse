@@ -63,14 +63,21 @@ const App = () => (
             {/* Public */}
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
+            {/* About sub-pages → redirect to About with anchor */}
+            <Route path="/about/vision" element={<Navigate to="/about#vision" replace />} />
+            <Route path="/about/mission" element={<Navigate to="/about#mission" replace />} />
+            <Route path="/about/values" element={<Navigate to="/about#values" replace />} />
+            <Route path="/team" element={<Navigate to="/about#team" replace />} />
+            {/* What We Do */}
             <Route path="/what-we-do" element={<WhatWeDoMain />} />
-            <Route path="/what-we-do/candidates" element={<WhatWeDoForCandidates />} />
+            <Route path="/what-we-do/candidates" element={<Navigate to="/what-we-do#candidates" replace />} />
             <Route path="/what-we-do/employers" element={<WhatWeDoForEmployers />} />
             <Route path="/what-we-do/dont-do" element={<WhatWeDontDo />} />
-            <Route path="/how-we-do-it" element={<HowWeDoItMain />} />
-            <Route path="/how-we-do-it/approach" element={<HowWeDoItApproach />} />
-            <Route path="/how-we-do-it/difference" element={<HowWeDoItDifference />} />
-            <Route path="/how-we-do-it/journey" element={<HowWeDoItJourney />} />
+            {/* How We Do It */}
+            <Route path="/how-we-do-it" element={<HowWeDoIt />} />
+            <Route path="/how-we-do-it/approach" element={<Navigate to="/how-we-do-it#approach" replace />} />
+            <Route path="/how-we-do-it/difference" element={<Navigate to="/how-we-do-it#difference" replace />} />
+            <Route path="/how-we-do-it/journey" element={<Navigate to="/how-we-do-it#journey" replace />} />
             <Route path="/why-choose-us" element={<WhyChooseUs />} />
             <Route path="/about/vision" element={<AboutVision />} />
             <Route path="/about/mission" element={<AboutMission />} />
