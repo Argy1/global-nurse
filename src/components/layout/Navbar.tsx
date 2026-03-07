@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, Phone, Mail, Globe, Search, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logoIcon3d from "@/assets/logo-icon-3d.png";
@@ -24,10 +24,26 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const location = useLocation();
+  const navigate = useNavigate();
   const { data: settings } = useSiteSettings();
   const { lang, setLang, t } = useTranslation();
 
   const helpEmail = settings?.support_email || "hello@globalparo.com";
+
+  // Handle anchor links: navigate to page then scroll to section
+  const handleAnchorLink = (href: string) => {
+    const [path, hash] = href.split("#");
+    if (hash) {
+      if (location.pathname === path) {
+        document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
+      } else {
+        navigate(href);
+        setTimeout(() => document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" }), 300);
+      }
+    } else {
+      navigate(href);
+    }
+  };
   const helpMobile = settings?.help_mobile;
 
   const navItems: NavItem[] = [
