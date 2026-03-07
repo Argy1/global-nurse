@@ -24,8 +24,6 @@ import LMS from "./pages/LMS";
 import IELTSPrep from "./pages/lms/IELTSPrep";
 import CertifiedGlobalNurse from "./pages/lms/CertifiedGlobalNurse";
 import NCLEX from "./pages/lms/NCLEX";
-import Team from "./pages/Team";
-import Programs from "./pages/Programs";
 import BatchProgram from "./pages/programs/BatchProgram";
 import RequirementCriteria from "./pages/programs/RequirementCriteria";
 import Webinar from "./pages/programs/Webinar";
@@ -44,9 +42,6 @@ import AdminContentManager from "./pages/admin/ContentManager";
 import AdminChatEscalations from "./pages/admin/ChatEscalations";
 import AdminSettings from "./pages/admin/Settings";
 import WhyChooseUs from "./pages/WhyChooseUs";
-import AboutVision from "./pages/AboutVision";
-import AboutMission from "./pages/AboutMission";
-import AboutValues from "./pages/AboutValues";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
