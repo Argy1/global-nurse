@@ -34,18 +34,18 @@ export function Navbar() {
     {
       label: "About Us",
       dropdown: [
-        { href: "/about", label: "Global Paro" },
-        { href: "/about/vision", label: "Our Vision" },
-        { href: "/about/mission", label: "Our Mission" },
-        { href: "/about/values", label: "Our Value" },
-        { href: "/team", label: "Our Team" },
+        { href: "/about#global-paro", label: "Global Paro" },
+        { href: "/about#vision", label: "Our Vision" },
+        { href: "/about#mission", label: "Our Mission" },
+        { href: "/about#values", label: "Our Value" },
+        { href: "/about#team", label: "Our Team" },
       ],
     },
     {
       label: "What We Do",
       dropdown: [
         { href: "/what-we-do", label: "What We Do" },
-        { href: "/what-we-do/candidates", label: "For Candidates" },
+        { href: "/what-we-do#candidates", label: "For Candidates" },
         { href: "/what-we-do/employers", label: "For Employers" },
         { href: "/what-we-do/dont-do", label: "What We Don't Do" },
         { href: "/lms", label: "LMS" },
@@ -58,9 +58,9 @@ export function Navbar() {
       label: "How We Do It",
       dropdown: [
         { href: "/how-we-do-it", label: "How We Do It" },
-        { href: "/how-we-do-it/approach", label: "Our Approach" },
-        { href: "/how-we-do-it/difference", label: "Know The Difference" },
-        { href: "/how-we-do-it/journey", label: "Your Journey Step by Step" },
+        { href: "/how-we-do-it#approach", label: "Our Approach" },
+        { href: "/how-we-do-it#difference", label: "Know The Difference" },
+        { href: "/how-we-do-it#journey", label: "Your Journey Step by Step" },
       ],
     },
     { href: "/why-choose-us", label: "Why Choose Us" },
