@@ -74,9 +74,6 @@ const App = () => (
             <Route path="/how-we-do-it/difference" element={<Navigate to="/how-we-do-it#difference" replace />} />
             <Route path="/how-we-do-it/journey" element={<Navigate to="/how-we-do-it#journey" replace />} />
             <Route path="/why-choose-us" element={<WhyChooseUs />} />
-            <Route path="/about/vision" element={<AboutVision />} />
-            <Route path="/about/mission" element={<AboutMission />} />
-            <Route path="/about/values" element={<AboutValues />} />
             <Route path="/register" element={<Register />} />
             <Route path="/register/success" element={<RegisterSuccess />} />
             <Route path="/quickstart" element={<Quickstart />} />
@@ -89,7 +86,7 @@ const App = () => (
             <Route path="/lms/ielts" element={<IELTSPrep />} />
             <Route path="/lms/certified" element={<CertifiedGlobalNurse />} />
             <Route path="/lms/nclex" element={<NCLEX />} />
-            <Route path="/team" element={<Team />} />
+            <Route path="/team" element={<Navigate to="/about#team" replace />} />
             <Route path="/programs" element={<BatchProgram />} />
             <Route path="/programs/batch" element={<BatchProgram />} />
             <Route path="/programs/requirements" element={<RequirementCriteria />} />
