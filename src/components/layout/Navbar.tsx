@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, Phone, Mail, Globe, Search, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logoIcon3d from "@/assets/logo-icon-3d.png";
@@ -24,28 +24,44 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const location = useLocation();
+  const navigate = useNavigate();
   const { data: settings } = useSiteSettings();
   const { lang, setLang, t } = useTranslation();
 
   const helpEmail = settings?.support_email || "hello@globalparo.com";
+
+  // Handle anchor links: navigate to page then scroll to section
+  const handleAnchorLink = (href: string) => {
+    const [path, hash] = href.split("#");
+    if (hash) {
+      if (location.pathname === path) {
+        document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
+      } else {
+        navigate(href);
+        setTimeout(() => document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" }), 300);
+      }
+    } else {
+      navigate(href);
+    }
+  };
   const helpMobile = settings?.help_mobile;
 
   const navItems: NavItem[] = [
     {
       label: "About Us",
       dropdown: [
-        { href: "/about", label: "Global Paro" },
-        { href: "/about/vision", label: "Our Vision" },
-        { href: "/about/mission", label: "Our Mission" },
-        { href: "/about/values", label: "Our Value" },
-        { href: "/team", label: "Our Team" },
+        { href: "/about#global-paro", label: "Global Paro" },
+        { href: "/about#vision", label: "Our Vision" },
+        { href: "/about#mission", label: "Our Mission" },
+        { href: "/about#values", label: "Our Value" },
+        { href: "/about#team", label: "Our Team" },
       ],
     },
     {
       label: "What We Do",
       dropdown: [
         { href: "/what-we-do", label: "What We Do" },
-        { href: "/what-we-do/candidates", label: "For Candidates" },
+        { href: "/what-we-do#candidates", label: "For Candidates" },
         { href: "/what-we-do/employers", label: "For Employers" },
         { href: "/what-we-do/dont-do", label: "What We Don't Do" },
         { href: "/lms", label: "LMS" },
@@ -58,9 +74,9 @@ export function Navbar() {
       label: "How We Do It",
       dropdown: [
         { href: "/how-we-do-it", label: "How We Do It" },
-        { href: "/how-we-do-it/approach", label: "Our Approach" },
-        { href: "/how-we-do-it/difference", label: "Know The Difference" },
-        { href: "/how-we-do-it/journey", label: "Your Journey Step by Step" },
+        { href: "/how-we-do-it#approach", label: "Our Approach" },
+        { href: "/how-we-do-it#difference", label: "Know The Difference" },
+        { href: "/how-we-do-it#journey", label: "Your Journey Step by Step" },
       ],
     },
     { href: "/why-choose-us", label: "Why Choose Us" },
@@ -175,13 +191,13 @@ export function Navbar() {
                     style={{ backgroundColor: 'hsl(var(--card))' }}
                   >
                     {item.dropdown.map((sub) => (
-                      <Link
+                      <button
                         key={sub.href}
-                        to={sub.href}
-                        className="block px-4 py-2.5 text-sm font-medium text-foreground hover:text-accent hover:bg-muted transition-colors"
+                        onClick={() => handleAnchorLink(sub.href)}
+                        className="block w-full text-left px-4 py-2.5 text-sm font-medium text-foreground hover:text-accent hover:bg-muted transition-colors"
                       >
                         {sub.label}
-                      </Link>
+                      </button>
                     ))}
                   </div>
                 </div>
@@ -231,14 +247,13 @@ export function Navbar() {
                     {mobileExpanded === item.label && item.dropdown && (
                       <div className="pl-4 pb-2">
                         {item.dropdown.map((sub) => (
-                          <Link
+                          <button
                             key={sub.href}
-                            to={sub.href}
-                            onClick={() => { setIsOpen(false); setMobileExpanded(null); }}
-                            className="block px-4 py-2 text-sm text-muted-foreground hover:text-accent transition-colors"
+                            onClick={() => { handleAnchorLink(sub.href); setIsOpen(false); setMobileExpanded(null); }}
+                            className="block w-full text-left px-4 py-2 text-sm text-muted-foreground hover:text-accent transition-colors"
                           >
                             {sub.label}
-                          </Link>
+                          </button>
                         ))}
                       </div>
                     )}

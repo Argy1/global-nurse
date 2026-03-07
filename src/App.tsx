@@ -2,22 +2,16 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import { LanguageProvider } from "@/i18n/LanguageContext";
 import { ProtectedRoute } from "@/components/admin/ProtectedRoute";
 import Index from "./pages/Index";
 import About from "./pages/About";
-import WhatWeDo from "./pages/WhatWeDo";
 import WhatWeDoMain from "./pages/WhatWeDoMain";
-import WhatWeDoForCandidates from "./pages/WhatWeDoForCandidates";
 import WhatWeDoForEmployers from "./pages/WhatWeDoForEmployers";
 import WhatWeDontDo from "./pages/WhatWeDontDo";
 import HowWeDoIt from "./pages/HowWeDoIt";
-import HowWeDoItMain from "./pages/HowWeDoItMain";
-import HowWeDoItApproach from "./pages/HowWeDoItApproach";
-import HowWeDoItDifference from "./pages/HowWeDoItDifference";
-import HowWeDoItJourney from "./pages/HowWeDoItJourney";
 import Register from "./pages/Register";
 import RegisterSuccess from "./pages/RegisterSuccess";
 import Quickstart from "./pages/Quickstart";
@@ -30,8 +24,6 @@ import LMS from "./pages/LMS";
 import IELTSPrep from "./pages/lms/IELTSPrep";
 import CertifiedGlobalNurse from "./pages/lms/CertifiedGlobalNurse";
 import NCLEX from "./pages/lms/NCLEX";
-import Team from "./pages/Team";
-import Programs from "./pages/Programs";
 import BatchProgram from "./pages/programs/BatchProgram";
 import RequirementCriteria from "./pages/programs/RequirementCriteria";
 import Webinar from "./pages/programs/Webinar";
@@ -50,9 +42,6 @@ import AdminContentManager from "./pages/admin/ContentManager";
 import AdminChatEscalations from "./pages/admin/ChatEscalations";
 import AdminSettings from "./pages/admin/Settings";
 import WhyChooseUs from "./pages/WhyChooseUs";
-import AboutVision from "./pages/AboutVision";
-import AboutMission from "./pages/AboutMission";
-import AboutValues from "./pages/AboutValues";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -69,18 +58,22 @@ const App = () => (
             {/* Public */}
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
+            {/* About sub-pages → redirect to About with anchor */}
+            <Route path="/about/vision" element={<Navigate to="/about#vision" replace />} />
+            <Route path="/about/mission" element={<Navigate to="/about#mission" replace />} />
+            <Route path="/about/values" element={<Navigate to="/about#values" replace />} />
+            <Route path="/team" element={<Navigate to="/about#team" replace />} />
+            {/* What We Do */}
             <Route path="/what-we-do" element={<WhatWeDoMain />} />
-            <Route path="/what-we-do/candidates" element={<WhatWeDoForCandidates />} />
+            <Route path="/what-we-do/candidates" element={<Navigate to="/what-we-do#candidates" replace />} />
             <Route path="/what-we-do/employers" element={<WhatWeDoForEmployers />} />
             <Route path="/what-we-do/dont-do" element={<WhatWeDontDo />} />
-            <Route path="/how-we-do-it" element={<HowWeDoItMain />} />
-            <Route path="/how-we-do-it/approach" element={<HowWeDoItApproach />} />
-            <Route path="/how-we-do-it/difference" element={<HowWeDoItDifference />} />
-            <Route path="/how-we-do-it/journey" element={<HowWeDoItJourney />} />
+            {/* How We Do It */}
+            <Route path="/how-we-do-it" element={<HowWeDoIt />} />
+            <Route path="/how-we-do-it/approach" element={<Navigate to="/how-we-do-it#approach" replace />} />
+            <Route path="/how-we-do-it/difference" element={<Navigate to="/how-we-do-it#difference" replace />} />
+            <Route path="/how-we-do-it/journey" element={<Navigate to="/how-we-do-it#journey" replace />} />
             <Route path="/why-choose-us" element={<WhyChooseUs />} />
-            <Route path="/about/vision" element={<AboutVision />} />
-            <Route path="/about/mission" element={<AboutMission />} />
-            <Route path="/about/values" element={<AboutValues />} />
             <Route path="/register" element={<Register />} />
             <Route path="/register/success" element={<RegisterSuccess />} />
             <Route path="/quickstart" element={<Quickstart />} />
@@ -93,7 +86,7 @@ const App = () => (
             <Route path="/lms/ielts" element={<IELTSPrep />} />
             <Route path="/lms/certified" element={<CertifiedGlobalNurse />} />
             <Route path="/lms/nclex" element={<NCLEX />} />
-            <Route path="/team" element={<Team />} />
+            <Route path="/team" element={<Navigate to="/about#team" replace />} />
             <Route path="/programs" element={<BatchProgram />} />
             <Route path="/programs/batch" element={<BatchProgram />} />
             <Route path="/programs/requirements" element={<RequirementCriteria />} />
