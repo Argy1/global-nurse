@@ -10,7 +10,6 @@ import Index from "./pages/Index";
 import About from "./pages/About";
 import WhatWeDoMain from "./pages/WhatWeDoMain";
 import WhatWeDoForEmployers from "./pages/WhatWeDoForEmployers";
-import WhatWeDontDo from "./pages/WhatWeDontDo";
 import HowWeDoIt from "./pages/HowWeDoIt";
 import Register from "./pages/Register";
 import RegisterSuccess from "./pages/RegisterSuccess";
@@ -67,7 +66,7 @@ const App = () => (
             <Route path="/what-we-do" element={<WhatWeDoMain />} />
             <Route path="/what-we-do/candidates" element={<Navigate to="/what-we-do#candidates" replace />} />
             <Route path="/what-we-do/employers" element={<WhatWeDoForEmployers />} />
-            <Route path="/what-we-do/dont-do" element={<WhatWeDontDo />} />
+            <Route path="/what-we-do/dont-do" element={<Navigate to="/what-we-do" replace />} />
             {/* How We Do It */}
             <Route path="/how-we-do-it" element={<HowWeDoIt />} />
             <Route path="/how-we-do-it/approach" element={<Navigate to="/how-we-do-it#approach" replace />} />
