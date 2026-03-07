@@ -1,4 +1,4 @@
-import { CheckCircle, XCircle, Globe, Target, TrendingUp, Users, Star, Eye } from "lucide-react";
+import { CheckCircle, Globe, Target, TrendingUp, Users, Star, Eye } from "lucide-react";
 import { Layout } from "@/components/layout/Layout";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { JoinMissionBanner } from "@/components/about/JoinMissionBanner";

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Bot, BookOpen, Handshake, HeadphonesIcon, CheckCircle, XCircle, ShieldCheck } from "lucide-react";
+import { ArrowRight, Bot, BookOpen, Handshake, HeadphonesIcon, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/layout/Layout";
 import { useTranslation } from "@/i18n/LanguageContext";
@@ -29,28 +29,6 @@ const approachCards = [
     desc: "Nurses can access instant AI assistance 24/7 and book real mentors for 1:1 sessions when they need deeper guidance.",
     details: ["AI chatbot available 24/7", "1:1 mentor session booking", "Dedicated support agent assigned", "Community WhatsApp groups"],
   },
-];
-
-const redFlags = [
-  "Asks you to pay fees upfront",
-  "Promises guaranteed jobs or visas",
-  "Pressures you to decide quickly",
-  "Won't share employer details",
-  "No clear contract or terms",
-];
-
-const greenFlags = [
-  "No fees charged to candidates",
-  "Transparent about process and timelines",
-  "Gives you time and space to decide",
-  "Shares verified employer information",
-  "Clear consent and privacy practices",
-];
-
-const protections = [
-  { title: "WHO Code of Practice", desc: "We strictly follow the WHO Code of Practice on the International Recruitment of Health Personnel." },
-  { title: "Zero Placement Fees", desc: "We never charge nurses any recruitment or placement fees. Our costs are covered by verified employers only." },
-  { title: "Full Data Privacy", desc: "Your personal and professional data is never shared without your explicit written consent." },
 ];
 
 const journeySteps = [
