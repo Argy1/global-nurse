@@ -10,7 +10,6 @@ import Index from "./pages/Index";
 import About from "./pages/About";
 import WhatWeDoMain from "./pages/WhatWeDoMain";
 import WhatWeDoForEmployers from "./pages/WhatWeDoForEmployers";
-import WhatWeDontDo from "./pages/WhatWeDontDo";
 import HowWeDoIt from "./pages/HowWeDoIt";
 import Register from "./pages/Register";
 import RegisterSuccess from "./pages/RegisterSuccess";
