@@ -202,7 +202,48 @@ export function Navbar() {
                   </div>
                 </div>
               )}
-...
+            </div>
+          ))}
+        </nav>
+
+        {/* Mobile Menu Button */}
+        <button
+          className="xl:hidden p-2 text-foreground"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle menu"
+        >
+          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
+      </div>
+
+      {/* Mobile Navigation */}
+      {isOpen && (
+        <div className="xl:hidden border-t border-border animate-fade-in" style={{ backgroundColor: 'hsl(var(--card))' }}>
+          <nav className="container py-4 flex flex-col gap-1 max-h-[75vh] overflow-y-auto">
+            {navItems.map((item) => (
+              <div key={item.label}>
+                {item.href && !item.dropdown ? (
+                  <Link
+                    to={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className={cn(
+                      "block px-4 py-3 text-sm font-semibold rounded-lg transition-colors",
+                      location.pathname === item.href
+                        ? "text-accent bg-muted"
+                        : "text-foreground hover:text-accent hover:bg-muted"
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => setMobileExpanded(mobileExpanded === item.label ? null : item.label)}
+                      className="flex items-center justify-between w-full px-4 py-3 text-sm font-semibold text-foreground hover:text-accent hover:bg-muted rounded-lg transition-colors"
+                    >
+                      {item.label}
+                      <ChevronDown className={cn("h-4 w-4 transition-transform", mobileExpanded === item.label && "rotate-180")} />
+                    </button>
                     {mobileExpanded === item.label && item.dropdown && (
                       <div className="pl-4 pb-2">
                         {item.dropdown.map((sub) => (
