@@ -153,60 +153,6 @@ export default function HowWeDoIt() {
         </div>
       </section>
 
-      {/* ── SECTION 3: Know the Difference ── */}
-      <section id="difference" className="py-16 lg:py-20 bg-muted">
-        <div className="container max-w-4xl">
-          <div className="text-center mb-12">
-            <p className="text-sm font-bold tracking-widest uppercase mb-2" style={{ color: "hsl(var(--primary))" }}>Know The Difference</p>
-            <h2 className="text-3xl font-black font-heading text-foreground">Red Flags vs Green Flags</h2>
-            <p className="text-muted-foreground mt-2">Compare what unethical vs ethical recruitment looks like</p>
-          </div>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-card rounded-2xl p-7 border-2" style={{ borderColor: "hsl(var(--destructive) / 0.3)", background: "hsl(var(--destructive) / 0.03)" }}>
-              <h3 className="font-bold text-lg mb-6 flex items-center gap-2" style={{ color: "hsl(var(--destructive))" }}>
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg" style={{ backgroundColor: "hsl(var(--destructive) / 0.1)" }}>🚩</div>
-                Red Flags — Run Away
-              </h3>
-              <ul className="space-y-4">
-                {redFlags.map((f) => (
-                  <li key={f} className="flex items-start gap-3">
-                    <XCircle className="h-5 w-5 shrink-0 mt-0.5" style={{ color: "hsl(var(--destructive))" }} />
-                    <span className="text-sm text-foreground">{f}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="bg-card rounded-2xl p-7 border-2" style={{ borderColor: "hsl(var(--accent) / 0.4)", background: "hsl(var(--accent) / 0.03)" }}>
-              <h3 className="font-bold text-lg mb-6 flex items-center gap-2" style={{ color: "hsl(var(--accent))" }}>
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg" style={{ backgroundColor: "hsl(var(--accent) / 0.1)" }}>✅</div>
-                Green Flags — Global PARO
-              </h3>
-              <ul className="space-y-4">
-                {greenFlags.map((f) => (
-                  <li key={f} className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 shrink-0 mt-0.5" style={{ color: "hsl(var(--accent))" }} />
-                    <span className="text-sm text-foreground">{f}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* Protections */}
-          <div className="grid md:grid-cols-3 gap-5 mt-10">
-            {protections.map((p) => (
-              <div key={p.title} className="bg-card rounded-2xl p-6 border border-border hover:border-accent/40 hover:shadow-md transition-all">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl mb-4" style={{ backgroundColor: "hsl(var(--accent) / 0.1)" }}>
-                  <ShieldCheck className="h-5 w-5" style={{ color: "hsl(var(--accent))" }} />
-                </div>
-                <h3 className="font-bold text-foreground mb-2 text-sm">{p.title}</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed">{p.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── SECTION 4: Your Journey ── */}
       <section id="journey" className="py-16 lg:py-20">
         <div className="container">

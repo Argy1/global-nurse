@@ -120,47 +120,6 @@ export default function About() {
         </div>
       </section>
 
-      {/* Know the Difference */}
-      <section className="py-16 lg:py-24 bg-muted">
-        <div className="container max-w-4xl">
-          <h2 className="text-3xl font-black font-heading text-foreground mb-2 text-center">{t.about.knowDifference}</h2>
-          <p className="text-muted-foreground text-center mb-12">Know the red flags from green flags when choosing a recruitment partner.</p>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-card rounded-2xl p-6 border-2" style={{ borderColor: "hsl(var(--destructive) / 0.4)" }}>
-              <div className="flex items-center gap-2 mb-6">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full" style={{ backgroundColor: "hsl(var(--destructive) / 0.1)" }}>
-                  <XCircle className="h-5 w-5" style={{ color: "hsl(var(--destructive))" }} />
-                </div>
-                <h3 className="font-bold text-lg" style={{ color: "hsl(var(--destructive))" }}>🚩 {t.about.redFlags}</h3>
-              </div>
-              <ul className="space-y-3">
-                {t.about.redFlagsList.map((f) => (
-                  <li key={f} className="flex items-start gap-3 text-sm text-foreground">
-                    <XCircle className="h-4 w-4 shrink-0 mt-0.5" style={{ color: "hsl(var(--destructive))" }} />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="bg-card rounded-2xl p-6 border-2" style={{ borderColor: "hsl(var(--accent) / 0.4)" }}>
-              <div className="flex items-center gap-2 mb-6">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full" style={{ backgroundColor: "hsl(var(--accent) / 0.1)" }}>
-                  <CheckCircle className="h-5 w-5" style={{ color: "hsl(var(--accent))" }} />
-                </div>
-                <h3 className="font-bold text-lg" style={{ color: "hsl(var(--accent))" }}>✅ {t.about.greenFlags}</h3>
-              </div>
-              <ul className="space-y-3">
-                {t.about.greenFlagsList.map((f) => (
-                  <li key={f} className="flex items-start gap-3 text-sm text-foreground">
-                    <CheckCircle className="h-4 w-4 shrink-0 mt-0.5" style={{ color: "hsl(var(--accent))" }} />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ── SECTION 2: Vision ── */}
       <section id="vision">
