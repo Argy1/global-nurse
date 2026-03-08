@@ -122,7 +122,7 @@ async function streamChat({
 export function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMsg[]>([
-    { id: "welcome", role: "assistant", text: "Hi! 👋 I'm Global Paro's AI assistant. I can help you learn about working abroad as a nurse. What would you like to know?" },
+    { id: "welcome", role: "assistant", text: "Hi! 👋 Halo! Saya asisten AI Global Paro.\nI can help you learn about working abroad as a nurse.\nSaya bisa bantu kamu soal karier perawat internasional.\n\nApa yang ingin kamu ketahui? / What would you like to know?" },
   ]);
   const [input, setInput] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
