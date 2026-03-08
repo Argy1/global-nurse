@@ -321,11 +321,11 @@ export function ChatWidget() {
               <div className="flex flex-wrap gap-1.5">
                 {QUICK_REPLIES.map((qr) => (
                   <button
-                    key={qr}
-                    onClick={() => handleSend(qr)}
+                    key={qr.label}
+                    onClick={() => handleSend(qr.text)}
                     className="text-[11px] bg-secondary text-secondary-foreground px-2.5 py-1 rounded-full hover:bg-primary/10 hover:text-primary transition-colors font-medium"
                   >
-                    {qr}
+                    {qr.label}
                   </button>
                 ))}
               </div>
