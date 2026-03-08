@@ -118,6 +118,7 @@ const en = {
   about: {
     title: "About Global Paro",
     subtitle: "Global Paro is an AI-powered platform that simplifies the journey for nurses who want to build a career overseas.",
+    aboutUsLabel: "About Us",
     visionTitle: "Our Vision",
     visionText: "To become the leader and the preferred global partner platform as a bridge between healthcare talents and international opportunities in healthcare providers.",
     missionTitle: "Our Mission",
@@ -157,6 +158,27 @@ const en = {
     ],
     joinMission: "Join Our Mission",
     joinMissionDesc: "Ready to explore international nursing opportunities with a team that puts you first?",
+    // Vision page strings
+    visionLabel: "What Our Vision Looks Like",
+    visionGlobalReach: "Global Reach",
+    visionGlobalReachDesc: "Connecting Indonesian nurses with healthcare employers in the UK, Europe, the Middle East, Australia, and beyond.",
+    visionEqualOpportunity: "Equal Opportunity",
+    visionEqualOpportunityDesc: "Breaking down barriers of geography, language, and access so every qualified nurse can pursue their international career.",
+    visionSustainableGrowth: "Sustainable Growth",
+    visionSustainableGrowthDesc: "Building a long-term ecosystem where nurses, employers, and communities all thrive together.",
+    visionQuote: "Talent is EVERYWHERE, opportunity is not — we're here to change that.",
+    visionQuoteAttr: "— Global PARO Founding Vision",
+    visionFoundingVision: "Global PARO Founding Vision",
+    statsCountriesReached: "Countries Reached",
+    statsNursesSupported: "Nurses Supported",
+    statsPartnerHospitals: "Partner Hospitals",
+    statsSatisfaction: "Satisfaction Rate",
+    visionForNurses: "For Nurses",
+    visionForNursesDesc: "A world where every Indonesian nurse can access world-class training, certification support, and placement into their dream international role.",
+    visionForHealthcare: "For Healthcare",
+    visionForHealthcareDesc: "A sustainable global ecosystem where international healthcare institutions gain access to skilled, well-prepared Indonesian nursing professionals.",
+    // Team
+    ourTeamTitle: "our TEAM",
   },
 
   // ── What We Do ──
