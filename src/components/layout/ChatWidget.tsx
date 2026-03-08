@@ -18,11 +18,12 @@ interface ChatMsg {
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
 
 const QUICK_REPLIES = [
-  "How do I start working abroad as a nurse?",
-  "What English tests do I need?",
-  "Tell me about licensing (NCLEX)",
-  "How do I register?",
-  "Talk to human",
+  { label: "🌍 Cara kerja ke luar negeri?", text: "Bagaimana cara kerja ke luar negeri sebagai perawat?" },
+  { label: "📋 Syarat program Singapura?", text: "Apa syarat untuk program Singapura Batch #1?" },
+  { label: "💰 Berapa gaji di Singapura?", text: "Berapa gaji dan benefit perawat di Singapura?" },
+  { label: "🎓 Persiapan IELTS/NCLEX?", text: "Bagaimana cara mempersiapkan IELTS dan NCLEX?" },
+  { label: "📝 Cara daftar?", text: "Bagaimana cara mendaftar di Global Paro?" },
+  { label: "🙋 Bicara dengan tim kami", text: "Talk to human" },
 ];
 
 /* ── Streaming helper ── */
