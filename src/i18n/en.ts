@@ -220,13 +220,63 @@ const en = {
     title: "How We Do It",
     subtitle: "We combine smart technology with human expertise to create your personalized pathway to success.",
     ourApproach: "Our Approach",
+    ourMethodology: "Our Methodology",
+    pillarsTitle: "4 Pillars of Our Methodology",
+    pillarsSubtitle: "Everything we do is built on these four principles",
+    pillarLabel: "Pillar",
+    yourJourneyLabel: "Your Journey",
     journeyStepByStep: "Your Journey Step by Step",
     startJourney: "Start Your Journey Today",
+    ctaSubtitle: "Register now and get your personalised readiness roadmap in minutes.",
     steps: [
       { title: "AI-Driven Assessment", desc: "We evaluate each nurse's profile, goals, STR status, English readiness, and licensing requirements to create a personalised roadmap and build a trusted, job-ready database for global employers." },
       { title: "Guided Learning Pathway", desc: "Nurses receive customised learning plans for IELTS/TOEFL, NCLEX, and country-specific credentialing to ensure they meet all requirements efficiently." },
       { title: "Ethical Recruitment & Job Matching", desc: "We partner only with employers who meet international ethical recruitment standards and offer transparent processes, ensuring fair treatment and opportunities." },
       { title: "Human + AI Support", desc: "Nurses can access instant AI assistance 24/7 and book real mentors for 1:1 sessions when they need deeper guidance and personalized support." },
+    ],
+    approachCards: [
+      {
+        title: "AI-Driven Assessment",
+        desc: "We evaluate each nurse's profile, goals, STR status, English readiness and licensing requirements to create a personalised roadmap.",
+        details: ["Complete profile analysis in minutes", "Personalised readiness score", "Country-specific gap identification", "Ongoing progress tracking"],
+      },
+      {
+        title: "Guided Learning Pathway",
+        desc: "Nurses receive customised learning plans for IELTS/TOEFL, NCLEX, and country-specific credentialing.",
+        details: ["Customised IELTS/OET study plan", "NCLEX 2026 resources", "Country credentialing checklists", "LMS platform with progress tracking"],
+      },
+      {
+        title: "Ethical Recruitment & Job Matching",
+        desc: "We partner only with employers who meet international ethical recruitment standards and offer transparent processes.",
+        details: ["Verified employer network only", "Zero fees charged to nurses", "Full transparency at every step", "WHO Code of Practice compliant"],
+      },
+      {
+        title: "Human + AI Support",
+        desc: "Nurses can access instant AI assistance 24/7 and book real mentors for 1:1 sessions when they need deeper guidance.",
+        details: ["AI chatbot available 24/7", "1:1 mentor session booking", "Dedicated support agent assigned", "Community WhatsApp groups"],
+      },
+    ],
+    journeySteps: [
+      {
+        title: "Register & Profile Assessment",
+        desc: "You submit your profile and our AI evaluates your qualifications, STR, and English readiness to build your personalized roadmap.",
+        details: ["You submit your profile (3 min)", "AI evaluates your qualifications, STR, and English readiness", "Receive a personalized readiness roadmap"],
+      },
+      {
+        title: "Guided Learning & Preparation",
+        desc: "Access customised IELTS/NCLEX learning plans, country-specific credentialing guidance, and document preparation support.",
+        details: ["Customised IELTS/NCLEX learning plans", "Country-specific credentialing guidance", "Document checklist and timeline planning"],
+      },
+      {
+        title: "Ethical Job Matching",
+        desc: "Once ready, get introduced to verified ethical employers aligned with your specialty and destination country.",
+        details: ["Connect with verified ethical employers", "Transparent process — full employer visibility", "No pressure, no hidden fees, full consent"],
+      },
+      {
+        title: "Placement & Ongoing Support",
+        desc: "We guide you through visa applications, pre-departure prep, and support you in your new home country.",
+        details: ["Visa & relocation assistance", "Settling-in support and onboarding", "Ongoing community and career development"],
+      },
     ],
     phases: [
       { title: "Register & Profile Assessment", items: ["You submit your profile (3 min)", "AI evaluates your qualifications, STR, and English readiness", "Receive a personalized readiness roadmap"] },
