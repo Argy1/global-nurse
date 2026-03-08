@@ -222,13 +222,63 @@ const id: Translations = {
     title: "Cara Kami Bekerja",
     subtitle: "Kami menggabungkan teknologi pintar dengan keahlian manusia untuk menciptakan jalur personal menuju kesuksesan Anda.",
     ourApproach: "Pendekatan Kami",
+    ourMethodology: "Metodologi Kami",
+    pillarsTitle: "4 Pilar Metodologi Kami",
+    pillarsSubtitle: "Semua yang kami lakukan dibangun di atas empat prinsip ini",
+    pillarLabel: "Pilar",
+    yourJourneyLabel: "Perjalanan Anda",
     journeyStepByStep: "Perjalanan Anda Langkah demi Langkah",
     startJourney: "Mulai Perjalanan Anda Hari Ini",
+    ctaSubtitle: "Daftar sekarang dan dapatkan peta jalan kesiapan Anda yang dipersonalisasi dalam hitungan menit.",
     steps: [
       { title: "Penilaian Berbasis AI", desc: "Kami mengevaluasi profil setiap perawat, tujuan, status STR, kesiapan bahasa Inggris, dan persyaratan lisensi untuk membuat peta jalan yang dipersonalisasi dan membangun database terpercaya yang siap kerja untuk pemberi kerja global." },
       { title: "Jalur Pembelajaran Terpandu", desc: "Perawat menerima rencana pembelajaran khusus untuk IELTS/TOEFL, NCLEX, dan kredensial khusus negara untuk memastikan mereka memenuhi semua persyaratan secara efisien." },
       { title: "Rekrutmen Etis & Pencocokan Kerja", desc: "Kami hanya bermitra dengan pemberi kerja yang memenuhi standar rekrutmen etis internasional dan menawarkan proses transparan, memastikan perlakuan adil dan peluang." },
       { title: "Dukungan Manusia + AI", desc: "Perawat dapat mengakses bantuan AI instan 24/7 dan memesan mentor nyata untuk sesi 1:1 saat mereka membutuhkan panduan dan dukungan yang lebih personal." },
+    ],
+    approachCards: [
+      {
+        title: "Penilaian Berbasis AI",
+        desc: "Kami mengevaluasi profil setiap perawat, tujuan, status STR, kesiapan bahasa Inggris dan persyaratan lisensi untuk membuat peta jalan yang dipersonalisasi.",
+        details: ["Analisis profil lengkap dalam hitungan menit", "Skor kesiapan yang dipersonalisasi", "Identifikasi kesenjangan spesifik negara", "Pelacakan kemajuan berkelanjutan"],
+      },
+      {
+        title: "Jalur Pembelajaran Terpandu",
+        desc: "Perawat menerima rencana pembelajaran khusus untuk IELTS/TOEFL, NCLEX, dan kredensial khusus negara.",
+        details: ["Rencana belajar IELTS/OET yang disesuaikan", "Sumber daya NCLEX 2026", "Daftar periksa kredensial negara", "Platform LMS dengan pelacakan kemajuan"],
+      },
+      {
+        title: "Rekrutmen Etis & Pencocokan Kerja",
+        desc: "Kami hanya bermitra dengan pemberi kerja yang memenuhi standar rekrutmen etis internasional dan menawarkan proses transparan.",
+        details: ["Hanya jaringan pemberi kerja terverifikasi", "Tidak ada biaya untuk perawat", "Transparansi penuh di setiap langkah", "Patuh Kode Praktik WHO"],
+      },
+      {
+        title: "Dukungan Manusia + AI",
+        desc: "Perawat dapat mengakses bantuan AI instan 24/7 dan memesan mentor nyata untuk sesi 1:1 saat mereka membutuhkan panduan lebih mendalam.",
+        details: ["AI chatbot tersedia 24/7", "Pemesanan sesi mentor 1:1", "Agen dukungan khusus ditugaskan", "Grup WhatsApp komunitas"],
+      },
+    ],
+    journeySteps: [
+      {
+        title: "Daftar & Penilaian Profil",
+        desc: "Anda mengirimkan profil Anda dan AI kami mengevaluasi kualifikasi, STR, dan kesiapan bahasa Inggris Anda untuk membangun peta jalan Anda.",
+        details: ["Anda mengirimkan profil Anda (3 menit)", "AI mengevaluasi kualifikasi, STR, dan kesiapan bahasa Inggris Anda", "Terima peta jalan kesiapan yang dipersonalisasi"],
+      },
+      {
+        title: "Pembelajaran & Persiapan Terpandu",
+        desc: "Akses rencana pembelajaran IELTS/NCLEX yang disesuaikan, panduan kredensial khusus negara, dan dukungan persiapan dokumen.",
+        details: ["Rencana pembelajaran IELTS/NCLEX yang disesuaikan", "Panduan kredensial khusus negara", "Daftar periksa dokumen dan perencanaan jadwal"],
+      },
+      {
+        title: "Pencocokan Kerja Etis",
+        desc: "Setelah siap, diperkenalkan ke pemberi kerja etis terverifikasi yang sesuai dengan spesialisasi dan negara tujuan Anda.",
+        details: ["Terhubung dengan pemberi kerja etis terverifikasi", "Proses transparan — visibilitas pemberi kerja penuh", "Tanpa tekanan, tanpa biaya tersembunyi, persetujuan penuh"],
+      },
+      {
+        title: "Penempatan & Dukungan Berkelanjutan",
+        desc: "Kami membimbing Anda melalui aplikasi visa, persiapan keberangkatan, dan mendukung Anda di negara baru.",
+        details: ["Bantuan visa & relokasi", "Dukungan adaptasi dan orientasi", "Komunitas berkelanjutan dan pengembangan karier"],
+      },
     ],
     phases: [
       { title: "Daftar & Penilaian Profil", items: ["Anda mengirimkan profil Anda (3 menit)", "AI mengevaluasi kualifikasi, STR, dan kesiapan bahasa Inggris Anda", "Terima peta jalan kesiapan yang dipersonalisasi"] },
