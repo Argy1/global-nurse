@@ -120,6 +120,7 @@ const id: Translations = {
   about: {
     title: "Tentang Global Paro",
     subtitle: "Global Paro adalah platform berbasis AI yang menyederhanakan perjalanan bagi perawat yang ingin membangun karier di luar negeri.",
+    aboutUsLabel: "Tentang Kami",
     visionTitle: "Visi Kami",
     visionText: "Menjadi pemimpin dan platform mitra global pilihan sebagai jembatan antara talenta kesehatan dan peluang internasional di penyedia layanan kesehatan.",
     missionTitle: "Misi Kami",
@@ -159,6 +160,27 @@ const id: Translations = {
     ],
     joinMission: "Bergabung dengan Misi Kami",
     joinMissionDesc: "Siap menjelajahi peluang keperawatan internasional dengan tim yang mengutamakan Anda?",
+    // Vision page strings
+    visionLabel: "Seperti Apa Visi Kami",
+    visionGlobalReach: "Jangkauan Global",
+    visionGlobalReachDesc: "Menghubungkan perawat Indonesia dengan pemberi kerja kesehatan di Inggris, Eropa, Timur Tengah, Australia, dan sekitarnya.",
+    visionEqualOpportunity: "Kesempatan Setara",
+    visionEqualOpportunityDesc: "Meruntuhkan hambatan geografis, bahasa, dan akses agar setiap perawat berkualifikasi dapat mengejar karier internasionalnya.",
+    visionSustainableGrowth: "Pertumbuhan Berkelanjutan",
+    visionSustainableGrowthDesc: "Membangun ekosistem jangka panjang di mana perawat, pemberi kerja, dan komunitas semuanya berkembang bersama.",
+    visionQuote: "Bakat ada DI MANA-MANA, peluang tidak — kami hadir untuk mengubah itu.",
+    visionQuoteAttr: "— Visi Pendiri Global PARO",
+    visionFoundingVision: "Visi Pendiri Global PARO",
+    statsCountriesReached: "Negara Terjangkau",
+    statsNursesSupported: "Perawat Didukung",
+    statsPartnerHospitals: "Rumah Sakit Mitra",
+    statsSatisfaction: "Tingkat Kepuasan",
+    visionForNurses: "Untuk Perawat",
+    visionForNursesDesc: "Dunia di mana setiap perawat Indonesia dapat mengakses pelatihan kelas dunia, dukungan sertifikasi, dan penempatan di peran internasional impian mereka.",
+    visionForHealthcare: "Untuk Layanan Kesehatan",
+    visionForHealthcareDesc: "Ekosistem global yang berkelanjutan di mana institusi kesehatan internasional mendapatkan akses ke tenaga keperawatan Indonesia yang terampil dan tersiapkan.",
+    // Team
+    ourTeamTitle: "Tim KAMI",
   },
 
   // ── Apa yang Kami Lakukan ──
