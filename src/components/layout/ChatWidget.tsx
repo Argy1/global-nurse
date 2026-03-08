@@ -18,11 +18,12 @@ interface ChatMsg {
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
 
 const QUICK_REPLIES = [
-  "How do I start working abroad as a nurse?",
-  "What English tests do I need?",
-  "Tell me about licensing (NCLEX)",
-  "How do I register?",
-  "Talk to human",
+  { label: "🌍 Cara kerja ke luar negeri?", text: "Bagaimana cara kerja ke luar negeri sebagai perawat?" },
+  { label: "📋 Syarat program Singapura?", text: "Apa syarat untuk program Singapura Batch #1?" },
+  { label: "💰 Berapa gaji di Singapura?", text: "Berapa gaji dan benefit perawat di Singapura?" },
+  { label: "🎓 Persiapan IELTS/NCLEX?", text: "Bagaimana cara mempersiapkan IELTS dan NCLEX?" },
+  { label: "📝 Cara daftar?", text: "Bagaimana cara mendaftar di Global Paro?" },
+  { label: "🙋 Bicara dengan tim kami", text: "Talk to human" },
 ];
 
 /* ── Streaming helper ── */
@@ -121,7 +122,7 @@ async function streamChat({
 export function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMsg[]>([
-    { id: "welcome", role: "assistant", text: "Hi! 👋 I'm Global Paro's AI assistant. I can help you learn about working abroad as a nurse. What would you like to know?" },
+    { id: "welcome", role: "assistant", text: "Hi! 👋 Halo! Saya asisten AI Global Paro.\nI can help you learn about working abroad as a nurse.\nSaya bisa bantu kamu soal karier perawat internasional.\n\nApa yang ingin kamu ketahui? / What would you like to know?" },
   ]);
   const [input, setInput] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
@@ -320,11 +321,11 @@ export function ChatWidget() {
               <div className="flex flex-wrap gap-1.5">
                 {QUICK_REPLIES.map((qr) => (
                   <button
-                    key={qr}
-                    onClick={() => handleSend(qr)}
+                    key={qr.label}
+                    onClick={() => handleSend(qr.text)}
                     className="text-[11px] bg-secondary text-secondary-foreground px-2.5 py-1 rounded-full hover:bg-primary/10 hover:text-primary transition-colors font-medium"
                   >
-                    {qr}
+                    {qr.label}
                   </button>
                 ))}
               </div>
