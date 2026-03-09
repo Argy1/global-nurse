@@ -179,6 +179,36 @@ const en = {
     visionForHealthcareDesc: "A sustainable global ecosystem where international healthcare institutions gain access to skilled, well-prepared Indonesian nursing professionals.",
     // Team
     ourTeamTitle: "our TEAM",
+    // About page inline strings
+    heroDesc: "Global PARO empowers every international nurse with the tools, guidance, and global network needed to build a thriving career abroad — ethically, affordably, and with confidence.",
+    heroBadge: "About Us",
+    heroTags: ["Ethical Recruitment", "AI-Powered Platform", "Global Network"],
+    heroTagsId: ["Rekrutmen Etis", "Platform Berbasis AI", "Jaringan Global"],
+    visionSectionTitle: "VISION",
+    visionStatement: "To become the leader and the preferred global partner platform — as a bridge between healthcare talents and international opportunities in healthcare providers.",
+    visionQuoteHighlight: "EVERYWHERE",
+    visionPillarsTitle: "What Our Vision Looks Like",
+    visionPillars: [
+      { title: "Global Reach", desc: "Connecting Indonesian nurses with healthcare employers in the UK, Europe, the Middle East, Australia, and beyond." },
+      { title: "Equal Opportunity", desc: "Breaking down barriers of geography, language, and access so every qualified nurse can pursue their international career." },
+      { title: "Sustainable Growth", desc: "Building a long-term ecosystem where nurses, employers, and communities all thrive together." },
+    ],
+    visionStats: [
+      { value: "10+", label: "Countries Reached" },
+      { value: "500+", label: "Nurses Supported" },
+      { value: "50+", label: "Partner Hospitals" },
+      { value: "95%", label: "Satisfaction Rate" },
+    ],
+    visionForNursesCard: "A world where every Indonesian nurse can access world-class training, certification support, and placement into their dream international role.",
+    visionForHealthcareCard: "A sustainable global ecosystem where international healthcare institutions gain access to skilled, well-prepared Indonesian nursing professionals.",
+    missionSectionTitle: "MISSION",
+    missionImgAlt: "Mission cards: Providing, Accelerating, Empowering",
+    valuesImgAlt: "Core VALUES",
+    valuesListImgAlt: "P.A.R.O. Values: Passion, Accountability, Resilience, Opportunity",
+    valuesBannerAlt: "Nurses Are The Heart Of Healthcare",
+    valuesTagline: "Talent is ",
+    valuesTaglineHighlight: "EVERYWHERE,",
+    valuesTaglineEnd: " opportunity is not.",
   },
 
   // ── What We Do ──
