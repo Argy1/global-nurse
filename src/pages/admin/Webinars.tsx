@@ -87,6 +87,19 @@ function WebinarEditor({
         </div>
       </div>
 
+      {/* Slug */}
+      <div className="space-y-1.5">
+        <Label className="font-bold">Slug (URL) *</Label>
+        <Input
+          value={form.slug || ""}
+          onChange={(e) => set("slug", e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "-"))}
+          placeholder="e.g. global-career-singapore"
+        />
+        <p className="text-xs text-muted-foreground">
+          URL publik: <span className="font-mono">/programs/webinar/{form.slug || "..."}</span>
+        </p>
+      </div>
+
       {/* Description */}
       <div className="space-y-1.5">
         <Label className="font-bold">Description (hero text)</Label>
@@ -130,7 +143,7 @@ function WebinarEditor({
           <Input type="email" value={form.contact_email || ""} onChange={(e) => set("contact_email", e.target.value)} />
         </div>
         <div className="space-y-1.5">
-          <Label className="font-bold">Register Link</Label>
+          <Label className="font-bold">Register Link (override)</Label>
           <Input value={form.register_link || ""} onChange={(e) => set("register_link", e.target.value)} placeholder="/register" />
         </div>
       </div>
@@ -141,6 +154,26 @@ function WebinarEditor({
         <Input value={form.cover_image_url || ""} onChange={(e) => set("cover_image_url", e.target.value)} placeholder="https://..." />
       </div>
 
+      {/* ── Speaker section ── */}
+      <div className="border border-border rounded-xl p-5 space-y-4 bg-muted/30">
+        <p className="text-sm font-bold text-foreground">👤 Pembicara (Speaker)</p>
+        <div className="space-y-1.5">
+          <Label className="font-bold">Nama Pembicara</Label>
+          <Input value={form.speaker_name || ""} onChange={(e) => set("speaker_name", e.target.value)} placeholder="e.g. dr. Sari Wulandari, RN" />
+        </div>
+        <div className="space-y-1.5">
+          <Label className="font-bold">Foto Pembicara (URL)</Label>
+          <Input value={form.speaker_photo_url || ""} onChange={(e) => set("speaker_photo_url", e.target.value)} placeholder="https://..." />
+          {form.speaker_photo_url && (
+            <img src={form.speaker_photo_url} alt="preview" className="h-16 w-16 rounded-full object-cover border mt-2" />
+          )}
+        </div>
+        <div className="space-y-1.5">
+          <Label className="font-bold">Bio Pembicara</Label>
+          <Textarea value={form.speaker_bio || ""} onChange={(e) => set("speaker_bio", e.target.value)} rows={3} placeholder="Singkat tentang pembicara..." />
+        </div>
+      </div>
+
       {/* Learn Items */}
       <div className="space-y-1.5">
         <Label className="font-bold">What You'll Learn (one item per line)</Label>
@@ -148,49 +181,28 @@ function WebinarEditor({
           rows={6}
           value={(form.learn_items || []).join("\n")}
           onChange={(e) =>
-            set(
-              "learn_items",
-              e.target.value
-                .split("\n")
-                .map((l) => l.trim())
-                .filter(Boolean)
-            )
+            set("learn_items", e.target.value.split("\n").map((l) => l.trim()).filter(Boolean))
           }
           placeholder={"Overview of the Singapore healthcare system\nEligibility requirements for Indonesian nurses"}
         />
-        <p className="text-xs text-muted-foreground">Each line becomes one item in the 'What You'll Learn' grid.</p>
+        <p className="text-xs text-muted-foreground">Each line becomes one item in the grid.</p>
       </div>
 
       {/* Toggles */}
       <div className="flex flex-wrap gap-6 pt-1">
         <label className="flex items-center gap-2 text-sm cursor-pointer">
-          <input
-            type="checkbox"
-            checked={form.is_published ?? false}
-            onChange={(e) => set("is_published", e.target.checked)}
-            className="w-4 h-4"
-          />
+          <input type="checkbox" checked={form.is_published ?? false} onChange={(e) => set("is_published", e.target.checked)} className="w-4 h-4" />
           <span className="font-medium">Published</span>
         </label>
         <label className="flex items-center gap-2 text-sm cursor-pointer">
-          <input
-            type="checkbox"
-            checked={form.is_featured ?? false}
-            onChange={(e) => set("is_featured", e.target.checked)}
-            className="w-4 h-4"
-          />
+          <input type="checkbox" checked={form.is_featured ?? false} onChange={(e) => set("is_featured", e.target.checked)} className="w-4 h-4" />
           <span className="font-medium">Featured (shown first)</span>
         </label>
       </div>
 
       {/* Action buttons */}
       <div className="flex items-center gap-3 pt-2">
-        <Button
-          variant="cta"
-          onClick={() => onSave(form)}
-          disabled={saving || !form.title}
-          className="gap-2"
-        >
+        <Button variant="cta" onClick={() => onSave(form)} disabled={saving || !form.title || !form.slug} className="gap-2">
           {saving && <Loader2 className="h-4 w-4 animate-spin" />}
           {saving ? "Saving…" : "Save Webinar"}
         </Button>
