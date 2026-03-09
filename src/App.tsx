@@ -33,6 +33,7 @@ import Privacy from "./pages/Privacy";
 import Auth from "./pages/Auth";
 import ResetPassword from "./pages/ResetPassword";
 import Portal from "./pages/Portal";
+import AccountSettings from "./pages/AccountSettings";
 import { PortalProtectedRoute } from "./components/portal/PortalProtectedRoute";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminCandidates from "./pages/admin/Candidates";
