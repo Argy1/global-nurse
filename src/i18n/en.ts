@@ -1097,6 +1097,10 @@ const en = {
   accountSettings: {
     title: "Account Settings",
     backToPortal: "Back to Portal",
+    avatarTitle: "Profile Photo",
+    avatarHint: "Upload a photo (JPG, PNG, max 2 MB)",
+    uploadPhoto: "Upload Photo",
+    avatarSaved: "Profile photo updated!",
     displayNameTitle: "Display Name",
     displayNameLabel: "Your name",
     displayNamePlaceholder: "e.g. Budi Santoso",
