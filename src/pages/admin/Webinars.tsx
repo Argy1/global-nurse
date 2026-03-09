@@ -15,6 +15,7 @@ import { Badge } from "@/components/ui/badge";
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface Webinar {
   id: string;
+  slug: string | null;
   title: string;
   subtitle: string | null;
   description: string | null;
@@ -29,11 +30,15 @@ interface Webinar {
   cover_image_url: string | null;
   event_date: string | null;
   order_index: number;
+  speaker_name: string | null;
+  speaker_bio: string | null;
+  speaker_photo_url: string | null;
   created_at: string;
   updated_at: string;
 }
 
 const empty = (): Partial<Webinar> => ({
+  slug: "",
   title: "",
   subtitle: "",
   description: "",
@@ -48,6 +53,9 @@ const empty = (): Partial<Webinar> => ({
   cover_image_url: "",
   event_date: "",
   order_index: 0,
+  speaker_name: "",
+  speaker_bio: "",
+  speaker_photo_url: "",
 });
 
 // ─── Editor sub-component ─────────────────────────────────────────────────────
