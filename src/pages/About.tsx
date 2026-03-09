@@ -91,7 +91,7 @@ export default function About() {
                     alt="Global PARO Icon"
                     className="w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 object-contain shrink-0"
                   />
-                  <h1 className="font-black font-heading leading-none" style={{ fontSize: "clamp(2.8rem, 6vw, 5rem)" }}>
+                  <h1 className="font-black font-heading leading-none tracking-tight" style={{ fontSize: "clamp(3.5rem, 9vw, 7.5rem)" }}>
                     <span style={{ color: "#015779" }}>Global </span>
                     <span style={{ color: "#03989E" }}>PARO</span>
                   </h1>
