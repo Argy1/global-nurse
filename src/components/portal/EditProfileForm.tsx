@@ -67,14 +67,19 @@ export default function EditProfileForm({ candidate }: Props) {
     setValue("target_countries", updated, { shouldValidate: true });
   };
 
-  // ── Edit mode — cast availability to the correct enum type
+  // ── Edit mode — cast to correct enum types
   const onSubmit = (data: FormValues) => {
+    type SpecialtyType = "ICU" | "ER" | "Med-Surg" | "OR" | "Pediatrics" | "Geriatric" | "Mental Health" | "Community Health" | "Other";
+    type AvailabilityType = "0-3 months" | "3-6 months" | "6-12 months";
     updateProfile.mutate(
       {
         id: candidate.id,
         updates: {
-          ...data,
-          availability: data.availability as "0-3 months" | "3-6 months" | "6-12 months" | undefined,
+          full_name: data.full_name,
+          city_country: data.city_country,
+          whatsapp_number: data.whatsapp_number,
+          specialty: data.specialty as SpecialtyType | undefined,
+          availability: data.availability as AvailabilityType | undefined,
           target_countries: data.target_countries,
         },
       },
