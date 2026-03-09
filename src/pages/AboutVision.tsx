@@ -1,8 +1,25 @@
 import { Layout } from "@/components/layout/Layout";
 import { JoinMissionBanner } from "@/components/about/JoinMissionBanner";
 import { Globe, Target, TrendingUp, Users, Star, Eye } from "lucide-react";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 export default function AboutVision() {
+  const { t } = useTranslation();
+  const v = t.aboutVision;
+
+  const pillars = [
+    { icon: <Globe className="h-7 w-7" />, title: v.globalReach, desc: v.globalReachDesc },
+    { icon: <Target className="h-7 w-7" />, title: v.equalOpportunity, desc: v.equalOpportunityDesc },
+    { icon: <TrendingUp className="h-7 w-7" />, title: v.sustainableGrowth, desc: v.sustainableGrowthDesc },
+  ];
+
+  const stats = [
+    { value: "10+", label: v.statsCountriesReached },
+    { value: "500+", label: v.statsNursesSupported },
+    { value: "50+", label: v.statsPartnerHospitals },
+    { value: "95%", label: v.statsSatisfaction },
+  ];
+
   return (
     <Layout>
       {/* Hero Section */}
@@ -20,7 +37,7 @@ export default function AboutVision() {
                 className="font-black text-white leading-none mb-2"
                 style={{ fontSize: "clamp(3.5rem, 8vw, 6rem)", letterSpacing: "-0.03em" }}
               >
-                VISION
+                {v.heroTitle}
               </h1>
               <div className="w-16 h-1 bg-white/50 rounded-full mt-2" />
             </div>
@@ -28,15 +45,7 @@ export default function AboutVision() {
             {/* Right: Vision statement */}
             <div className="md:w-2/3">
               <p className="text-white/90 text-lg md:text-xl leading-relaxed mb-6">
-                To become the leader and the preferred global partner platform — as a bridge between{" "}
-                <span className="font-bold text-white bg-white/20 px-2 py-0.5 rounded">
-                  healthcare talents
-                </span>{" "}
-                and international opportunities in{" "}
-                <span className="font-bold text-white bg-white/20 px-2 py-0.5 rounded">
-                  healthcare providers
-                </span>
-                .
+                {v.heroStatement}
               </p>
             </div>
           </div>
@@ -59,14 +68,12 @@ export default function AboutVision() {
               style={{ color: "#03989E" }}
             />
             <blockquote
-              className="text-2xl md:text-3xl font-bold text-foreground leading-snug mb-6 max-w-3xl"
-              style={{ fontStyle: "italic" }}
+              className="text-2xl md:text-3xl font-bold text-foreground leading-snug mb-6 max-w-3xl italic"
             >
-              "Talent is <span style={{ color: "#03989E" }}>EVERYWHERE</span>,
-              opportunity is not — we're here to change that."
+              "{v.quoteText}"
             </blockquote>
             <p className="text-muted-foreground text-sm font-semibold uppercase tracking-widest">
-              — Global PARO Founding Vision
+              {v.quoteAttr}
             </p>
           </div>
         </div>
@@ -76,26 +83,10 @@ export default function AboutVision() {
       <section className="py-16 px-6" style={{ backgroundColor: "hsl(var(--card))" }}>
         <div className="container max-w-6xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-black text-center mb-12 text-foreground">
-            What Our Vision Looks Like
+            {v.pillarsTitle}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: <Globe className="h-7 w-7" />,
-                title: "Global Reach",
-                desc: "Connecting Indonesian nurses with healthcare employers in the UK, Europe, the Middle East, Australia, and beyond.",
-              },
-              {
-                icon: <Target className="h-7 w-7" />,
-                title: "Equal Opportunity",
-                desc: "Breaking down barriers of geography, language, and access so every qualified nurse can pursue their international career.",
-              },
-              {
-                icon: <TrendingUp className="h-7 w-7" />,
-                title: "Sustainable Growth",
-                desc: "Building a long-term ecosystem where nurses, employers, and communities all thrive together.",
-              },
-            ].map((p) => (
+            {pillars.map((p) => (
               <div
                 key={p.title}
                 className="rounded-xl p-6 border border-border hover:shadow-md transition-shadow"
@@ -118,17 +109,9 @@ export default function AboutVision() {
       <section className="py-14 px-6 bg-background">
         <div className="container max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {[
-              { value: "10+", label: "Countries Reached" },
-              { value: "500+", label: "Nurses Supported" },
-              { value: "50+", label: "Partner Hospitals" },
-              { value: "95%", label: "Satisfaction Rate" },
-            ].map((s) => (
+            {stats.map((s) => (
               <div key={s.label}>
-                <div
-                  className="text-4xl font-black mb-1"
-                  style={{ color: "#03989E" }}
-                >
+                <div className="text-4xl font-black mb-1" style={{ color: "#03989E" }}>
                   {s.value}
                 </div>
                 <div className="text-sm text-muted-foreground font-medium">{s.label}</div>
@@ -147,17 +130,13 @@ export default function AboutVision() {
               style={{ background: "linear-gradient(135deg, #03989E, #015779)" }}
             >
               <Star className="h-8 w-8 mb-4 opacity-80" />
-              <h3 className="text-xl font-bold mb-3">For Nurses</h3>
-              <p className="text-white/85 leading-relaxed">
-                A world where every Indonesian nurse can access world-class training, certification support, and placement into their dream international role.
-              </p>
+              <h3 className="text-xl font-bold mb-3">{v.forNursesTitle}</h3>
+              <p className="text-white/85 leading-relaxed">{v.forNursesDesc}</p>
             </div>
             <div className="rounded-2xl p-8 border-2 border-foreground/10">
               <Users className="h-8 w-8 mb-4" style={{ color: "#03989E" }} />
-              <h3 className="text-xl font-bold mb-3 text-foreground">For Healthcare</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                A sustainable global ecosystem where international healthcare institutions gain access to skilled, well-prepared Indonesian nursing professionals.
-              </p>
+              <h3 className="text-xl font-bold mb-3 text-foreground">{v.forHealthcareTitle}</h3>
+              <p className="text-muted-foreground leading-relaxed">{v.forHealthcareDesc}</p>
             </div>
           </div>
         </div>
