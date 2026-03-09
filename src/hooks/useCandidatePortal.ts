@@ -106,7 +106,7 @@ export function useUpdateCandidateProfile() {
         full_name: string;
         city_country: string;
         whatsapp_number: string;
-        specialty: string;
+        specialty: "ICU" | "ER" | "Med-Surg" | "OR" | "Pediatrics" | "Geriatric" | "Mental Health" | "Community Health" | "Other";
         availability: "0-3 months" | "3-6 months" | "6-12 months";
         target_countries: string[];
       }>;
