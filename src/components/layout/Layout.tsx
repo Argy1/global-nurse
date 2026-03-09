@@ -4,12 +4,14 @@ import { Footer } from "./Footer";
 import { StickyBottomCTA } from "./StickyBottomCTA";
 import { FloatingWhatsApp } from "./FloatingWhatsApp";
 import { ChatWidget } from "./ChatWidget";
+import { useSEO } from "@/hooks/useSEO";
 
 interface LayoutProps {
   children: ReactNode;
 }
 
 export function Layout({ children }: LayoutProps) {
+  useSEO();
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
