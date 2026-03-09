@@ -24,10 +24,30 @@ interface NavItem {
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const navigate = useNavigate();
   const { data: settings } = useSiteSettings();
   const { lang, setLang, t } = useTranslation();
+  const { user, signOut } = useAuth();
+
+  // Close user menu on outside click
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+        setUserMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  const handleSignOut = async () => {
+    await signOut();
+    setUserMenuOpen(false);
+    navigate("/auth");
+  };
 
   const helpEmail = settings?.support_email || "hello@globalparo.com";
 
