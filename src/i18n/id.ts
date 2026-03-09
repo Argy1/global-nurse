@@ -1094,6 +1094,23 @@ const id: Translations = {
     lastSeenAt: "Sejak kunjungan terakhirmu",
   },
 
+  // ── Pengaturan Akun ──
+  accountSettings: {
+    title: "Pengaturan Akun",
+    backToPortal: "Kembali ke Portal",
+    displayNameTitle: "Nama Tampilan",
+    displayNameLabel: "Nama kamu",
+    displayNamePlaceholder: "cth. Budi Santoso",
+    saveName: "Simpan Nama",
+    nameSaved: "Nama tampilan berhasil diperbarui!",
+    passwordTitle: "Ganti Kata Sandi",
+    newPassword: "Kata Sandi Baru",
+    confirmPassword: "Konfirmasi Kata Sandi",
+    updatePassword: "Perbarui Kata Sandi",
+    passwordSaved: "Kata sandi berhasil diubah!",
+    saveError: "Gagal menyimpan. Silakan coba lagi.",
+  },
+
   // ── Sukses Pendaftaran ──
   registerSuccess: {
     title: "Terima Kasih — Kami Telah Menerima Profil Anda!",
