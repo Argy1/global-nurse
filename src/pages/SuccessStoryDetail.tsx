@@ -12,8 +12,8 @@ export default function SuccessStoryDetail() {
   const { t } = useTranslation();
   const { data: story, isLoading } = useContentBySlug(slug || "");
 
-  // Dynamic per-article SEO
-  useArticleSEO({ title: story?.title, excerpt: story?.excerpt, type: "success-story" });
+  // Dynamic per-article SEO (includes og:image for social previews)
+  useArticleSEO({ title: story?.title, excerpt: story?.excerpt, coverImage: story?.cover_image_url, type: "success-story" });
   const { data: allStories } = useContent("SuccessStory");
   const { value: whatsappLink } = useSetting("whatsapp_link");
 

@@ -9,6 +9,8 @@ import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { useTranslation } from "@/i18n/LanguageContext";
 import type { Lang } from "@/i18n/LanguageContext";
 import { useAuth } from "@/hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 interface DropdownItem {
   href: string;
@@ -31,6 +33,20 @@ export function Navbar() {
   const { data: settings } = useSiteSettings();
   const { lang, setLang, t } = useTranslation();
   const { user, signOut } = useAuth();
+
+  // Fetch user avatar from profiles
+  const { data: profile } = useQuery({
+    queryKey: ["profile", user?.id],
+    enabled: !!user,
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("profiles")
+        .select("display_name, avatar_url")
+        .eq("user_id", user!.id)
+        .maybeSingle();
+      return data;
+    },
+  });
 
   // Close user menu on outside click
   useEffect(() => {
@@ -161,9 +177,17 @@ export function Navbar() {
                   className="flex items-center gap-1.5 h-6 px-2 rounded-full text-xs font-semibold text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 transition-colors"
                   aria-label="User menu"
                 >
-                  <UserCircle className="h-4 w-4" />
+                  {profile?.avatar_url ? (
+                    <img
+                      src={profile.avatar_url}
+                      alt="avatar"
+                      className="h-5 w-5 rounded-full object-cover border border-primary-foreground/30"
+                    />
+                  ) : (
+                    <UserCircle className="h-4 w-4" />
+                  )}
                   <span className="hidden sm:block max-w-[100px] truncate">
-                    {user.email?.split("@")[0]}
+                    {profile?.display_name || user.email?.split("@")[0]}
                   </span>
                   <ChevronDown className={cn("h-3 w-3 transition-transform", userMenuOpen && "rotate-180")} />
                 </button>

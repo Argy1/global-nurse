@@ -190,10 +190,11 @@ export function useSEO() {
 export function useArticleSEO(opts: {
   title?: string | null;
   excerpt?: string | null;
+  coverImage?: string | null;
   type: "news" | "success-story";
 }) {
   const { lang } = useTranslation();
-  const { title, excerpt, type } = opts;
+  const { title, excerpt, coverImage, type } = opts;
 
   useEffect(() => {
     if (!title) return;
@@ -213,5 +214,14 @@ export function useArticleSEO(opts: {
       : "An inspiring story of an Indonesian nurse achieving an international career.";
 
     applyMeta(metaTitle, metaDesc, lang);
-  }, [title, excerpt, lang, type]);
+
+    // og:image — inject/update when cover image is available
+    if (coverImage) {
+      setMeta("og:image", coverImage, true);
+      setMeta("og:image:width", "1200", true);
+      setMeta("og:image:height", "630", true);
+      setMeta("twitter:image", coverImage);
+      setMeta("twitter:card", "summary_large_image");
+    }
+  }, [title, excerpt, coverImage, lang, type]);
 }
