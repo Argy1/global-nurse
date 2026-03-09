@@ -1,75 +1,31 @@
 import { Layout } from "@/components/layout/Layout";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, X } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/i18n/LanguageContext";
 
-const requirements = [
-  {
-    criterion: "Nurse Degree",
-    rn: ["Bachelor (S.Kep)", "Ners (Ns)"],
-    en: ["Diploma (A.Md.Kep)", "Bachelor (S.Kep)"],
-    ha: ["Diploma (A.Md.Kep)", "Bachelor (S.Kep)"],
-  },
-  {
-    criterion: "Clinical Experience",
-    rn: ["Minimum 2–3 years", "at 300-bedded hospitals"],
-    en: ["Minimum 1–2 years", "at 300-bedded hospitals"],
-    ha: ["Minimum 1 year", "at hospitals (in-patient)"],
-  },
-  {
-    criterion: "Referral Letter",
-    rn: ["Required from hospital"],
-    en: ["Required from hospital"],
-    ha: ["Required from hospital"],
-  },
-  {
-    criterion: "English Functional",
-    rn: ["Yes"],
-    en: ["Yes"],
-    ha: ["Yes"],
-  },
-  {
-    criterion: "Active STR",
-    rn: ["Yes"],
-    en: ["Yes"],
-    ha: ["Yes"],
-  },
-];
-
-const tiers = [
-  {
-    key: "rn",
-    title: "RN",
-    full: "Registered Nurse",
-    color: "#015779",
-    light: "#01577915",
-  },
-  {
-    key: "en",
-    title: "EN",
-    full: "Enrolled Nurse",
-    color: "#03989E",
-    light: "#03989E15",
-  },
-  {
-    key: "ha",
-    title: "HA",
-    full: "Healthcare Assistant",
-    color: "#015779",
-    light: "#01577910",
-  },
-];
+const tierColors = ["#015779", "#03989E", "#015779"];
+const tierLights = ["#01577915", "#03989E15", "#01577910"];
 
 export default function RequirementCriteria() {
+  const { t } = useTranslation();
+  const { reqRows, reqTiers } = t.programs;
+
+  const tiers = reqTiers.map((tier, i) => ({
+    ...tier,
+    color: tierColors[i],
+    light: tierLights[i],
+  }));
+
   return (
     <Layout>
       {/* Hero */}
       <section className="py-14 lg:py-20" style={{ background: "linear-gradient(135deg, #015779 0%, #03989E 100%)" }}>
         <div className="container text-center">
-          <p className="text-white/70 text-sm font-semibold uppercase tracking-widest mb-2">Singapore Batch #1</p>
-          <h1 className="text-3xl lg:text-4xl font-black text-white mb-3">Requirement Criteria</h1>
+          <p className="text-white/70 text-sm font-semibold uppercase tracking-widest mb-2">{t.programs.reqPageLabel}</p>
+          <h1 className="text-3xl lg:text-4xl font-black text-white mb-3">{t.programs.reqPageTitle}</h1>
           <p className="text-white/80 max-w-xl mx-auto text-sm">
-            Check which category you qualify for and start your application today.
+            {t.programs.reqPageDesc}
           </p>
         </div>
       </section>
@@ -84,7 +40,7 @@ export default function RequirementCriteria() {
                 <span className="text-white/80 text-sm">{tier.full}</span>
               </div>
               <div className="p-5 space-y-4">
-                {requirements.map((req) => (
+                {reqRows.map((req) => (
                   <div key={req.criterion}>
                     <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-1">{req.criterion}</p>
                     {(req[tier.key as "rn" | "en" | "ha"] as string[]).map((v) => (
@@ -109,7 +65,7 @@ export default function RequirementCriteria() {
               <thead>
                 <tr>
                   <th className="text-left px-6 py-4 text-sm font-bold text-white w-48" style={{ background: "#015779" }}>
-                    Requirement
+                    {t.programs.reqRequirement}
                   </th>
                   {tiers.map((tier) => (
                     <th key={tier.key} className="px-6 py-4 text-center text-white w-1/4" style={{ background: tier.color }}>
@@ -120,14 +76,14 @@ export default function RequirementCriteria() {
                 </tr>
               </thead>
               <tbody>
-                {requirements.map((req, idx) => (
+                {reqRows.map((req, idx) => (
                   <tr key={req.criterion} className={idx % 2 === 0 ? "bg-card" : "bg-muted"}>
                     <td className="px-6 py-4 text-sm font-semibold text-foreground border-r border-border">
                       {req.criterion}
                     </td>
                     {tiers.map((tier) => (
                       <td key={tier.key} className="px-6 py-4 text-sm text-center text-foreground border-r border-border last:border-0">
-                      {(req[tier.key as "rn" | "en" | "ha"] as string[]).map((v) => (
+                        {(req[tier.key as "rn" | "en" | "ha"] as string[]).map((v) => (
                           <div key={v} className="leading-snug">{v}</div>
                         ))}
                       </td>
@@ -140,7 +96,7 @@ export default function RequirementCriteria() {
 
           {/* Note */}
           <div className="mt-6 p-4 rounded-xl border text-sm text-muted-foreground" style={{ background: "#03989E10", borderColor: "#03989E30" }}>
-            <span className="font-semibold text-foreground">Note:</span> All candidates must hold an active STR (Surat Tanda Registrasi) and demonstrate functional English proficiency before deployment.
+            <span className="font-semibold text-foreground">{t.programs.reqRequirement}:</span> {t.programs.reqNote}
           </div>
         </div>
       </section>
@@ -148,14 +104,14 @@ export default function RequirementCriteria() {
       {/* CTA */}
       <section className="py-14" style={{ background: "linear-gradient(135deg, #015779 0%, #03989E 100%)" }}>
         <div className="container text-center">
-          <h2 className="text-2xl font-extrabold text-white mb-3">You Meet the Requirements?</h2>
-          <p className="text-white/80 mb-6 text-sm">Register now and our team will guide you through the next steps.</p>
+          <h2 className="text-2xl font-extrabold text-white mb-3">{t.programs.reqCtaTitle}</h2>
+          <p className="text-white/80 mb-6 text-sm">{t.programs.reqCtaDesc}</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button asChild size="lg" className="font-bold text-white" style={{ backgroundColor: "#e53e3e" }}>
-              <Link to="/register">Apply Now <ArrowRight className="h-4 w-4 ml-1" /></Link>
+              <Link to="/register">{t.programs.reqCtaApply} <ArrowRight className="h-4 w-4 ml-1" /></Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="font-bold border-white text-white hover:bg-white/10">
-              <Link to="/programs/webinar">Join Our Free Webinar</Link>
+              <Link to="/programs/webinar">{t.programs.reqCtaWebinar}</Link>
             </Button>
           </div>
         </div>
