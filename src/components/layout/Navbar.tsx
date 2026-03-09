@@ -34,6 +34,20 @@ export function Navbar() {
   const { lang, setLang, t } = useTranslation();
   const { user, signOut } = useAuth();
 
+  // Fetch user avatar from profiles
+  const { data: profile } = useQuery({
+    queryKey: ["profile", user?.id],
+    enabled: !!user,
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("profiles")
+        .select("display_name, avatar_url")
+        .eq("user_id", user!.id)
+        .maybeSingle();
+      return data;
+    },
+  });
+
   // Close user menu on outside click
   useEffect(() => {
     function handleClick(e: MouseEvent) {
