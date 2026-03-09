@@ -11,6 +11,7 @@ import type { Lang } from "@/i18n/LanguageContext";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { SearchBar } from "@/components/layout/SearchBar";
 
 interface DropdownItem {
   href: string;
