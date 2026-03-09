@@ -7,8 +7,7 @@ import { useTranslation } from "@/i18n/LanguageContext";
 // Assets
 import teamLogoIcon from "@/assets/team-logo-icon.png";
 import teamArrow from "@/assets/team-arrow.png";
-import teamHeroBar from "@/assets/team-hero-bar.png";
-import logoIcon from "@/assets/logo-icon.png";
+import logoIcon3d from "@/assets/logo-icon-3d.png";
 import dumaPhoto from "@/assets/team-duma.png";
 import annPhoto from "@/assets/team-ann.png";
 import timothyPhoto from "@/assets/team-timothy.png";
