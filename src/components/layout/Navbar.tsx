@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, Phone, Mail, Globe, Search, ChevronDown } from "lucide-react";
+import { Menu, X, Phone, Mail, Globe, Search, ChevronDown, UserCircle, Settings, LayoutDashboard, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logoIcon3d from "@/assets/logo-icon-3d.png";
 import logoText from "@/assets/logo-text.png";
@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { useTranslation } from "@/i18n/LanguageContext";
 import type { Lang } from "@/i18n/LanguageContext";
+import { useAuth } from "@/hooks/useAuth";
 
 interface DropdownItem {
   href: string;
