@@ -103,9 +103,9 @@ export default function Team() {
             <div className="hidden md:block h-16 w-32 lg:w-48 rounded-sm" style={{ backgroundColor: "#03989E" }} />
 
             {/* Title */}
-            <div className="flex items-center gap-3">
-              <img src={logoIcon} alt="Global Paro" className="h-12 w-12 object-contain" />
-              <h1 className="text-5xl lg:text-6xl font-black font-heading text-white tracking-tight">
+            <div className="flex items-center gap-4">
+              <img src={logoIcon} alt="Global Paro" className="h-16 w-16 lg:h-20 lg:w-20 object-contain" />
+              <h1 className="text-7xl sm:text-8xl lg:text-[7rem] xl:text-[9rem] font-black font-heading text-white tracking-tighter leading-none">
                 <span className="italic">ur</span>{" "}
                 <span style={{ color: "#015779" }}>TEAM</span>
               </h1>
