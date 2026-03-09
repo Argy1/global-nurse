@@ -66,6 +66,9 @@ export default function Portal() {
           </Button>
         </div>
 
+        {/* Stage change notification banner */}
+        <StageChangeNotification candidate={candidate} />
+
         {/* Dashboard Summary Card — full width */}
         <DashboardSummaryCard candidate={candidate} />
 
