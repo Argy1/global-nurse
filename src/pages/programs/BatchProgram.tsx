@@ -1,16 +1,17 @@
 import { Layout } from "@/components/layout/Layout";
 import { Link } from "react-router-dom";
-import { ArrowRight, Calendar, Users, FileText, MapPin, Award } from "lucide-react";
+import { ArrowRight, Calendar, Users, FileText, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import nurseClipboard from "@/assets/nurse-clipboard.png";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 export default function BatchProgram() {
-  const benefits = [
-    { label: "Salary (Net)", value: "1.1K – 1.2K SGD" },
-    { label: "Housing Allowance", value: "500 SGD" },
-    { label: "Airfare Subsidy", value: "1,000 SGD" },
-    { label: "Annual Bonus", value: "2× Monthly Salary" },
-    { label: "Medical Insurance", value: "Depends on Hospital" },
+  const { t } = useTranslation();
+
+  const details = [
+    { icon: Users, label: t.programs.batchRoleLabel, value: "Healthcare Assistant (HCA)" },
+    { icon: FileText, label: t.programs.batchContractLabel, value: "2 Years Contract" },
+    { icon: MapPin, label: t.programs.batchEmployerLabel, value: "Gov't / Private Hospitals & Nursing Homes" },
   ];
 
   return (
@@ -41,25 +42,25 @@ export default function BatchProgram() {
         <div style={{ background: "#03989E" }} className="px-4 pb-8 pt-0">
           <div className="bg-white rounded-2xl p-6 shadow-2xl">
             <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: "#015779" }}>
-              🇸🇬 Singapore
+              {t.programs.batchHeroCountry}
             </p>
             <h1 className="text-2xl font-black mb-4" style={{ color: "#015779" }}>
-              Nurse in Singapore
+              {t.programs.batchHeroTitle}
             </h1>
             <ul className="space-y-2 mb-6">
               <li className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                <span>🚀</span> Batch #1
+                <span>🚀</span> {t.programs.batchHeroBatch}
               </li>
               <li className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                <span>•</span> Deployment timeline: 31st May 2026
+                <span>•</span> {t.programs.batchHeroDeployment}
               </li>
               <li className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                <span>•</span> Registration open until 15th March 2026
+                <span>•</span> {t.programs.batchHeroRegistration}
               </li>
             </ul>
             <Button asChild className="w-full font-bold text-white" style={{ backgroundColor: "#03989E" }}>
               <Link to="/register">
-                Apply Now <ArrowRight className="h-4 w-4 ml-1" />
+                {t.programs.batchHeroApply} <ArrowRight className="h-4 w-4 ml-1" />
               </Link>
             </Button>
           </div>
@@ -111,25 +112,25 @@ export default function BatchProgram() {
               />
             </div>
             <p className="text-sm font-bold uppercase tracking-widest mb-1" style={{ color: "#015779" }}>
-              🇸🇬 Singapore
+              {t.programs.batchHeroCountry}
             </p>
             <h1 className="text-3xl lg:text-4xl font-black mb-4" style={{ color: "#015779" }}>
-              Nurse in Singapore
+              {t.programs.batchHeroTitle}
             </h1>
             <ul className="space-y-2 mb-6">
               <li className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                <span className="text-base">🚀</span> Batch #1
+                <span className="text-base">🚀</span> {t.programs.batchHeroBatch}
               </li>
               <li className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                <span className="text-base">•</span> Deployment timeline: 31st May 2026
+                <span className="text-base">•</span> {t.programs.batchHeroDeployment}
               </li>
               <li className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                <span className="text-base">•</span> Registration open until 15th March 2026
+                <span className="text-base">•</span> {t.programs.batchHeroRegistration}
               </li>
             </ul>
             <Button asChild className="w-full font-bold text-white" style={{ backgroundColor: "#03989E" }}>
               <Link to="/register">
-                Apply Now <ArrowRight className="h-4 w-4 ml-1" />
+                {t.programs.batchHeroApply} <ArrowRight className="h-4 w-4 ml-1" />
               </Link>
             </Button>
           </div>
@@ -137,27 +138,23 @@ export default function BatchProgram() {
 
         {/* Page title overlay — bottom left */}
         <div className="absolute bottom-6 left-0 z-10 container">
-          <h2 className="text-4xl font-black text-white">Programs</h2>
-          <p className="text-white/80 text-sm mt-1">Join 1000+ Indonesian Nurses Building Their Global Healthcare Careers</p>
+          <h2 className="text-4xl font-black text-white">{t.programs.batchPageTitle}</h2>
+          <p className="text-white/80 text-sm mt-1">{t.programs.batchPageSubtitle}</p>
         </div>
       </section>
 
       {/* Mobile page title */}
       <section className="lg:hidden py-5 px-4 text-center" style={{ background: "#015779" }}>
-        <h2 className="text-xl font-black text-white">Programs</h2>
-        <p className="text-white/70 text-xs mt-1">Join 1000+ Indonesian Nurses Building Their Global Healthcare Careers</p>
+        <h2 className="text-xl font-black text-white">{t.programs.batchPageTitle}</h2>
+        <p className="text-white/70 text-xs mt-1">{t.programs.batchPageSubtitle}</p>
       </section>
 
       {/* Batch Details */}
       <section className="py-12 md:py-16 bg-muted">
         <div className="container max-w-4xl mx-auto">
-          <h2 className="text-xl md:text-2xl font-extrabold text-foreground mb-8 text-center">Batch #1 — Program Details</h2>
+          <h2 className="text-xl md:text-2xl font-extrabold text-foreground mb-8 text-center">{t.programs.batchDetailsTitle}</h2>
           <div className="grid sm:grid-cols-3 gap-4 md:gap-6 mb-10">
-            {[
-              { icon: Users, label: "Role", value: "Healthcare Assistant (HCA)" },
-              { icon: FileText, label: "Contract", value: "2 Years Contract" },
-              { icon: MapPin, label: "Employer", value: "Gov't / Private Hospitals & Nursing Homes" },
-            ].map(({ icon: Icon, label, value }) => (
+            {details.map(({ icon: Icon, label, value }) => (
               <div key={label} className="bg-card rounded-xl p-5 border border-border shadow-card flex items-start gap-3">
                 <div className="h-10 w-10 rounded-lg flex items-center justify-center shrink-0" style={{ background: "#03989E20" }}>
                   <Icon className="h-5 w-5" style={{ color: "#03989E" }} />
@@ -174,30 +171,30 @@ export default function BatchProgram() {
           <div className="flex items-start gap-3 p-4 rounded-xl border mb-10" style={{ background: "#03989E15", borderColor: "#03989E40" }}>
             <Calendar className="h-5 w-5 shrink-0 mt-0.5" style={{ color: "#03989E" }} />
             <p className="text-sm font-semibold text-foreground">
-              📅 Deployment: 31st May 2026 &nbsp;|&nbsp; 📝 Registration closes: 15th March 2026
+              {t.programs.batchDeploymentBadge}
             </p>
           </div>
 
           {/* Career path note */}
-           <div className="bg-card rounded-2xl border border-border shadow-card overflow-hidden p-6" style={{ background: "#03989E15", borderColor: "#03989E40" }}>
-             <p className="text-sm font-medium" style={{ color: "#03989E" }}>
-               📈 Career path: HCA → Enrolled Nurse → Registered Nurse opportunities available
-             </p>
-           </div>
+          <div className="bg-card rounded-2xl border border-border shadow-card overflow-hidden p-6" style={{ background: "#03989E15", borderColor: "#03989E40" }}>
+            <p className="text-sm font-medium" style={{ color: "#03989E" }}>
+              {t.programs.batchCareerPath}
+            </p>
+          </div>
         </div>
       </section>
 
       {/* CTA */}
       <section className="py-14" style={{ background: "linear-gradient(135deg, #015779 0%, #03989E 100%)" }}>
         <div className="container text-center">
-          <h2 className="text-xl md:text-2xl font-extrabold text-white mb-3">Ready to Secure Your Spot?</h2>
-          <p className="text-white/80 mb-6 text-sm">Only 50 nurses will be selected for Batch #1. Don't miss your chance.</p>
+          <h2 className="text-xl md:text-2xl font-extrabold text-white mb-3">{t.programs.batchCtaTitle}</h2>
+          <p className="text-white/80 mb-6 text-sm">{t.programs.batchCtaDesc}</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button asChild size="lg" className="font-bold text-white" style={{ backgroundColor: "#e53e3e" }}>
-              <Link to="/register">Register Now — Batch #1 <ArrowRight className="h-4 w-4 ml-1" /></Link>
+              <Link to="/register">{t.programs.batchCtaRegister} <ArrowRight className="h-4 w-4 ml-1" /></Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="font-bold border-white text-white hover:bg-white/10">
-              <Link to="/programs/requirements">View Requirements</Link>
+              <Link to="/programs/requirements">{t.programs.batchCtaRequirements}</Link>
             </Button>
           </div>
         </div>
