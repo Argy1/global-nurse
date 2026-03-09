@@ -386,6 +386,9 @@ const id: Translations = {
     phone: "Telepon",
     faqTitle: "Pertanyaan yang Sering Diajukan",
     stillHaveQuestions: "Masih punya pertanyaan?",
+    loadingFaqs: "Memuat FAQ...",
+    faqError: "Gagal memuat FAQ. Mohon refresh atau hubungi kami langsung.",
+    filterAll: "Semua",
     faqs: [
       { q: "Apakah ada biaya untuk perawat?", a: "Tidak. Kami tidak pernah memungut biaya kepada perawat. Layanan kami gratis untuk kandidat." },
       { q: "Berapa lama prosesnya?", a: "Waktu bervariasi tergantung negara dan kesiapan individu. Kami memberikan panduan transparan tentang perkiraan waktu selama peninjauan." },
