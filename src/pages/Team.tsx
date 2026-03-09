@@ -94,24 +94,40 @@ export default function Team() {
     <Layout>
       {/* ── Hero Banner ── */}
       <section className="relative overflow-hidden" style={{ backgroundColor: "#03989E" }}>
-        {/* Teal bar with white diamond cutouts */}
-        <img src={teamHeroBar} alt="" className="absolute inset-0 w-full h-full object-cover opacity-60" aria-hidden="true" />
-        <div className="relative z-10 py-8 lg:py-10">
-          <div className="container flex items-center justify-center gap-6">
-            {/* Left teal block */}
-            <div className="hidden md:block h-16 w-32 lg:w-48 rounded-sm" style={{ backgroundColor: "#03989E" }} />
+        {/* Decorative white folded-paper shapes kiri dan kanan */}
+        <div className="absolute left-0 top-0 h-full flex items-center z-10 pointer-events-none">
+          {/* Kiri: dua segitiga putih yang membentuk lipatan kertas */}
+          <div className="relative w-28 md:w-40 lg:w-56 h-full flex flex-col">
+            <div className="flex-1" style={{ background: "linear-gradient(135deg, white 50%, transparent 50%)" }} />
+            <div className="flex-1" style={{ background: "linear-gradient(225deg, white 50%, transparent 50%)" }} />
+          </div>
+        </div>
+        <div className="absolute right-0 top-0 h-full flex items-center z-10 pointer-events-none">
+          {/* Kanan: dua segitiga putih lipatan kertas */}
+          <div className="relative w-28 md:w-40 lg:w-56 h-full flex flex-col">
+            <div className="flex-1" style={{ background: "linear-gradient(315deg, white 50%, transparent 50%)" }} />
+            <div className="flex-1" style={{ background: "linear-gradient(45deg, white 50%, transparent 50%)" }} />
+          </div>
+        </div>
 
-            {/* Title */}
-            <div className="flex items-center gap-4">
-              <img src={logoIcon} alt="Global Paro" className="h-16 w-16 lg:h-20 lg:w-20 object-contain" />
-              <h1 className="text-7xl sm:text-8xl lg:text-[7rem] xl:text-[9rem] font-black font-heading text-white tracking-tighter leading-none">
-                <span className="italic">ur</span>{" "}
-                <span style={{ color: "#015779" }}>TEAM</span>
-              </h1>
-            </div>
-
-            {/* Right teal block */}
-            <div className="hidden md:block h-16 w-32 lg:w-48 rounded-sm" style={{ backgroundColor: "#03989E" }} />
+        {/* Title — logo ikon menyatu dengan teks */}
+        <div className="relative z-20 py-6 md:py-8 lg:py-10 flex items-center justify-center">
+          <div className="flex items-center gap-0">
+            {/* Logo P sebagai huruf pertama dari "Our" */}
+            <img
+              src={logoIcon3d}
+              alt="P"
+              style={{ height: "clamp(4rem, 10vw, 8rem)", width: "auto" }}
+              className="object-contain shrink-0 -mr-1"
+            />
+            {/* "ur TEAM" menyambung langsung setelah logo */}
+            <h1
+              className="font-black font-heading text-white tracking-tight leading-none"
+              style={{ fontSize: "clamp(4rem, 10vw, 8rem)" }}
+            >
+              <span className="italic">ur </span>
+              <span style={{ color: "#015779" }}>TEAM</span>
+            </h1>
           </div>
         </div>
       </section>
