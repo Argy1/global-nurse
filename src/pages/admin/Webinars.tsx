@@ -3,14 +3,13 @@ import { AdminLayout } from "@/components/layout/AdminLayout";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import {
-  Loader2, Plus, Edit, Trash2, Eye, EyeOff, X, Star, StarOff,
+  Loader2, Plus, Edit, Trash2, Eye, EyeOff, X, Star, StarOff, Users, Download, ChevronLeft,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
-import { Badge } from "@/components/ui/badge";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface Webinar {
@@ -37,6 +36,16 @@ interface Webinar {
   updated_at: string;
 }
 
+interface Registration {
+  id: string;
+  webinar_id: string;
+  full_name: string;
+  email: string;
+  whatsapp: string;
+  notes: string | null;
+  registered_at: string;
+}
+
 const empty = (): Partial<Webinar> => ({
   slug: "",
   title: "",
@@ -57,6 +66,125 @@ const empty = (): Partial<Webinar> => ({
   speaker_bio: "",
   speaker_photo_url: "",
 });
+
+// ─── CSV Export ───────────────────────────────────────────────────────────────
+function exportCSV(registrations: Registration[], webinarTitle: string) {
+  const headers = ["Nama Lengkap", "Email", "WhatsApp", "Tanggal Daftar", "Catatan"];
+  const rows = registrations.map((r) => [
+    r.full_name,
+    r.email,
+    r.whatsapp,
+    new Date(r.registered_at).toLocaleString("id-ID"),
+    r.notes || "",
+  ]);
+  const csv = [headers, ...rows]
+    .map((row) => row.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(","))
+    .join("\n");
+  const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `registrasi-${webinarTitle.toLowerCase().replace(/\s+/g, "-")}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ─── Registrations view ───────────────────────────────────────────────────────
+function RegistrationsView({ webinar, onBack }: { webinar: Webinar; onBack: () => void }) {
+  const { data: regs, isLoading } = useQuery({
+    queryKey: ["webinar_registrations", webinar.id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("webinar_registrations" as any)
+        .select("*")
+        .eq("webinar_id", webinar.id)
+        .order("registered_at", { ascending: false });
+      if (error) throw error;
+      return data as unknown as Registration[];
+    },
+  });
+
+  return (
+    <AdminLayout>
+      <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="sm" onClick={onBack} className="gap-1">
+            <ChevronLeft className="h-4 w-4" /> Kembali
+          </Button>
+          <div>
+            <h1 className="text-2xl font-extrabold text-foreground">Registrasi Webinar</h1>
+            <p className="text-sm text-muted-foreground">{webinar.title}</p>
+          </div>
+        </div>
+        {regs && regs.length > 0 && (
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-2"
+            onClick={() => exportCSV(regs, webinar.title)}
+          >
+            <Download className="h-4 w-4" /> Export CSV
+          </Button>
+        )}
+      </div>
+
+      {isLoading ? (
+        <div className="flex justify-center py-16">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      ) : (
+        <>
+          <div className="mb-4 text-sm text-muted-foreground">
+            Total: <span className="font-bold text-foreground">{regs?.length ?? 0}</span> pendaftar
+          </div>
+          <div className="bg-card rounded-xl border border-border overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead className="bg-muted">
+                <tr>
+                  {["#", "Nama Lengkap", "Email", "WhatsApp", "Tanggal Daftar", "Catatan"].map((h) => (
+                    <th key={h} className="px-4 py-3 text-left font-semibold text-foreground whitespace-nowrap">
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {regs?.map((r, i) => (
+                  <tr key={r.id} className="border-t border-border hover:bg-muted/30 transition-colors">
+                    <td className="px-4 py-3 text-muted-foreground">{i + 1}</td>
+                    <td className="px-4 py-3 font-medium text-foreground">{r.full_name}</td>
+                    <td className="px-4 py-3 text-muted-foreground">
+                      <a href={`mailto:${r.email}`} className="hover:underline">{r.email}</a>
+                    </td>
+                    <td className="px-4 py-3 text-muted-foreground">
+                      <a href={`https://wa.me/${r.whatsapp.replace(/\D/g, "")}`} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                        {r.whatsapp}
+                      </a>
+                    </td>
+                    <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">
+                      {new Date(r.registered_at).toLocaleString("id-ID", {
+                        day: "numeric", month: "short", year: "numeric",
+                        hour: "2-digit", minute: "2-digit",
+                      })}
+                    </td>
+                    <td className="px-4 py-3 text-muted-foreground max-w-xs truncate">
+                      {r.notes || "—"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {(!regs || regs.length === 0) && (
+              <p className="text-center py-10 text-muted-foreground">
+                Belum ada pendaftar untuk webinar ini.
+              </p>
+            )}
+          </div>
+        </>
+      )}
+    </AdminLayout>
+  );
+}
 
 // ─── Editor sub-component ─────────────────────────────────────────────────────
 function WebinarEditor({
@@ -216,6 +344,7 @@ function WebinarEditor({
 export default function AdminWebinars() {
   const queryClient = useQueryClient();
   const [editing, setEditing] = useState<Partial<Webinar> | null>(null);
+  const [viewingRegs, setViewingRegs] = useState<Webinar | null>(null);
 
   const { data: webinars, isLoading } = useQuery({
     queryKey: ["admin_webinars"],
@@ -226,6 +355,22 @@ export default function AdminWebinars() {
         .order("order_index", { ascending: true });
       if (error) throw error;
       return data as unknown as Webinar[];
+    },
+  });
+
+  // Fetch registration counts for all webinars
+  const { data: regCounts } = useQuery({
+    queryKey: ["webinar_reg_counts"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("webinar_registrations" as any)
+        .select("webinar_id");
+      if (error) throw error;
+      const counts: Record<string, number> = {};
+      (data as any[]).forEach((r) => {
+        counts[r.webinar_id] = (counts[r.webinar_id] || 0) + 1;
+      });
+      return counts;
     },
   });
 
@@ -284,6 +429,11 @@ export default function AdminWebinars() {
   const toggleField = (w: Webinar, field: "is_published" | "is_featured") =>
     upsert.mutate({ ...w, [field]: !w[field] });
 
+  // ── Registrations view ──
+  if (viewingRegs) {
+    return <RegistrationsView webinar={viewingRegs} onBack={() => setViewingRegs(null)} />;
+  }
+
   // ── Editor view ──
   if (editing) {
     return (
@@ -325,7 +475,7 @@ export default function AdminWebinars() {
           <table className="w-full text-sm">
             <thead className="bg-muted">
               <tr>
-                {["Title", "Topic", "Cost", "Date", "Status", "Actions"].map((h) => (
+                {["Title", "Topic", "Cost", "Date", "Pendaftar", "Status", "Actions"].map((h) => (
                   <th key={h} className="px-4 py-3 text-left font-semibold text-foreground whitespace-nowrap">
                     {h}
                   </th>
@@ -345,10 +495,19 @@ export default function AdminWebinars() {
                     {w.topic || "—"}
                   </td>
                   <td className="px-4 py-3">
-                    <span className="font-semibold" style={{ color: "#03989E" }}>{w.cost}</span>
+                    <span className="font-semibold text-accent">{w.cost}</span>
                   </td>
                   <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">
-                    {w.event_date ? new Date(w.event_date).toLocaleDateString() : w.schedule || "—"}
+                    {w.event_date ? new Date(w.event_date).toLocaleDateString("id-ID") : w.schedule || "—"}
+                  </td>
+                  <td className="px-4 py-3">
+                    <button
+                      onClick={() => setViewingRegs(w)}
+                      className="flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
+                    >
+                      <Users className="h-3.5 w-3.5" />
+                      {regCounts?.[w.id] ?? 0}
+                    </button>
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-1.5">

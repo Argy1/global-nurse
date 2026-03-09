@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -85,6 +85,39 @@ export default function WebinarDetail() {
 
   const form = useForm<RegForm>({ resolver: zodResolver(regSchema) });
   const [submitted, setSubmitted] = useState(false);
+
+  // ── Social / OG meta tags ──────────────────────────────────────────────────
+  useEffect(() => {
+    if (!webinar) return;
+    const siteUrl = "https://globalparo.lovable.app";
+    const pageUrl = `${siteUrl}/programs/webinar/${webinar.slug}`;
+    const suffix = " | Global PARO";
+    const title = webinar.title + (webinar.subtitle ? ` — ${webinar.subtitle}` : "") + suffix;
+    const desc = webinar.description ||
+      `Daftar webinar gratis: ${webinar.title}. ${webinar.topic ?? ""} — globalparo.lovable.app`;
+
+    const setMeta = (attr: string, name: string, content: string) => {
+      let el = document.querySelector(`meta[${attr}="${name}"]`) as HTMLMetaElement | null;
+      if (!el) { el = document.createElement("meta"); el.setAttribute(attr, name); document.head.appendChild(el); }
+      el.setAttribute("content", content);
+    };
+
+    document.title = title;
+    setMeta("name", "description", desc);
+    setMeta("property", "og:title", title);
+    setMeta("property", "og:description", desc);
+    setMeta("property", "og:type", "website");
+    setMeta("property", "og:url", pageUrl);
+    if (webinar.cover_image_url) {
+      setMeta("property", "og:image", webinar.cover_image_url);
+      setMeta("property", "og:image:width", "1200");
+      setMeta("property", "og:image:height", "630");
+      setMeta("name", "twitter:image", webinar.cover_image_url);
+    }
+    setMeta("name", "twitter:card", "summary_large_image");
+    setMeta("name", "twitter:title", title);
+    setMeta("name", "twitter:description", desc);
+  }, [webinar]);
 
   const register = useMutation({
     mutationFn: async (values: RegForm) => {
