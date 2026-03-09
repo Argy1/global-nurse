@@ -33,6 +33,7 @@ import Privacy from "./pages/Privacy";
 import Auth from "./pages/Auth";
 import ResetPassword from "./pages/ResetPassword";
 import Portal from "./pages/Portal";
+import AccountSettings from "./pages/AccountSettings";
 import { PortalProtectedRoute } from "./components/portal/PortalProtectedRoute";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminCandidates from "./pages/admin/Candidates";
@@ -98,6 +99,7 @@ const App = () => (
             <Route path="/reset-password" element={<ResetPassword />} />
             {/* Candidate Portal */}
             <Route path="/portal" element={<PortalProtectedRoute><Portal /></PortalProtectedRoute>} />
+            <Route path="/account-settings" element={<PortalProtectedRoute><AccountSettings /></PortalProtectedRoute>} />
             {/* Admin (protected) */}
             <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
             <Route path="/admin/candidates" element={<ProtectedRoute><AdminCandidates /></ProtectedRoute>} />
