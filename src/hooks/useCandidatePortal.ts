@@ -92,6 +92,38 @@ export function useUploadDocument() {
   });
 }
 
+export function useUpdateCandidateProfile() {
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      id,
+      updates,
+    }: {
+      id: string;
+      updates: Partial<{
+        full_name: string;
+        city_country: string;
+        whatsapp_number: string;
+        specialty: "ICU" | "ER" | "Med-Surg" | "OR" | "Pediatrics" | "Geriatric" | "Mental Health" | "Community Health" | "Other";
+        availability: "0-3 months" | "3-6 months" | "6-12 months";
+        target_countries: string[];
+      }>;
+    }) => {
+      const { error } = await supabase
+        .from("candidates")
+        .update(updates)
+        .eq("id", id)
+        .eq("user_id", user!.id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["candidate_profile", user?.id] });
+    },
+  });
+}
+
 export function useDeleteDocument() {
   const { user } = useAuth();
   const queryClient = useQueryClient();
