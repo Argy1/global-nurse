@@ -1089,6 +1089,9 @@ const id: Translations = {
     selectSpecialty: "Pilih spesialisasi",
     selectAvailability: "Pilih kesiapan berangkat",
     emailReadOnly: "Alamat email tidak dapat diubah di sini. Hubungi support jika diperlukan.",
+    // Notifikasi perubahan tahap
+    stageChanged: "Status aplikasimu telah diperbarui! 🎉",
+    lastSeenAt: "Sejak kunjungan terakhirmu",
   },
 
   // ── Sukses Pendaftaran ──
