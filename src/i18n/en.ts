@@ -859,6 +859,14 @@ const en = {
     returnHome: "Return to Home",
   },
 
+  // ── Quickstart Chapter ──
+  quickstartChapter: {
+    backToGuide: "Back to Quickstart Guide",
+    notFound: "Chapter not found",
+    notFoundBack: "Back to Quickstart",
+    registerNow: "Register Now",
+  },
+
   // ── Language ──
   language: {
     en: "English",
