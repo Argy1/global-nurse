@@ -11,6 +11,7 @@ import type { Lang } from "@/i18n/LanguageContext";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { SearchBar } from "@/components/layout/SearchBar";
 
 interface DropdownItem {
   href: string;
@@ -146,14 +147,7 @@ export function Navbar() {
           </button>
 
           {/* Search */}
-          <div className="hidden md:flex items-center gap-2 bg-primary-foreground/10 rounded-full px-3 py-1 flex-1 max-w-xs">
-            <Search className="h-3.5 w-3.5 text-primary-foreground/70" />
-            <input
-              type="text"
-              placeholder="Search..."
-              className="bg-transparent text-xs text-primary-foreground placeholder-primary-foreground/60 outline-none w-full"
-            />
-          </div>
+          <SearchBar />
 
             {/* Right icons */}
           <div className="flex items-center gap-3">
