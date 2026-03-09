@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
-import { Mail, Phone, MessageCircle, ArrowRight, ChevronDown, ChevronUp, Loader2 } from "lucide-react";
-import { useState } from "react";
+import { Mail, Phone, MessageCircle, ArrowRight, ChevronDown, ChevronUp, Loader2, Search, X } from "lucide-react";
+import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Layout } from "@/components/layout/Layout";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { useTranslation } from "@/i18n/LanguageContext";
@@ -22,15 +23,29 @@ const CATEGORY_ORDER: FaqItem["category"][] = [
   "General", "Registration", "Pathways", "English", "Licensing", "Privacy", "Employer",
 ];
 
-function FaqAccordionItem({ faq }: { faq: FaqItem }) {
+function FaqAccordionItem({ faq, highlight }: { faq: FaqItem; highlight?: string }) {
   const [open, setOpen] = useState(false);
+
+  const highlightText = (text: string, query: string) => {
+    if (!query) return text;
+    const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "gi");
+    const parts = text.split(regex);
+    return parts.map((part, i) =>
+      regex.test(part) ? (
+        <mark key={i} className="bg-primary/20 text-primary rounded-sm px-0.5">{part}</mark>
+      ) : part
+    );
+  };
+
   return (
     <div className="border border-border rounded-xl overflow-hidden">
       <button
         onClick={() => setOpen((o) => !o)}
         className="w-full flex items-center justify-between px-5 py-4 text-left bg-card hover:bg-muted/50 transition-colors gap-3"
       >
-        <span className="font-semibold text-foreground text-sm leading-snug">{faq.question}</span>
+        <span className="font-semibold text-foreground text-sm leading-snug">
+          {highlightText(faq.question, highlight || "")}
+        </span>
         {open ? (
           <ChevronUp className="h-4 w-4 text-muted-foreground shrink-0" />
         ) : (
@@ -39,7 +54,9 @@ function FaqAccordionItem({ faq }: { faq: FaqItem }) {
       </button>
       {open && (
         <div className="px-5 py-4 bg-card border-t border-border">
-          <p className="text-muted-foreground text-sm leading-relaxed">{faq.answer}</p>
+          <p className="text-muted-foreground text-sm leading-relaxed">
+            {highlightText(faq.answer, highlight || "")}
+          </p>
         </div>
       )}
     </div>
@@ -50,6 +67,7 @@ export default function Help() {
   const { data: settings } = useSiteSettings();
   const { t, lang } = useTranslation();
   const { data: faqItems, isLoading, isError } = useFaqItems();
+  const [searchQuery, setSearchQuery] = useState("");
 
   const email = settings?.support_email || "hello@globalparo.com";
   const mobile = settings?.help_mobile;
@@ -57,23 +75,41 @@ export default function Help() {
   const whatsapp = settings?.whatsapp_direct_chat_link;
   const hasWhatsApp = whatsapp && whatsapp !== "UPDATE_ME" && whatsapp.startsWith("http");
 
-  // Group FAQ items by category
-  const grouped = faqItems
-    ? CATEGORY_ORDER.reduce<Record<string, FaqItem[]>>((acc, cat) => {
-        const items = faqItems.filter((f) => f.category === cat);
-        if (items.length) acc[cat] = items;
-        return acc;
-      }, {})
-    : {};
-
   const [activeCategory, setActiveCategory] = useState<FaqItem["category"] | "All">("All");
+
+  // Group FAQ items by category
+  const grouped = useMemo(() => {
+    if (!faqItems) return {};
+    return CATEGORY_ORDER.reduce<Record<string, FaqItem[]>>((acc, cat) => {
+      const items = faqItems.filter((f) => f.category === cat);
+      if (items.length) acc[cat] = items;
+      return acc;
+    }, {});
+  }, [faqItems]);
 
   const categories = Object.keys(grouped) as FaqItem["category"][];
 
-  const displayedGroups =
-    activeCategory === "All"
-      ? grouped
-      : { [activeCategory]: grouped[activeCategory] ?? [] };
+  // Filter by search query AND active category
+  const displayedGroups = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    const source = activeCategory === "All" ? grouped : { [activeCategory]: grouped[activeCategory] ?? [] };
+
+    if (!q) return source;
+
+    const filtered: Record<string, FaqItem[]> = {};
+    for (const [cat, items] of Object.entries(source)) {
+      const matched = items.filter(
+        (f) =>
+          f.question.toLowerCase().includes(q) ||
+          f.answer.toLowerCase().includes(q)
+      );
+      if (matched.length) filtered[cat] = matched;
+    }
+    return filtered;
+  }, [grouped, activeCategory, searchQuery]);
+
+  const totalResultCount = Object.values(displayedGroups).flat().length;
+  const isSearching = searchQuery.trim().length > 0;
 
   return (
     <Layout>
@@ -132,6 +168,25 @@ export default function Help() {
 
             {!isLoading && !isError && faqItems && faqItems.length > 0 && (
               <>
+                {/* Search bar */}
+                <div className="relative mb-5">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+                  <Input
+                    placeholder={t.help.searchFaq}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10 pr-10"
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={() => setSearchQuery("")}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  )}
+                </div>
+
                 {/* Category filter pills */}
                 <div className="flex flex-wrap gap-2 mb-8">
                   <button
@@ -164,6 +219,14 @@ export default function Help() {
                   })}
                 </div>
 
+                {/* No results state */}
+                {isSearching && totalResultCount === 0 && (
+                  <div className="text-center py-12 text-muted-foreground">
+                    <Search className="h-10 w-10 mx-auto mb-3 opacity-40" />
+                    <p className="font-medium">{t.help.noResults}</p>
+                  </div>
+                )}
+
                 {/* FAQ groups */}
                 <div className="space-y-10">
                   {Object.entries(displayedGroups).map(([cat, items]) => {
@@ -178,7 +241,7 @@ export default function Help() {
                         )}
                         <div className="space-y-2">
                           {items.map((faq) => (
-                            <FaqAccordionItem key={faq.id} faq={faq} />
+                            <FaqAccordionItem key={faq.id} faq={faq} highlight={searchQuery} />
                           ))}
                         </div>
                       </div>

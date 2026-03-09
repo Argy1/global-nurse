@@ -448,23 +448,84 @@ const id: Translations = {
   // ── Bantuan ──
   help: {
     title: "Pusat Bantuan",
-    subtitle: "Kami di sini untuk mendukung Anda. Hubungi kami melalui saluran di bawah ini.",
+    subtitle: "Kami siap mendukung kamu. Hubungi kami lewat salah satu saluran di bawah ini.",
     email: "Email",
     whatsapp: "WhatsApp",
     chatOnWhatsApp: "Chat di WhatsApp",
     phone: "Telepon",
-    faqTitle: "Pertanyaan yang Sering Diajukan",
-    stillHaveQuestions: "Masih punya pertanyaan?",
+    faqTitle: "Pertanyaan yang Sering Ditanyakan",
+    stillHaveQuestions: "Masih ada pertanyaan?",
     loadingFaqs: "Memuat FAQ...",
-    faqError: "Gagal memuat FAQ. Mohon refresh atau hubungi kami langsung.",
+    faqError: "Gagal memuat FAQ. Coba refresh halaman atau hubungi kami langsung.",
     filterAll: "Semua",
+    searchFaq: "Cari pertanyaan...",
+    noResults: "Tidak ada pertanyaan yang cocok dengan pencarianmu.",
     faqs: [
-      { q: "Apakah ada biaya untuk perawat?", a: "Tidak. Kami tidak pernah memungut biaya kepada perawat. Layanan kami gratis untuk kandidat." },
-      { q: "Berapa lama prosesnya?", a: "Waktu bervariasi tergantung negara dan kesiapan individu. Kami memberikan panduan transparan tentang perkiraan waktu selama peninjauan." },
-      { q: "Apakah Anda menjamin penempatan kerja?", a: "Tidak. Kami tidak menjamin hasil. Kami menyediakan panduan etis, dukungan persiapan, dan koneksi ke pemberi kerja terverifikasi." },
-      { q: "Bagaimana data saya dilindungi?", a: "Kami mengikuti praktik privasi yang ketat. Data Anda hanya digunakan dengan persetujuan Anda. Lihat Kebijakan Privasi kami untuk detailnya." },
-      { q: "Bisakah saya menghapus profil saya?", a: "Ya. Email hello@globalparo.com untuk meminta penghapusan data kapan saja." },
+      { q: "Apakah ada biaya yang dikenakan ke perawat?", a: "Tidak ada. Kami tidak pernah memungut biaya kepada perawat. Layanan kami sepenuhnya gratis untuk kandidat." },
+      { q: "Berapa lama prosesnya?", a: "Durasinya berbeda-beda tergantung negara tujuan dan kesiapan masing-masing kandidat. Kami akan memberikan panduan yang transparan mengenai perkiraan waktu selama proses peninjauan." },
+      { q: "Apakah kalian menjamin penempatan kerja?", a: "Tidak. Kami tidak menjamin hasil. Yang kami berikan adalah panduan etis, dukungan persiapan, dan koneksi ke pemberi kerja yang sudah terverifikasi." },
+      { q: "Bagaimana data saya dijaga keamanannya?", a: "Kami menerapkan praktik privasi yang ketat. Data kamu hanya digunakan atas izinmu. Baca Kebijakan Privasi kami untuk informasi lebih lengkap." },
+      { q: "Bisakah saya menghapus profil saya?", a: "Bisa. Kirim email ke hello@globalparo.com untuk meminta penghapusan data kapan saja." },
     ],
+  },
+
+  // ── Detail Berita ──
+  newsDetail: {
+    backToNews: "Kembali ke Berita",
+    readyToStart: "Siap Memulai?",
+    readyToStartDesc: "Ambil langkah pertama menuju karier keperawatan internasionalmu.",
+    chatWithUs: "Hubungi Kami",
+    whatsappSupport: "Dukungan WhatsApp",
+    relatedArticles: "Artikel Terkait",
+  },
+
+  // ── Detail Kisah Sukses ──
+  storyDetail: {
+    backToStories: "Kembali ke Kisah Sukses",
+    startYourJourney: "Mulai Perjalananmu",
+    startYourJourneyDesc: "Terinspirasi? Ambil langkah pertamamu sekarang.",
+    chatWithUs: "Hubungi Kami",
+    whatsappSupport: "Dukungan WhatsApp",
+    moreStories: "Kisah Lainnya",
+  },
+
+  // ── Visi (About Vision) ──
+  aboutVision: {
+    heroTitle: "VISI",
+    heroStatement: "Menjadi pemimpin dan platform mitra global pilihan — sebagai jembatan antara talenta kesehatan dan peluang internasional di berbagai penyedia layanan kesehatan.",
+    quoteText: "Bakat ada di mana-mana, tapi peluang tidak — kami hadir untuk mengubah itu.",
+    quoteAttr: "— Visi Pendiri Global PARO",
+    pillarsTitle: "Wujud Nyata Visi Kami",
+    forNursesTitle: "Untuk Perawat",
+    forNursesDesc: "Sebuah dunia di mana setiap perawat Indonesia bisa mengakses pelatihan berkelas dunia, dukungan sertifikasi, dan ditempatkan di peran internasional impian mereka.",
+    forHealthcareTitle: "Untuk Layanan Kesehatan",
+    forHealthcareDesc: "Ekosistem global yang berkelanjutan — di mana institusi kesehatan internasional mendapatkan akses ke tenaga keperawatan Indonesia yang terampil dan siap bekerja.",
+    statsCountriesReached: "Negara Terjangkau",
+    statsNursesSupported: "Perawat Didukung",
+    statsPartnerHospitals: "Rumah Sakit Mitra",
+    statsSatisfaction: "Tingkat Kepuasan",
+    globalReach: "Jangkauan Global",
+    globalReachDesc: "Menghubungkan perawat Indonesia dengan pemberi kerja di Inggris, Eropa, Timur Tengah, Australia, dan berbagai negara lainnya.",
+    equalOpportunity: "Kesempatan yang Setara",
+    equalOpportunityDesc: "Meruntuhkan hambatan geografis, bahasa, dan aksesibilitas agar setiap perawat berkualifikasi bisa mengejar karier internasionalnya.",
+    sustainableGrowth: "Pertumbuhan Berkelanjutan",
+    sustainableGrowthDesc: "Membangun ekosistem jangka panjang di mana perawat, pemberi kerja, dan komunitas bisa tumbuh bersama.",
+  },
+
+  // ── Misi (About Mission) ──
+  aboutMission: {
+    title: "MISI",
+    missionAltText: "Kartu misi: Menyediakan, Mempercepat, Memberdayakan",
+  },
+
+  // ── Nilai (About Values) ──
+  aboutValues: {
+    checkmarkAlt: "Ikon nilai inti",
+    valuesAlt: "NILAI INTI",
+    valuesListAlt: "Nilai P.A.R.O.: Passion, Accountability, Resilience, Opportunity",
+    valuesBannerAlt: "Perawat Adalah Jantung Layanan Kesehatan",
+    tagline: "Bakat ada di mana-mana, tapi peluang tidak.",
+    taglineHighlight: "di mana-mana,",
   },
 
   // ── Daftar ──

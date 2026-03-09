@@ -4,9 +4,11 @@ import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { useContentBySlug, useContent } from "@/hooks/useContent";
 import { useSetting } from "@/hooks/useSiteSettings";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 export default function NewsDetail() {
   const { slug } = useParams<{ slug: string }>();
+  const { t } = useTranslation();
   const { data: article, isLoading } = useContentBySlug(slug || "");
   const { data: allArticles } = useContent("News");
   const { value: whatsappLink } = useSetting("whatsapp_link");
@@ -18,7 +20,14 @@ export default function NewsDetail() {
   }
 
   if (!article) {
-    return <Layout><div className="container py-32 text-center"><h1 className="text-2xl font-bold">Article not found</h1><Link to="/news" className="text-primary hover:underline mt-4 inline-block">Back to News</Link></div></Layout>;
+    return (
+      <Layout>
+        <div className="container py-32 text-center">
+          <h1 className="text-2xl font-bold">{t.news.noArticles}</h1>
+          <Link to="/news" className="text-primary hover:underline mt-4 inline-block">{t.newsDetail.backToNews}</Link>
+        </div>
+      </Layout>
+    );
   }
 
   return (
@@ -26,7 +35,7 @@ export default function NewsDetail() {
       <section className="py-8 bg-card border-b border-border">
         <div className="container">
           <Link to="/news" className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1">
-            <ArrowLeft className="h-4 w-4" /> Back to News
+            <ArrowLeft className="h-4 w-4" /> {t.newsDetail.backToNews}
           </Link>
         </div>
       </section>
@@ -50,27 +59,27 @@ export default function NewsDetail() {
             {/* Sidebar CTAs */}
             <aside className="space-y-6">
               <div className="bg-card rounded-xl p-6 shadow-card border border-border sticky top-24 space-y-4">
-                <h3 className="font-bold text-lg text-foreground">Ready to Start?</h3>
-                <p className="text-sm text-muted-foreground">Take the first step toward your international nursing career.</p>
+                <h3 className="font-bold text-lg text-foreground">{t.newsDetail.readyToStart}</h3>
+                <p className="text-sm text-muted-foreground">{t.newsDetail.readyToStartDesc}</p>
                 <Button variant="cta" className="w-full" asChild>
-                  <Link to="/register">Register Now <ArrowRight className="h-4 w-4" /></Link>
+                  <Link to="/register">{t.common.registerNow} <ArrowRight className="h-4 w-4" /></Link>
                 </Button>
                 <Button variant="outline" className="w-full" asChild>
-                  <Link to="/quickstart">Quickstart Guide</Link>
+                  <Link to="/quickstart">{t.footer.quickstartGuide}</Link>
                 </Button>
                 <Button variant="outline" className="w-full" asChild>
-                  <Link to="/help">Chat With Us <MessageCircle className="h-4 w-4" /></Link>
+                  <Link to="/help">{t.newsDetail.chatWithUs} <MessageCircle className="h-4 w-4" /></Link>
                 </Button>
                 {whatsappLink && (
                   <Button variant="outline" className="w-full" asChild>
-                    <a href={whatsappLink} target="_blank" rel="noopener noreferrer">WhatsApp Support</a>
+                    <a href={whatsappLink} target="_blank" rel="noopener noreferrer">{t.newsDetail.whatsappSupport}</a>
                   </Button>
                 )}
               </div>
 
               {related && related.length > 0 && (
                 <div>
-                  <h3 className="font-bold text-foreground mb-4">Related Articles</h3>
+                  <h3 className="font-bold text-foreground mb-4">{t.newsDetail.relatedArticles}</h3>
                   <div className="space-y-3">
                     {related.map((r) => (
                       <Link key={r.id} to={`/news/${r.slug}`} className="block bg-card rounded-lg p-4 border border-border hover:border-primary/30 transition-colors">
