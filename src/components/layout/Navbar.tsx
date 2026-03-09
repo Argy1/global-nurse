@@ -337,9 +337,35 @@ export function Navbar() {
                   {lang === "en" ? "Switch to Indonesia" : "Switch to English"}
                 </button>
               </div>
-              <Button asChild className="w-full mt-2" style={{ backgroundColor: 'hsl(var(--accent))', color: 'hsl(var(--accent-foreground))' }}>
-                <Link to="/auth" onClick={() => setIsOpen(false)}>Login</Link>
-              </Button>
+              {user ? (
+                <>
+                  <Link
+                    to="/portal"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-foreground hover:text-accent hover:bg-muted rounded-lg transition-colors"
+                  >
+                    <LayoutDashboard className="h-4 w-4" /> My Portal
+                  </Link>
+                  <Link
+                    to="/account-settings"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-foreground hover:text-accent hover:bg-muted rounded-lg transition-colors"
+                  >
+                    <Settings className="h-4 w-4" /> Account Settings
+                  </Link>
+                  <Button
+                    variant="outline"
+                    className="w-full mt-2 gap-2 text-destructive border-destructive/30 hover:bg-destructive/5"
+                    onClick={() => { handleSignOut(); setIsOpen(false); }}
+                  >
+                    <LogOut className="h-4 w-4" /> Sign Out
+                  </Button>
+                </>
+              ) : (
+                <Button asChild className="w-full mt-2" style={{ backgroundColor: 'hsl(var(--accent))', color: 'hsl(var(--accent-foreground))' }}>
+                  <Link to="/auth" onClick={() => setIsOpen(false)}>Login</Link>
+                </Button>
+              )}
             </div>
           </nav>
         </div>
