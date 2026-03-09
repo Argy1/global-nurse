@@ -2,7 +2,7 @@ import { CheckCircle, Globe, Target, TrendingUp, Users, Star, Eye } from "lucide
 import { Layout } from "@/components/layout/Layout";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { JoinMissionBanner } from "@/components/about/JoinMissionBanner";
-import logoIcon from "@/assets/logo-icon.png";
+import logoIcon from "@/assets/logo-icon-3d.png";
 import nursesPair from "@/assets/nurses-pair.png";
 import missionCards from "@/assets/mission-cards.png";
 import checkmarkIcon from "@/assets/values-checkmark.png";
@@ -84,14 +84,18 @@ export default function About() {
 
               {/* Content — left side only */}
               <div className="relative z-10 flex flex-col justify-center gap-5 p-8 md:p-12 lg:p-14 max-w-xl">
-                {/* Logo: icon + text */}
-                <div className="flex items-center gap-3 md:gap-4">
+                {/* Logo: icon + text — keduanya sama tinggi */}
+                <div className="flex items-center gap-4 md:gap-5">
                   <img
                     src={logoIcon}
                     alt="Global PARO Icon"
-                    className="w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 object-contain shrink-0"
+                    className="object-contain shrink-0"
+                    style={{ width: "clamp(3rem, 8vw, 6rem)", height: "clamp(3rem, 8vw, 6rem)" }}
                   />
-                  <h1 className="font-black font-heading leading-none tracking-tight" style={{ fontSize: "clamp(3.5rem, 9vw, 7.5rem)" }}>
+                  <h1
+                    className="font-black font-heading leading-none tracking-tight"
+                    style={{ fontSize: "clamp(3rem, 8vw, 6rem)" }}
+                  >
                     <span style={{ color: "#015779" }}>Global </span>
                     <span style={{ color: "#03989E" }}>PARO</span>
                   </h1>
