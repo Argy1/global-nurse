@@ -139,7 +139,7 @@ export function Navbar() {
             />
           </div>
 
-          {/* Right icons */}
+            {/* Right icons */}
           <div className="flex items-center gap-3">
             <Link to="/help" className="flex items-center gap-1 text-xs text-primary-foreground/90 hover:text-primary-foreground transition-colors">
               Help
@@ -152,14 +152,64 @@ export function Navbar() {
             <a href={`mailto:${helpEmail}`} className="text-primary-foreground/90 hover:text-primary-foreground transition-colors">
               <Mail className="h-3.5 w-3.5" />
             </a>
-            <Button
-              asChild
-              size="sm"
-              className="h-6 px-3 text-xs rounded-full font-semibold"
-              style={{ backgroundColor: 'hsl(var(--accent))', color: 'hsl(var(--accent-foreground))' }}
-            >
-              <Link to="/auth">Login</Link>
-            </Button>
+
+            {user ? (
+              /* ── Logged-in user menu ── */
+              <div className="relative" ref={userMenuRef}>
+                <button
+                  onClick={() => setUserMenuOpen((v) => !v)}
+                  className="flex items-center gap-1.5 h-6 px-2 rounded-full text-xs font-semibold text-primary-foreground/90 hover:text-primary-foreground hover:bg-primary-foreground/10 transition-colors"
+                  aria-label="User menu"
+                >
+                  <UserCircle className="h-4 w-4" />
+                  <span className="hidden sm:block max-w-[100px] truncate">
+                    {user.email?.split("@")[0]}
+                  </span>
+                  <ChevronDown className={cn("h-3 w-3 transition-transform", userMenuOpen && "rotate-180")} />
+                </button>
+
+                {userMenuOpen && (
+                  <div
+                    className="absolute right-0 top-full mt-2 w-48 rounded-xl shadow-lg border border-border py-1.5 z-50 animate-fade-in"
+                    style={{ backgroundColor: "hsl(var(--card))" }}
+                  >
+                    <Link
+                      to="/portal"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-foreground hover:text-accent hover:bg-muted transition-colors"
+                    >
+                      <LayoutDashboard className="h-3.5 w-3.5" />
+                      My Portal
+                    </Link>
+                    <Link
+                      to="/account-settings"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-foreground hover:text-accent hover:bg-muted transition-colors"
+                    >
+                      <Settings className="h-3.5 w-3.5" />
+                      Account Settings
+                    </Link>
+                    <div className="border-t border-border my-1" />
+                    <button
+                      onClick={handleSignOut}
+                      className="flex items-center gap-2 w-full text-left px-4 py-2 text-sm text-destructive hover:bg-muted transition-colors"
+                    >
+                      <LogOut className="h-3.5 w-3.5" />
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Button
+                asChild
+                size="sm"
+                className="h-6 px-3 text-xs rounded-full font-semibold"
+                style={{ backgroundColor: 'hsl(var(--accent))', color: 'hsl(var(--accent-foreground))' }}
+              >
+                <Link to="/auth">Login</Link>
+              </Button>
+            )}
           </div>
         </div>
       </div>
