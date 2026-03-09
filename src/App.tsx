@@ -89,7 +89,6 @@ const App = () => (
             <Route path="/lms/ielts" element={<IELTSPrep />} />
             <Route path="/lms/certified" element={<CertifiedGlobalNurse />} />
             <Route path="/lms/nclex" element={<NCLEX />} />
-            <Route path="/team" element={<Navigate to="/about#team" replace />} />
             <Route path="/programs" element={<BatchProgram />} />
             <Route path="/programs/batch" element={<BatchProgram />} />
             <Route path="/programs/requirements" element={<RequirementCriteria />} />
