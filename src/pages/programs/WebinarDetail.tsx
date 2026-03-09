@@ -84,7 +84,7 @@ export default function WebinarDetail() {
   });
 
   const form = useForm<RegForm>({ resolver: zodResolver(regSchema) });
-  const [submitted, setSubmitted] = React.useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const register = useMutation({
     mutationFn: async (values: RegForm) => {
