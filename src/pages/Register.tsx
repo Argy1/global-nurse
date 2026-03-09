@@ -2,8 +2,8 @@ import { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   ArrowRight, ArrowLeft, CheckCircle, Loader2, Upload, FileText,
-  AlertCircle, Lock, Mail, Phone, MessageCircle, BookOpen, SkipForward,
-  User, X,
+  AlertCircle, Lock, Mail, MessageCircle, BookOpen, SkipForward,
+  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,42 +14,31 @@ import { Layout } from "@/components/layout/Layout";
 import { useCreateCandidate, CandidateInsert } from "@/hooks/useCandidates";
 import { useSetting } from "@/hooks/useSiteSettings";
 import { toast } from "@/hooks/use-toast";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 const englishOptions = ["Basic", "Intermediate", "Fluent"] as const;
-
-// ─── Step definitions ──────────────────────────────────────────────────────────
-// Step 1: CV + STR upload (or skip)
-// Step 2a: Minimal info (uploaded docs → only name, email, phone)
-// Step 2b: Full info (skipped → more data fields)
-// Step 3: Verify email
 
 type FlowPath = "idle" | "with-docs" | "skip";
 
 interface FormData {
-  // Personal
   full_name: string;
   email: string;
   whatsapp_number: string;
-  // Extended (skip path only)
   date_of_birth: string;
   graduation_year: string;
   university: string;
   str_active_number: string;
   english_capability: string;
-  // Consent
   consent_contact: boolean;
   consent_privacy: boolean;
-  // Verification
   email_verified: boolean;
 }
-
-const STEPS_WITH_DOCS = ["Upload Docs", "Personal Info", "Verify Email"];
-const STEPS_SKIP = ["Upload Docs", "Your Profile", "Verify Email"];
 
 export default function Register() {
   const createCandidate = useCreateCandidate();
   const { value: whatsappLink } = useSetting("whatsapp_direct_chat_link");
   const whatsappHref = whatsappLink ?? "mailto:hello@globalparo.com";
+  const { t } = useTranslation();
 
   const [step, setStep] = useState(1);
   const [path, setPath] = useState<FlowPath>("idle");
@@ -83,30 +72,25 @@ export default function Register() {
       </p>
     ) : null;
 
-  // ─── Validation per step & path ──────────────────────────────────────────────
   const validate = (): boolean => {
     const e: Record<string, string> = {};
-
     if (step === 2) {
-      if (!form.full_name.trim()) e.full_name = "Full name is required";
+      if (!form.full_name.trim()) e.full_name = `${t.register.fullName} ${t.register.required}`;
       if (!form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
-        e.email = "Valid email is required";
-      if (!form.whatsapp_number.trim()) e.whatsapp_number = "WhatsApp number is required";
-
+        e.email = t.register.validEmail;
+      if (!form.whatsapp_number.trim()) e.whatsapp_number = `${t.register.whatsappNumber} ${t.register.required}`;
       if (path === "skip") {
-        if (!form.university.trim()) e.university = "University / Nursing School is required";
-        if (!form.graduation_year) e.graduation_year = "Graduation year is required";
-        if (!form.english_capability) e.english_capability = "English level is required";
+        if (!form.university.trim()) e.university = `${t.register.university} ${t.register.required}`;
+        if (!form.graduation_year) e.graduation_year = `${t.register.graduationYear} ${t.register.required}`;
+        if (!form.english_capability) e.english_capability = `${t.register.englishCapability} ${t.register.required}`;
       }
-      if (!form.consent_contact) e.consent_contact = "Contact consent is required";
-      if (!form.consent_privacy) e.consent_privacy = "Privacy consent is required";
+      if (!form.consent_contact) e.consent_contact = `${t.register.consentTitle} ${t.register.required}`;
+      if (!form.consent_privacy) e.consent_privacy = `${t.register.consentTitle} ${t.register.required}`;
     }
-
     setErrors(e);
     return Object.keys(e).length === 0;
   };
 
-  // ─── Step 1 actions ──────────────────────────────────────────────────────────
   const choosePath = (chosen: "with-docs" | "skip") => {
     setPath(chosen);
     setStep(2);
@@ -122,26 +106,24 @@ export default function Register() {
     setStep(3);
   };
 
-  // ─── Email verification ───────────────────────────────────────────────────────
   const sendEmailCode = () => {
     if (!form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-      setErrors((p) => ({ ...p, email: "Enter a valid email first" }));
+      setErrors((p) => ({ ...p, email: t.register.validEmail }));
       return;
     }
     setEmailCodeSent(true);
-    toast({ title: "Verification code sent", description: "Check your email inbox (mock: use code 1234)" });
+    toast({ title: t.register.sendVerification, description: "Check your email inbox (mock: use code 1234)" });
   };
 
   const verifyEmail = () => {
     if (emailCode === "1234") {
       set("email_verified", true);
-      toast({ title: "✅ Email verified!" });
+      toast({ title: `✅ ${t.register.emailVerified}!` });
     } else {
       toast({ title: "Invalid code", variant: "destructive" });
     }
   };
 
-  // ─── Submit ───────────────────────────────────────────────────────────────────
   const handleSubmit = async () => {
     const data: CandidateInsert = {
       full_name: form.full_name.trim(),
@@ -163,11 +145,11 @@ export default function Register() {
     };
     createCandidate.mutate(data, {
       onSuccess: () => setSubmitted(true),
-      onError: () => toast({ title: "Submission Failed", description: "Please try again.", variant: "destructive" }),
+      onError: () => toast({ title: t.register.thankYouTitle, description: t.register.thankYouDesc, variant: "destructive" }),
     });
   };
 
-  // ─── Thank you ────────────────────────────────────────────────────────────────
+  // ── Thank you ──
   if (submitted) {
     return (
       <Layout>
@@ -181,19 +163,19 @@ export default function Register() {
             <div className="h-24 w-24 rounded-full bg-primary-foreground/20 flex items-center justify-center mx-auto mb-6 ring-4 ring-primary-foreground/30">
               <CheckCircle className="h-12 w-12 text-primary-foreground" />
             </div>
-            <h1 className="text-4xl font-black font-heading text-primary-foreground mb-3">Profile Created! 🎉</h1>
-            <p className="text-primary-foreground/85 mb-2 text-lg">Welcome to Global PARO!</p>
-            <p className="text-sm text-primary-foreground/70 mb-10">We've received your profile and will be in touch within 48 hours.</p>
+            <h1 className="text-4xl font-black font-heading text-primary-foreground mb-3">{t.register.profileCreated}</h1>
+            <p className="text-primary-foreground/85 mb-2 text-lg">{t.register.welcomeGlobalParo}</p>
+            <p className="text-sm text-primary-foreground/70 mb-10">{t.register.profileReceived}</p>
             <div className="flex flex-col gap-3">
               <Button size="lg" asChild className="rounded-full font-bold"
                 style={{ backgroundColor: "hsl(var(--card))", color: "hsl(var(--primary))" }}>
                 <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
-                  <MessageCircle className="h-5 w-5" /> Join WhatsApp Support
+                  <MessageCircle className="h-5 w-5" /> {t.register.joinWhatsappCta}
                 </a>
               </Button>
               <Button size="lg" asChild className="rounded-full font-bold"
                 style={{ backgroundColor: "hsl(var(--primary-foreground) / 0.2)", color: "hsl(var(--primary-foreground))" }}>
-                <Link to="/quickstart"><BookOpen className="h-5 w-5" /> Read the Quickstart Guide</Link>
+                <Link to="/quickstart"><BookOpen className="h-5 w-5" /> {t.register.readQuickstartCta}</Link>
               </Button>
             </div>
           </div>
@@ -202,6 +184,8 @@ export default function Register() {
     );
   }
 
+  const STEPS_WITH_DOCS = [t.register.stepUploadDocs, t.register.stepPersonalInfo, t.register.stepVerifyEmail];
+  const STEPS_SKIP = [t.register.stepUploadDocs, t.register.stepYourProfile, t.register.stepVerifyEmail];
   const stepLabels = path === "with-docs" ? STEPS_WITH_DOCS : STEPS_SKIP;
   const progress = ((step - 1) / (stepLabels.length - 1)) * 100;
 
@@ -216,15 +200,15 @@ export default function Register() {
           style={{ backgroundImage: "radial-gradient(circle at 20% 50%, white 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
         <div className="relative container text-center max-w-2xl mx-auto z-10">
           <p className="text-sm font-bold tracking-widest uppercase text-primary-foreground/70 mb-2">Global PARO</p>
-          <h1 className="text-3xl md:text-4xl font-black font-heading text-primary-foreground mb-3">Create My Profile</h1>
-          <p className="text-primary-foreground/85 text-lg">Start your global nursing career journey</p>
+          <h1 className="text-3xl md:text-4xl font-black font-heading text-primary-foreground mb-3">{t.register.heroTitle}</h1>
+          <p className="text-primary-foreground/85 text-lg">{t.register.heroSubtitle}</p>
           <p className="text-xs text-primary-foreground/60 mt-3 flex items-center justify-center gap-1">
-            <Lock className="h-3 w-3" /> Your data stays private. We contact you only with consent.
+            <Lock className="h-3 w-3" /> {t.register.privacyNote}
           </p>
         </div>
       </section>
 
-      {/* Step bar (only show after path chosen) */}
+      {/* Step bar */}
       {path !== "idle" && (
         <section className="py-4 bg-card border-b border-border">
           <div className="container max-w-2xl mx-auto">
@@ -263,7 +247,7 @@ export default function Register() {
                 <div className="flex items-start gap-3">
                   <AlertCircle className="h-5 w-5 text-destructive shrink-0 mt-0.5" />
                   <div>
-                    <h3 className="font-semibold text-destructive mb-1">Please fix the following:</h3>
+                    <h3 className="font-semibold text-destructive mb-1">{t.register.fixErrors}</h3>
                     <ul className="text-sm text-destructive space-y-0.5">
                       {Object.values(errors).map((e, i) => <li key={i}>• {e}</li>)}
                     </ul>
@@ -272,7 +256,7 @@ export default function Register() {
               </div>
             )}
 
-            {/* ── STEP 1: Upload or Skip ── */}
+            {/* STEP 1: Upload or Skip */}
             {step === 1 && (
               <div className="space-y-6">
                 <div className="text-center space-y-2">
@@ -280,15 +264,13 @@ export default function Register() {
                     style={{ backgroundColor: "hsl(var(--primary) / 0.1)" }}>
                     <Upload className="h-7 w-7 text-primary" />
                   </div>
-                  <h2 className="text-2xl font-bold text-foreground">Upload Your Documents</h2>
-                  <p className="text-muted-foreground text-sm max-w-md mx-auto">
-                    Upload your CV and STR license now for a faster process — or skip and fill in more details manually.
-                  </p>
+                  <h2 className="text-2xl font-bold text-foreground">{t.register.uploadTitle}</h2>
+                  <p className="text-muted-foreground text-sm max-w-md mx-auto">{t.register.uploadDesc}</p>
                 </div>
 
                 {/* CV upload */}
                 <div className="space-y-2">
-                  <Label>CV / Resume</Label>
+                  <Label>{t.register.cvLabel}</Label>
                   <div
                     className="border-2 border-dashed border-border rounded-xl p-6 text-center cursor-pointer hover:border-primary/50 transition-colors"
                     onClick={() => cvRef.current?.click()}
@@ -306,7 +288,7 @@ export default function Register() {
                     ) : (
                       <div className="space-y-1">
                         <Upload className="h-8 w-8 text-muted-foreground mx-auto" />
-                        <p className="text-sm text-muted-foreground">Click to upload CV <span className="text-xs">(PDF, DOC)</span></p>
+                        <p className="text-sm text-muted-foreground">{t.register.uploadCvHint} <span className="text-xs">(PDF, DOC)</span></p>
                       </div>
                     )}
                   </div>
@@ -314,7 +296,7 @@ export default function Register() {
 
                 {/* STR upload */}
                 <div className="space-y-2">
-                  <Label>STR License Document</Label>
+                  <Label>{t.register.strLabel}</Label>
                   <div
                     className="border-2 border-dashed border-border rounded-xl p-6 text-center cursor-pointer hover:border-primary/50 transition-colors"
                     onClick={() => strRef.current?.click()}
@@ -332,7 +314,7 @@ export default function Register() {
                     ) : (
                       <div className="space-y-1">
                         <Upload className="h-8 w-8 text-muted-foreground mx-auto" />
-                        <p className="text-sm text-muted-foreground">Click to upload STR <span className="text-xs">(PDF, JPG, PNG)</span></p>
+                        <p className="text-sm text-muted-foreground">{t.register.uploadStrHint} <span className="text-xs">(PDF, JPG, PNG)</span></p>
                       </div>
                     )}
                   </div>
@@ -340,39 +322,26 @@ export default function Register() {
 
                 {/* Action buttons */}
                 <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                  <Button
-                    variant="cta"
-                    className="flex-1 text-base py-6"
-                    disabled={!cvFile && !strFile}
-                    onClick={() => choosePath("with-docs")}
-                  >
+                  <Button variant="cta" className="flex-1 text-base py-6" disabled={!cvFile && !strFile} onClick={() => choosePath("with-docs")}>
                     <Upload className="h-4 w-4" />
-                    Continue with Documents
+                    {t.register.continueWithDocs}
                     <ArrowRight className="h-4 w-4" />
                   </Button>
-                  <Button
-                    variant="outline"
-                    className="flex-1 text-base py-6 border-dashed"
-                    onClick={() => choosePath("skip")}
-                  >
+                  <Button variant="outline" className="flex-1 text-base py-6 border-dashed" onClick={() => choosePath("skip")}>
                     <SkipForward className="h-4 w-4" />
-                    Skip — Fill in Details Instead
+                    {t.register.skipFillDetails}
                   </Button>
                 </div>
-                <p className="text-xs text-center text-muted-foreground">
-                  Uploading documents helps us process your profile faster.
-                </p>
+                <p className="text-xs text-center text-muted-foreground">{t.register.uploadingHelps}</p>
               </div>
             )}
 
-            {/* ── STEP 2 (with-docs): Minimal personal info ── */}
+            {/* STEP 2 (with-docs): Minimal personal info */}
             {step === 2 && path === "with-docs" && (
               <div className="space-y-5">
                 <div className="space-y-1">
-                  <h2 className="text-xl font-bold text-foreground">Personal Information</h2>
-                  <p className="text-sm text-muted-foreground">
-                    Great — your documents are ready! We just need a few details to get in touch. 📋
-                  </p>
+                  <h2 className="text-xl font-bold text-foreground">{t.register.personalInfoTitle}</h2>
+                  <p className="text-sm text-muted-foreground">{t.register.personalInfoDesc}</p>
                 </div>
 
                 <div className="bg-muted rounded-lg px-4 py-3 flex items-center gap-3 text-sm text-muted-foreground border-l-4 border-accent">
@@ -381,15 +350,15 @@ export default function Register() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <Label htmlFor="full_name">Full Name *</Label>
+                  <Label htmlFor="full_name">{t.register.fullName} *</Label>
                   <Input id="full_name" value={form.full_name} onChange={(e) => set("full_name", e.target.value)}
-                    placeholder="Enter your full name" maxLength={100}
+                    placeholder={t.register.fullName} maxLength={100}
                     className={errors.full_name ? "border-destructive" : ""} />
                   {fieldErr("full_name")}
                 </div>
 
                 <div className="space-y-1.5">
-                  <Label htmlFor="email">Email Address *</Label>
+                  <Label htmlFor="email">{t.register.emailAddress} *</Label>
                   <Input id="email" type="email" value={form.email} onChange={(e) => set("email", e.target.value)}
                     placeholder="your@email.com" maxLength={255}
                     className={errors.email ? "border-destructive" : ""} />
@@ -397,7 +366,7 @@ export default function Register() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <Label htmlFor="wa">WhatsApp Number *</Label>
+                  <Label htmlFor="wa">{t.register.whatsappNumber} *</Label>
                   <Input id="wa" value={form.whatsapp_number} onChange={(e) => set("whatsapp_number", e.target.value)}
                     placeholder="+62 812 3456 7890" maxLength={20}
                     className={errors.whatsapp_number ? "border-destructive" : ""} />
@@ -411,7 +380,7 @@ export default function Register() {
                       onCheckedChange={(v) => set("consent_contact", !!v)}
                       className={errors.consent_contact ? "border-destructive" : ""} />
                     <Label htmlFor="cc" className="text-sm leading-relaxed cursor-pointer">
-                      I consent to be contacted by Global Paro about international nursing opportunities. *
+                      {t.register.consentContactLabel}
                     </Label>
                   </div>
                   {fieldErr("consent_contact")}
@@ -420,7 +389,9 @@ export default function Register() {
                       onCheckedChange={(v) => set("consent_privacy", !!v)}
                       className={errors.consent_privacy ? "border-destructive" : ""} />
                     <Label htmlFor="cp" className="text-sm leading-relaxed cursor-pointer">
-                      I accept the <Link to="/privacy" target="_blank" className="text-primary underline">Privacy Policy</Link>. *
+                      {t.register.consentPrivacyLabel.replace("Privacy Policy", "")}
+                      <Link to="/privacy" target="_blank" className="text-primary underline">Privacy Policy</Link>
+                      {" *"}
                     </Label>
                   </div>
                   {fieldErr("consent_privacy")}
@@ -428,35 +399,32 @@ export default function Register() {
               </div>
             )}
 
-            {/* ── STEP 2 (skip): Full profile form ── */}
+            {/* STEP 2 (skip): Full profile form */}
             {step === 2 && path === "skip" && (
               <div className="space-y-5">
                 <div className="space-y-1">
-                  <h2 className="text-xl font-bold text-foreground">Your Profile</h2>
-                  <p className="text-sm text-muted-foreground">
-                    No worries — just fill in these details so we can understand your background better. 💙
-                  </p>
+                  <h2 className="text-xl font-bold text-foreground">{t.register.profileTitle}</h2>
+                  <p className="text-sm text-muted-foreground">{t.register.profileDesc}</p>
                 </div>
 
-                {/* Personal */}
                 <div className="space-y-1.5">
-                  <Label htmlFor="full_name">Full Name *</Label>
+                  <Label htmlFor="full_name">{t.register.fullName} *</Label>
                   <Input id="full_name" value={form.full_name} onChange={(e) => set("full_name", e.target.value)}
-                    placeholder="Enter your full name" maxLength={100}
+                    placeholder={t.register.fullName} maxLength={100}
                     className={errors.full_name ? "border-destructive" : ""} />
                   {fieldErr("full_name")}
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <Label htmlFor="email">Email *</Label>
+                    <Label htmlFor="email">{t.register.emailAddress} *</Label>
                     <Input id="email" type="email" value={form.email} onChange={(e) => set("email", e.target.value)}
                       placeholder="your@email.com" maxLength={255}
                       className={errors.email ? "border-destructive" : ""} />
                     {fieldErr("email")}
                   </div>
                   <div className="space-y-1.5">
-                    <Label htmlFor="wa">WhatsApp *</Label>
+                    <Label htmlFor="wa">{t.register.whatsappNumber} *</Label>
                     <Input id="wa" value={form.whatsapp_number} onChange={(e) => set("whatsapp_number", e.target.value)}
                       placeholder="+62 812 3456 7890" maxLength={20}
                       className={errors.whatsapp_number ? "border-destructive" : ""} />
@@ -465,19 +433,19 @@ export default function Register() {
                 </div>
 
                 <div className="h-px bg-border" />
-                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Professional Background</p>
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{t.register.professionalBackground}</p>
 
                 <div className="space-y-1.5">
-                  <Label htmlFor="uni">University / Nursing School *</Label>
+                  <Label htmlFor="uni">{t.register.university} *</Label>
                   <Input id="uni" value={form.university} onChange={(e) => set("university", e.target.value)}
-                    placeholder="Your nursing school or university" maxLength={200}
+                    placeholder={t.register.university} maxLength={200}
                     className={errors.university ? "border-destructive" : ""} />
                   {fieldErr("university")}
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <Label htmlFor="grad">Graduation Year *</Label>
+                    <Label htmlFor="grad">{t.register.graduationYear} *</Label>
                     <Input id="grad" type="number" value={form.graduation_year}
                       onChange={(e) => set("graduation_year", e.target.value)}
                       placeholder="e.g. 2020" min={1980} max={new Date().getFullYear()}
@@ -485,7 +453,7 @@ export default function Register() {
                     {fieldErr("graduation_year")}
                   </div>
                   <div className="space-y-1.5">
-                    <Label htmlFor="dob">Date of Birth</Label>
+                    <Label htmlFor="dob">{t.register.dateOfBirth}</Label>
                     <Input id="dob" type="date" value={form.date_of_birth}
                       onChange={(e) => set("date_of_birth", e.target.value)} />
                   </div>
@@ -493,16 +461,16 @@ export default function Register() {
 
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <Label htmlFor="str">No. STR Active</Label>
+                    <Label htmlFor="str">{t.register.strActive}</Label>
                     <Input id="str" value={form.str_active_number}
                       onChange={(e) => set("str_active_number", e.target.value)}
-                      placeholder="Your active STR number" maxLength={50} />
+                      placeholder={t.register.strActive} maxLength={50} />
                   </div>
                   <div className="space-y-1.5">
-                    <Label>English Level *</Label>
+                    <Label>{t.register.englishCapability} *</Label>
                     <Select value={form.english_capability} onValueChange={(v) => set("english_capability", v)}>
                       <SelectTrigger className={errors.english_capability ? "border-destructive" : ""}>
-                        <SelectValue placeholder="Select level" />
+                        <SelectValue placeholder={t.register.selectLevel} />
                       </SelectTrigger>
                       <SelectContent>
                         {englishOptions.map((o) => <SelectItem key={o} value={o}>{o}</SelectItem>)}
@@ -520,7 +488,7 @@ export default function Register() {
                       onCheckedChange={(v) => set("consent_contact", !!v)}
                       className={errors.consent_contact ? "border-destructive" : ""} />
                     <Label htmlFor="cc" className="text-sm leading-relaxed cursor-pointer">
-                      I consent to be contacted by Global Paro about international nursing opportunities. *
+                      {t.register.consentContactLabel}
                     </Label>
                   </div>
                   {fieldErr("consent_contact")}
@@ -529,7 +497,9 @@ export default function Register() {
                       onCheckedChange={(v) => set("consent_privacy", !!v)}
                       className={errors.consent_privacy ? "border-destructive" : ""} />
                     <Label htmlFor="cp" className="text-sm leading-relaxed cursor-pointer">
-                      I accept the <Link to="/privacy" target="_blank" className="text-primary underline">Privacy Policy</Link>. *
+                      {t.register.consentPrivacyLabel.replace("Privacy Policy", "")}
+                      <Link to="/privacy" target="_blank" className="text-primary underline">Privacy Policy</Link>
+                      {" *"}
                     </Label>
                   </div>
                   {fieldErr("consent_privacy")}
@@ -537,7 +507,7 @@ export default function Register() {
               </div>
             )}
 
-            {/* ── STEP 3: Verify Email ── */}
+            {/* STEP 3: Verify Email */}
             {step === 3 && (
               <div className="space-y-6">
                 <div className="text-center space-y-3">
@@ -545,9 +515,9 @@ export default function Register() {
                     style={{ backgroundColor: "hsl(var(--primary) / 0.1)" }}>
                     <Mail className="h-8 w-8 text-primary" />
                   </div>
-                  <h2 className="text-xl font-bold text-foreground">Verify Your Email</h2>
+                  <h2 className="text-xl font-bold text-foreground">{t.register.verifyEmailTitle}</h2>
                   <p className="text-sm text-muted-foreground">
-                    We'll send a verification code to <span className="font-semibold text-foreground">{form.email}</span>
+                    {t.register.verifyEmailDesc} <span className="font-semibold text-foreground">{form.email}</span>
                   </p>
                 </div>
 
@@ -556,49 +526,44 @@ export default function Register() {
                     {!emailCodeSent ? (
                       <Button variant="cta" className="w-full py-6 text-base" onClick={sendEmailCode}>
                         <Mail className="h-4 w-4" />
-                        Send Verification Code
+                        {t.register.sendVerificationCode}
                       </Button>
                     ) : (
                       <div className="space-y-3">
-                        <Label htmlFor="code">Enter the 4-digit code sent to your email</Label>
+                        <Label htmlFor="code">{t.register.codeLabel}</Label>
                         <div className="flex gap-3">
                           <Input id="code" value={emailCode} onChange={(e) => setEmailCode(e.target.value)}
                             placeholder="1234" maxLength={6} className="text-center text-lg tracking-widest font-bold" />
-                          <Button onClick={verifyEmail} variant="cta" className="px-6">Verify</Button>
+                          <Button onClick={verifyEmail} variant="cta" className="px-6">{t.register.verify}</Button>
                         </div>
-                        <button type="button" onClick={sendEmailCode}
-                          className="text-xs text-primary hover:underline">
-                          Resend code
+                        <button type="button" onClick={sendEmailCode} className="text-xs text-primary hover:underline">
+                          {t.register.resendCode}
                         </button>
                       </div>
                     )}
                     <div className="flex items-center gap-2 py-2">
                       <div className="flex-1 h-px bg-border" />
-                      <span className="text-xs text-muted-foreground">or</span>
+                      <span className="text-xs text-muted-foreground">{t.register.orLabel}</span>
                       <div className="flex-1 h-px bg-border" />
                     </div>
-                    <Button variant="outline" className="w-full" onClick={handleSubmit}
-                      disabled={createCandidate.isPending}>
+                    <Button variant="outline" className="w-full" onClick={handleSubmit} disabled={createCandidate.isPending}>
                       {createCandidate.isPending && <Loader2 className="h-4 w-4 animate-spin" />}
-                      Skip verification & Submit
+                      {t.register.skipVerification}
                     </Button>
-                    <p className="text-xs text-center text-muted-foreground">
-                      You can verify your email later. We'll confirm manually.
-                    </p>
+                    <p className="text-xs text-center text-muted-foreground">{t.register.skipVerifyHint}</p>
                   </div>
                 ) : (
                   <div className="space-y-6">
                     <div className="flex items-center gap-3 p-4 rounded-xl border-2 border-accent/50 bg-accent/10">
                       <CheckCircle className="h-6 w-6 text-accent" />
                       <div>
-                        <p className="font-semibold text-foreground">Email verified!</p>
+                        <p className="font-semibold text-foreground">{t.register.emailVerifiedBadge}</p>
                         <p className="text-sm text-muted-foreground">{form.email}</p>
                       </div>
                     </div>
-                    <Button variant="cta" className="w-full py-6 text-base" onClick={handleSubmit}
-                      disabled={createCandidate.isPending}>
+                    <Button variant="cta" className="w-full py-6 text-base" onClick={handleSubmit} disabled={createCandidate.isPending}>
                       {createCandidate.isPending && <Loader2 className="h-4 w-4 animate-spin" />}
-                      Submit My Profile
+                      {t.register.submitMyProfile}
                       <ArrowRight className="h-4 w-4" />
                     </Button>
                   </div>
@@ -610,11 +575,11 @@ export default function Register() {
             {step > 1 && (
               <div className="flex justify-between mt-8 pt-6 border-t border-border">
                 <Button variant="outline" onClick={back}>
-                  <ArrowLeft className="h-4 w-4" /> Back
+                  <ArrowLeft className="h-4 w-4" /> {t.common.back}
                 </Button>
                 {step === 2 && (
                   <Button variant="cta" onClick={nextToVerify}>
-                    Next <ArrowRight className="h-4 w-4" />
+                    {t.common.next} <ArrowRight className="h-4 w-4" />
                   </Button>
                 )}
               </div>
@@ -622,7 +587,7 @@ export default function Register() {
           </div>
 
           <p className="text-center text-xs text-muted-foreground mt-6 flex items-center justify-center gap-1.5">
-            <Lock className="h-3 w-3" /> No fees. No spam. Your data is protected under our
+            <Lock className="h-3 w-3" /> {t.register.noFeeDisclaimer}{" "}
             <Link to="/privacy" className="underline text-primary">Privacy Policy</Link>.
           </p>
         </div>
