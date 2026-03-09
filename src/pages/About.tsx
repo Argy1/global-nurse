@@ -2,7 +2,7 @@ import { CheckCircle, Globe, Target, TrendingUp, Users, Star, Eye } from "lucide
 import { Layout } from "@/components/layout/Layout";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { JoinMissionBanner } from "@/components/about/JoinMissionBanner";
-import logoIcon from "@/assets/logo-icon.png";
+import logoIcon from "@/assets/logo-icon-3d.png";
 import nursesPair from "@/assets/nurses-pair.png";
 import missionCards from "@/assets/mission-cards.png";
 import checkmarkIcon from "@/assets/values-checkmark.png";
