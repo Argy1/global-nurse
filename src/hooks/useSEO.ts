@@ -9,7 +9,6 @@ interface SEOConfig {
   descId: string;
 }
 
-// Per-route SEO meta data
 const routeSEO: Record<string, SEOConfig> = {
   "/": {
     titleEn: "Global PARO | Nursing Careers Abroad for Indonesian Nurses",
@@ -151,13 +150,29 @@ function setMeta(name: string, content: string, isProperty = false) {
   el.setAttribute("content", content);
 }
 
+function applyMeta(title: string, desc: string, lang: string) {
+  document.documentElement.lang = lang === "id" ? "id" : "en";
+  document.title = title;
+  setMeta("description", desc);
+  setMeta("og:title", title, true);
+  setMeta("og:description", desc, true);
+  setMeta("og:type", "website", true);
+  setMeta("twitter:title", title);
+  setMeta("twitter:description", desc);
+}
+
 export function useSEO() {
   const { lang } = useTranslation();
   const location = useLocation();
 
   useEffect(() => {
-    // Match route — try exact first, then prefix for dynamic routes like /news/:slug
     const pathname = location.pathname;
+
+    // Dynamic article routes — handled by useArticleSEO in the page
+    if (pathname.match(/^\/news\/.+/) || pathname.match(/^\/success-stories\/.+/)) {
+      return;
+    }
+
     const config =
       routeSEO[pathname] ||
       Object.entries(routeSEO).find(([key]) => pathname.startsWith(key + "/"))?.[1] ||
@@ -165,18 +180,38 @@ export function useSEO() {
 
     const title = lang === "id" ? config.titleId : config.titleEn;
     const desc = lang === "id" ? config.descId : config.descEn;
-
-    // Update document lang attribute
-    document.documentElement.lang = lang === "id" ? "id" : "en";
-
-    // Update title
-    document.title = title;
-
-    // Update meta tags
-    setMeta("description", desc);
-    setMeta("og:title", title, true);
-    setMeta("og:description", desc, true);
-    setMeta("twitter:title", title);
-    setMeta("twitter:description", desc);
+    applyMeta(title, desc, lang);
   }, [lang, location.pathname]);
+}
+
+/**
+ * useArticleSEO — call inside NewsDetail / SuccessStoryDetail once article data loads.
+ */
+export function useArticleSEO(opts: {
+  title?: string | null;
+  excerpt?: string | null;
+  type: "news" | "success-story";
+}) {
+  const { lang } = useTranslation();
+  const { title, excerpt, type } = opts;
+
+  useEffect(() => {
+    if (!title) return;
+
+    const suffix = " | Global PARO";
+    const metaTitle = title.length > 55 ? title.slice(0, 52) + "..." + suffix : title + suffix;
+    const metaDesc = excerpt
+      ? excerpt.length > 155
+        ? excerpt.slice(0, 152) + "..."
+        : excerpt
+      : type === "news"
+      ? lang === "id"
+        ? "Baca artikel terbaru tentang karier keperawatan internasional di Global PARO."
+        : "Read the latest article on international nursing careers at Global PARO."
+      : lang === "id"
+      ? "Kisah inspiratif perawat Indonesia yang berhasil meraih karier internasional."
+      : "An inspiring story of an Indonesian nurse achieving an international career.";
+
+    applyMeta(metaTitle, metaDesc, lang);
+  }, [title, excerpt, lang, type]);
 }

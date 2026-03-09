@@ -1088,6 +1088,9 @@ const en = {
     selectSpecialty: "Select specialty",
     selectAvailability: "Select availability",
     emailReadOnly: "Email address cannot be changed here. Contact support if needed.",
+    // Stage change notification
+    stageChanged: "Your application status has been updated! 🎉",
+    lastSeenAt: "Since your last visit",
   },
 
   // ── Register Success ──

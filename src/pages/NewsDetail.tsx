@@ -5,11 +5,15 @@ import { Button } from "@/components/ui/button";
 import { useContentBySlug, useContent } from "@/hooks/useContent";
 import { useSetting } from "@/hooks/useSiteSettings";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { useArticleSEO } from "@/hooks/useSEO";
 
 export default function NewsDetail() {
   const { slug } = useParams<{ slug: string }>();
   const { t } = useTranslation();
   const { data: article, isLoading } = useContentBySlug(slug || "");
+
+  // Dynamic per-article SEO
+  useArticleSEO({ title: article?.title, excerpt: article?.excerpt, type: "news" });
   const { data: allArticles } = useContent("News");
   const { value: whatsappLink } = useSetting("whatsapp_link");
 

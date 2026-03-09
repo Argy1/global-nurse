@@ -9,6 +9,7 @@ import StatusTracker from "@/components/portal/StatusTracker";
 import DocumentUpload from "@/components/portal/DocumentUpload";
 import DashboardSummaryCard from "@/components/portal/DashboardSummaryCard";
 import EditProfileForm from "@/components/portal/EditProfileForm";
+import StageChangeNotification from "@/components/portal/StageChangeNotification";
 
 export default function Portal() {
   const { user, signOut } = useAuth();
@@ -64,6 +65,9 @@ export default function Portal() {
             <LogOut className="h-4 w-4" /> {t.common.signOut}
           </Button>
         </div>
+
+        {/* Stage change notification banner */}
+        <StageChangeNotification candidate={candidate} />
 
         {/* Dashboard Summary Card — full width */}
         <DashboardSummaryCard candidate={candidate} />
