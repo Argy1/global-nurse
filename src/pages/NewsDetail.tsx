@@ -12,8 +12,8 @@ export default function NewsDetail() {
   const { t } = useTranslation();
   const { data: article, isLoading } = useContentBySlug(slug || "");
 
-  // Dynamic per-article SEO
-  useArticleSEO({ title: article?.title, excerpt: article?.excerpt, type: "news" });
+  // Dynamic per-article SEO (includes og:image for social previews)
+  useArticleSEO({ title: article?.title, excerpt: article?.excerpt, coverImage: article?.cover_image_url, type: "news" });
   const { data: allArticles } = useContent("News");
   const { value: whatsappLink } = useSetting("whatsapp_link");
 
