@@ -457,6 +457,8 @@ const en = {
     loadingFaqs: "Loading FAQs...",
     faqError: "Failed to load FAQ items. Please refresh or contact us directly.",
     filterAll: "All",
+    searchFaq: "Search questions...",
+    noResults: "No questions match your search.",
     faqs: [
       { q: "Is there a fee for nurses?", a: "No. We never charge nurses any fees. Our services are free for candidates." },
       { q: "How long does the process take?", a: "Timelines vary by country and individual readiness. We provide transparent guidance on expected timelines during your review." },
@@ -464,6 +466,65 @@ const en = {
       { q: "How is my data protected?", a: "We follow strict privacy practices. Your data is only used with your consent. See our Privacy Policy for details." },
       { q: "Can I delete my profile?", a: "Yes. Email hello@globalparo.com to request data deletion at any time." },
     ],
+  },
+
+  // ── News Detail ──
+  newsDetail: {
+    backToNews: "Back to News",
+    readyToStart: "Ready to Start?",
+    readyToStartDesc: "Take the first step toward your international nursing career.",
+    chatWithUs: "Chat With Us",
+    whatsappSupport: "WhatsApp Support",
+    relatedArticles: "Related Articles",
+  },
+
+  // ── Success Story Detail ──
+  storyDetail: {
+    backToStories: "Back to Success Stories",
+    startYourJourney: "Start Your Journey",
+    startYourJourneyDesc: "Inspired? Take the first step today.",
+    chatWithUs: "Chat With Us",
+    whatsappSupport: "WhatsApp Support",
+    moreStories: "More Stories",
+  },
+
+  // ── About Vision (inline) ──
+  aboutVision: {
+    heroTitle: "VISION",
+    heroStatement: "To become the leader and the preferred global partner platform — as a bridge between healthcare talents and international opportunities in healthcare providers.",
+    quoteText: "Talent is EVERYWHERE, opportunity is not — we're here to change that.",
+    quoteAttr: "— Global PARO Founding Vision",
+    pillarsTitle: "What Our Vision Looks Like",
+    forNursesTitle: "For Nurses",
+    forNursesDesc: "A world where every Indonesian nurse can access world-class training, certification support, and placement into their dream international role.",
+    forHealthcareTitle: "For Healthcare",
+    forHealthcareDesc: "A sustainable global ecosystem where international healthcare institutions gain access to skilled, well-prepared Indonesian nursing professionals.",
+    statsCountriesReached: "Countries Reached",
+    statsNursesSupported: "Nurses Supported",
+    statsPartnerHospitals: "Partner Hospitals",
+    statsSatisfaction: "Satisfaction Rate",
+    globalReach: "Global Reach",
+    globalReachDesc: "Connecting Indonesian nurses with healthcare employers in the UK, Europe, the Middle East, Australia, and beyond.",
+    equalOpportunity: "Equal Opportunity",
+    equalOpportunityDesc: "Breaking down barriers of geography, language, and access so every qualified nurse can pursue their international career.",
+    sustainableGrowth: "Sustainable Growth",
+    sustainableGrowthDesc: "Building a long-term ecosystem where nurses, employers, and communities all thrive together.",
+  },
+
+  // ── About Mission (inline) ──
+  aboutMission: {
+    title: "MISSION",
+    missionAltText: "Mission cards: Providing, Accelerating, Empowering",
+  },
+
+  // ── About Values (inline) ──
+  aboutValues: {
+    checkmarkAlt: "Core Values checkmark",
+    valuesAlt: "Core VALUES",
+    valuesListAlt: "P.A.R.O. Values: Passion, Accountability, Resilience, Opportunity",
+    valuesBannerAlt: "Nurses Are The Heart Of Healthcare",
+    tagline: "Talent is EVERYWHERE, opportunity is not.",
+    taglineHighlight: "EVERYWHERE,",
   },
 
   // ── Register ──
