@@ -1098,6 +1098,10 @@ const id: Translations = {
   accountSettings: {
     title: "Pengaturan Akun",
     backToPortal: "Kembali ke Portal",
+    avatarTitle: "Foto Profil",
+    avatarHint: "Unggah foto (JPG, PNG, maks 2 MB)",
+    uploadPhoto: "Unggah Foto",
+    avatarSaved: "Foto profil berhasil diperbarui!",
     displayNameTitle: "Nama Tampilan",
     displayNameLabel: "Nama kamu",
     displayNamePlaceholder: "cth. Budi Santoso",
