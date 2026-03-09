@@ -57,59 +57,63 @@ export default function About() {
     <Layout>
       {/* ── SECTION 1: Global Paro Hero ── */}
       <section id="global-paro" className="relative overflow-hidden">
+        {/* Split navy / teal background */}
         <div
-          className="relative z-10 pt-10 pb-4 text-center"
-          style={{ background: "linear-gradient(90deg, #015779 50%, #03989E 50%)" }}
-        >
-          <span
-            className="inline-block px-5 py-1.5 rounded-full text-xs font-black tracking-[0.2em] uppercase"
-            style={{ backgroundColor: "rgba(255,255,255,0.15)", color: "#fff" }}
-          >
-            {t.about.heroBadge}
-          </span>
-        </div>
+          className="absolute inset-0 z-0"
+          style={{ background: "linear-gradient(90deg, #015779 60%, #03989E 60%)" }}
+        />
 
-        <div
-          className="relative"
-          style={{ background: "linear-gradient(90deg, #015779 50%, #03989E 50%)" }}
-        >
-          <div className="container relative z-10 px-4 pb-0 pt-2">
+        <div className="relative z-10 py-10 md:py-14 lg:py-16">
+          <div className="container px-4 md:px-6">
+            {/* White card */}
             <div
-              className="mx-auto w-full max-w-4xl overflow-hidden rounded-2xl shadow-2xl"
+              className="mx-auto w-full max-w-5xl rounded-2xl overflow-hidden shadow-2xl"
               style={{ background: "rgba(255,255,255,0.96)" }}
             >
-              <div className="flex flex-col md:flex-row min-h-[340px]">
-                <div className="flex flex-col justify-center gap-5 p-8 md:p-10 md:w-1/2">
-                  <div className="flex items-center gap-3">
-                    <img src={logoIcon} alt="Global Paro" className="h-10 w-10" />
-                    <span className="font-heading font-black text-2xl">
-                      Global <span style={{ color: "#03989E" }}>PARO</span>
-                    </span>
-                  </div>
-                  <p className="text-base leading-relaxed text-gray-600">
+              <div className="flex flex-col md:flex-row min-h-[320px] md:min-h-[400px]">
+                {/* Left: logo + description */}
+                <div className="flex flex-col justify-center gap-6 p-8 md:p-12 md:w-[55%]">
+                  {/* Full logo asset */}
+                  <img
+                    src={aboutLogoFull}
+                    alt="Global PARO"
+                    className="w-56 md:w-72 object-contain"
+                  />
+                  <p className="text-base md:text-lg leading-relaxed text-gray-600 max-w-md">
                     {t.about.heroDesc}
                   </p>
                   <div className="flex flex-wrap gap-3 text-sm font-semibold" style={{ color: "#015779" }}>
                     {(lang === "id" ? t.about.heroTagsId : t.about.heroTags).map((tag) => (
-                      <span key={tag} className="flex items-center gap-1">
-                        <span className="w-2 h-2 rounded-full inline-block" style={{ background: "#03989E" }} />
+                      <span key={tag} className="flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full inline-block shrink-0" style={{ background: "#03989E" }} />
                         {tag}
                       </span>
                     ))}
                   </div>
                 </div>
-                <div className="hidden md:block md:w-1/2 relative overflow-hidden rounded-r-2xl">
-                  <img src={nursesPair} alt="Nurses" className="absolute inset-0 w-full h-full object-cover" style={{ opacity: 0.75 }} />
-                  <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(255,255,255,0.4) 0%, rgba(3,152,158,0.15) 100%)" }} />
+
+                {/* Right: nurses hero photo, faded in from right */}
+                <div className="hidden md:block md:w-[45%] relative overflow-hidden rounded-r-2xl">
+                  {/* Fade from left (white) → transparent so card bleeds in */}
+                  <div
+                    className="absolute inset-0 z-10"
+                    style={{ background: "linear-gradient(to right, rgba(255,255,255,0.55) 0%, transparent 40%)" }}
+                  />
+                  <img
+                    src={aboutNursesHero}
+                    alt="Global PARO Nurses"
+                    className="absolute inset-0 w-full h-full object-cover object-center"
+                  />
                 </div>
               </div>
             </div>
-            <div className="mx-auto w-full max-w-4xl h-2 bg-white opacity-80 rounded-b" />
           </div>
-          <div className="flex" style={{ marginTop: 0 }}>
-            <div className="w-1/2 h-14" style={{ background: "#03989E" }} />
-            <div className="w-1/2 h-14" style={{ background: "#015779" }} />
-          </div>
+        </div>
+
+        {/* Swapped colour bar below the card */}
+        <div className="relative z-10 flex">
+          <div className="w-[60%] h-10 md:h-12" style={{ background: "#03989E" }} />
+          <div className="w-[40%] h-10 md:h-12" style={{ background: "#015779" }} />
         </div>
       </section>
 
