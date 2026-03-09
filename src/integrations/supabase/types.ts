@@ -761,6 +761,66 @@ export type Database = {
         }
         Relationships: []
       }
+      webinars: {
+        Row: {
+          contact_email: string | null
+          cost: string
+          cover_image_url: string | null
+          created_at: string
+          description: string | null
+          event_date: string | null
+          id: string
+          is_featured: boolean
+          is_published: boolean
+          learn_items: string[]
+          order_index: number
+          register_link: string | null
+          schedule: string | null
+          subtitle: string | null
+          title: string
+          topic: string | null
+          updated_at: string
+        }
+        Insert: {
+          contact_email?: string | null
+          cost?: string
+          cover_image_url?: string | null
+          created_at?: string
+          description?: string | null
+          event_date?: string | null
+          id?: string
+          is_featured?: boolean
+          is_published?: boolean
+          learn_items?: string[]
+          order_index?: number
+          register_link?: string | null
+          schedule?: string | null
+          subtitle?: string | null
+          title: string
+          topic?: string | null
+          updated_at?: string
+        }
+        Update: {
+          contact_email?: string | null
+          cost?: string
+          cover_image_url?: string | null
+          created_at?: string
+          description?: string | null
+          event_date?: string | null
+          id?: string
+          is_featured?: boolean
+          is_published?: boolean
+          learn_items?: string[]
+          order_index?: number
+          register_link?: string | null
+          schedule?: string | null
+          subtitle?: string | null
+          title?: string
+          topic?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       whatsapp_groups: {
         Row: {
           created_at: string

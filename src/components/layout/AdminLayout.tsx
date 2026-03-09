@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Users, Building2, FileText, MessageSquare, Settings, LogOut, ArrowLeft, Sun, Moon } from "lucide-react";
+import { LayoutDashboard, Users, Building2, FileText, MessageSquare, Settings, LogOut, ArrowLeft, Sun, Moon, Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { useTheme } from "@/hooks/useTheme";
@@ -11,6 +11,7 @@ const adminLinks = [
   { href: "/admin/candidates", label: "Candidates", icon: Users },
   { href: "/admin/employers", label: "Employers", icon: Building2 },
   { href: "/admin/content", label: "Content", icon: FileText },
+  { href: "/admin/webinars", label: "Webinars", icon: Video },
   { href: "/admin/chat-escalations", label: "Chat Queue", icon: MessageSquare },
   { href: "/admin/settings", label: "Settings", icon: Settings },
 ];
