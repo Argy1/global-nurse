@@ -106,6 +106,7 @@ const App = () => (
             <Route path="/admin/candidates" element={<ProtectedRoute><AdminCandidates /></ProtectedRoute>} />
             <Route path="/admin/employers" element={<ProtectedRoute><AdminEmployers /></ProtectedRoute>} />
             <Route path="/admin/content" element={<ProtectedRoute><AdminContentManager /></ProtectedRoute>} />
+            <Route path="/admin/webinars" element={<ProtectedRoute><AdminWebinars /></ProtectedRoute>} />
             <Route path="/admin/chat-escalations" element={<ProtectedRoute><AdminChatEscalations /></ProtectedRoute>} />
             <Route path="/admin/settings" element={<ProtectedRoute><AdminSettings /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
