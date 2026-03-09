@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import {
   ArrowRight, MessageCircle, Play, Lock,
   Instagram, Linkedin, Mail, Phone,
-  Globe, BookOpen, Users, Sparkles, ChevronRight
+  Globe, BookOpen, Users, Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -14,7 +14,6 @@ import { useContent } from "@/hooks/useContent";
 import { useSuccessStories } from "@/hooks/useSuccessStories";
 import { useTranslation } from "@/i18n/LanguageContext";
 import heroBanner from "@/assets/hero-banner.png";
-// v2
 
 const quickstartTopics = [
   { title_en: "Is Working Abroad Right for You?", title_id: "Apakah Bekerja di Luar Negeri Tepat untuk Anda?", slug: "is-working-abroad-right" },
@@ -27,13 +26,6 @@ const quickstartTopics = [
   { title_en: "Employer Red vs Green Flags", title_id: "Tanda Bahaya vs Tanda Aman Pemberi Kerja", slug: "employer-red-green-flags" },
   { title_en: "Life Abroad: What to Expect", title_id: "Kehidupan di Luar Negeri: Apa yang Diharapkan", slug: "life-abroad" },
   { title_en: "Your First 90 Days", title_id: "90 Hari Pertama Anda", slug: "first-90-days" },
-];
-
-const pathwayPills = [
-  { flag: "🇮🇩", label: "Nurse ID", sub: "Starting Point" },
-  { flag: "🇺🇸", label: "USA", sub: "NCLEX + CGFNS" },
-  { flag: "🇨🇦", label: "Canada", sub: "NCLEX-RN" },
-  { flag: "🇸🇬", label: "Singapore", sub: "SNB Reg." },
 ];
 
 function VideoOrPlaceholder({ url, className = "" }: { url: string | null; className?: string }) {
@@ -79,6 +71,20 @@ export default function Index() {
 
   const whatsappHref = whatsappLink ?? "mailto:hello@globalparo.com";
 
+  const paroItems = [
+    { letter: "P", title: t.home.paroP, desc: t.home.paroPDesc, icon: Sparkles },
+    { letter: "A", title: t.home.paroA, desc: t.home.paroADesc, icon: Globe },
+    { letter: "R", title: t.home.paroR, desc: t.home.paroRDesc, icon: Users },
+    { letter: "O", title: t.home.paroO, desc: t.home.paroODesc, icon: BookOpen },
+  ];
+
+  const stats = [
+    { num: "500+", label: t.home.statsNurses },
+    { num: "3", label: t.home.statsCountries },
+    { num: "AI+Human", label: t.home.statsSupportModel },
+    { num: "0 Fee", label: t.home.statsFee },
+  ];
+
   return (
     <Layout>
       <TutorialModal />
@@ -92,21 +98,19 @@ export default function Index() {
           style={{ objectPosition: "center 20%" }}
           loading="eager"
         />
-        {/* Overlay buttons — centered on mobile, left-aligned under "Global PARO" on desktop */}
         <div className="absolute bottom-6 md:bottom-8 left-0 right-0 md:left-[33%] md:right-auto flex justify-center md:justify-start gap-3 md:gap-4 px-4">
-
           <Link
             to="/register"
             className="inline-flex items-center gap-2 px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold text-sm md:text-base text-white shadow-lg transition-all hover:opacity-90"
             style={{ backgroundColor: "#03989E" }}
           >
-            Get Started <ArrowRight className="h-4 w-4" />
+            {t.common.getStarted} <ArrowRight className="h-4 w-4" />
           </Link>
           <Link
             to="/programs"
             className="inline-flex items-center px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold text-sm md:text-base text-white border-2 border-white transition-all hover:bg-white/20"
           >
-            Learn More
+            {t.common.learnMore}
           </Link>
         </div>
       </section>
@@ -115,12 +119,7 @@ export default function Index() {
       <section className="py-6 border-b border-border" style={{ backgroundColor: 'hsl(var(--card))' }}>
         <div className="container">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            {[
-              { num: "500+", label: "Nurses Registered" },
-              { num: "3", label: "Destination Countries" },
-              { num: "AI+Human", label: "Support Model" },
-              { num: "0 Fee", label: "To Nurses, Always" },
-            ].map((stat) => (
+            {stats.map((stat) => (
               <div key={stat.label}>
                 <div className="font-heading font-black text-2xl" style={{ color: 'hsl(var(--accent))' }}>{stat.num}</div>
                 <div className="text-sm text-muted-foreground mt-0.5">{stat.label}</div>
@@ -130,74 +129,61 @@ export default function Index() {
         </div>
       </section>
 
-       {/* ─── 3. Webinar Section ─── */}
-       <section className="py-12 lg:py-16 bg-white border-b border-border">
-         <div className="container max-w-4xl mx-auto">
-           <div className="grid lg:grid-cols-2 gap-8 items-center">
-             {/* Left: Webinar content */}
-             <div>
-               <p className="text-sm font-bold tracking-widest uppercase mb-2" style={{ color: 'hsl(var(--accent))' }}>Free Event</p>
-               <h2 className="text-3xl lg:text-4xl font-black font-heading text-foreground mb-3">Free Webinar</h2>
-               <p className="text-muted-foreground text-sm mb-6 leading-relaxed">
-                 Learn everything about working as a nurse in Singapore — requirements, salary, benefits, and real stories from nurses already thriving abroad. Live Q&A with our placement advisors.
-               </p>
-               <div className="space-y-3 mb-6">
-                 {[
-                   "Overview of Singapore healthcare system",
-                   "Eligibility & application process",
-                   "Real nursing salaries & benefits breakdown",
-                 ].map((item) => (
-                   <div key={item} className="flex items-start gap-2 text-sm text-foreground">
-                     <span className="text-accent font-bold">✓</span>
-                     <span>{item}</span>
-                   </div>
-                 ))}
-               </div>
-               <Button asChild className="rounded-full font-bold" style={{ backgroundColor: 'hsl(var(--accent))' }}>
-                 <Link to="/programs/webinar">Learn More About Webinar <ArrowRight className="h-4 w-4" /></Link>
-               </Button>
-             </div>
-             {/* Right: Info card */}
-             <div className="bg-card rounded-2xl border-2 overflow-hidden shadow-xl" style={{ borderColor: "#03989E" }}>
-               <div className="px-6 py-4 border-b border-border">
-                 <h3 className="text-xl font-black text-foreground">Coming Soon</h3>
-                 <p className="text-sm text-muted-foreground">Join our next webinar</p>
-               </div>
-               <div className="px-6 py-5 text-white font-semibold text-sm" style={{ background: "#03989E" }}>
-                 <div className="flex items-center gap-2">
-                   <Mail className="h-4 w-4" />
-                   <a href="mailto:hello@globalparo.com" className="underline font-bold">hello@globalparo.com</a>
-                 </div>
-               </div>
-               <div className="px-6 py-4 space-y-3">
-                 <div className="flex items-center justify-between text-sm">
-                   <span className="font-semibold text-foreground">Format</span>
-                   <span className="text-muted-foreground">Online Live</span>
-                 </div>
-                 <div className="flex items-center justify-between text-sm border-t border-border pt-3">
-                   <span className="font-semibold text-foreground">Cost</span>
-                   <span className="font-bold" style={{ color: "#03989E" }}>FREE</span>
-                 </div>
-               </div>
-             </div>
-           </div>
-         </div>
-       </section>
+      {/* ─── 3. Webinar Section ─── */}
+      <section className="py-12 lg:py-16 bg-white border-b border-border">
+        <div className="container max-w-4xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-8 items-center">
+            <div>
+              <p className="text-sm font-bold tracking-widest uppercase mb-2" style={{ color: 'hsl(var(--accent))' }}>{t.home.webinarLabel}</p>
+              <h2 className="text-3xl lg:text-4xl font-black font-heading text-foreground mb-3">{t.home.webinarTitle}</h2>
+              <p className="text-muted-foreground text-sm mb-6 leading-relaxed">{t.home.webinarDesc}</p>
+              <div className="space-y-3 mb-6">
+                {[t.home.webinarPoint1, t.home.webinarPoint2, t.home.webinarPoint3].map((item) => (
+                  <div key={item} className="flex items-start gap-2 text-sm text-foreground">
+                    <span className="text-accent font-bold">✓</span>
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+              <Button asChild className="rounded-full font-bold" style={{ backgroundColor: 'hsl(var(--accent))' }}>
+                <Link to="/programs/webinar">{t.home.webinarLearnMore} <ArrowRight className="h-4 w-4" /></Link>
+              </Button>
+            </div>
+            <div className="bg-card rounded-2xl border-2 overflow-hidden shadow-xl" style={{ borderColor: "#03989E" }}>
+              <div className="px-6 py-4 border-b border-border">
+                <h3 className="text-xl font-black text-foreground">{t.home.webinarComingSoon}</h3>
+                <p className="text-sm text-muted-foreground">{t.home.webinarJoinNext}</p>
+              </div>
+              <div className="px-6 py-5 text-white font-semibold text-sm" style={{ background: "#03989E" }}>
+                <div className="flex items-center gap-2">
+                  <Mail className="h-4 w-4" />
+                  <a href="mailto:hello@globalparo.com" className="underline font-bold">hello@globalparo.com</a>
+                </div>
+              </div>
+              <div className="px-6 py-4 space-y-3">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="font-semibold text-foreground">{t.home.webinarFormat}</span>
+                  <span className="text-muted-foreground">{t.home.webinarFormatValue}</span>
+                </div>
+                <div className="flex items-center justify-between text-sm border-t border-border pt-3">
+                  <span className="font-semibold text-foreground">{t.home.webinarCost}</span>
+                  <span className="font-bold" style={{ color: "#03989E" }}>FREE</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-       {/* ─── 4. Why Choose Us - PARO ─── */}
-       <section className="py-16 lg:py-20 bg-muted">
+      {/* ─── 4. Why Choose Us - PARO ─── */}
+      <section className="py-16 lg:py-20 bg-muted">
         <div className="container">
           <div className="text-center mb-12">
-            <p className="text-sm font-bold tracking-widest uppercase mb-2" style={{ color: 'hsl(var(--accent))' }}>Why Global PARO</p>
-            <h2 className="text-3xl lg:text-4xl font-black font-heading text-foreground">Built for Nurses. <span style={{ color: 'hsl(var(--accent))' }}>By People Who Care.</span></h2>
+            <p className="text-sm font-bold tracking-widest uppercase mb-2" style={{ color: 'hsl(var(--accent))' }}>{t.home.paroLabel}</p>
+            <h2 className="text-3xl lg:text-4xl font-black font-heading text-foreground">{t.home.paroTitle} <span style={{ color: 'hsl(var(--accent))' }}>{t.home.paroTitleHighlight}</span></h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { letter: "P", title: "Personalized Platform", desc: "AI-matched learning paths and job opportunities tailored to your profile.", icon: Sparkles },
-              { letter: "A", title: "Accessible & Affordable", desc: "Available anytime, anywhere. Zero fees charged directly to nurses.", icon: Globe },
-              { letter: "R", title: "Reputable Team", desc: "Global healthcare experts, board advisors, and dedicated support agents.", icon: Users },
-              { letter: "O", title: "One-Stop Journey", desc: "From IELTS prep to job placement — everything in one trusted platform.", icon: BookOpen },
-            ].map((item) => (
+            {paroItems.map((item) => (
               <div key={item.letter} className="bg-card rounded-2xl p-6 shadow-card border border-border group hover:border-accent/50 transition-all">
                 <div className="flex items-center gap-3 mb-4">
                   <span className="flex h-10 w-10 items-center justify-center rounded-full font-black text-xl font-heading text-primary-foreground shrink-0" style={{ backgroundColor: 'hsl(var(--primary))' }}>
@@ -212,13 +198,13 @@ export default function Index() {
           </div>
           <div className="text-center mt-8">
             <Button asChild variant="outline" className="rounded-full">
-              <Link to="/why-choose-us">Explore Why Global PARO <ArrowRight className="h-4 w-4" /></Link>
+              <Link to="/why-choose-us">{t.home.paroExplore} <ArrowRight className="h-4 w-4" /></Link>
             </Button>
           </div>
         </div>
       </section>
 
-      {/* ─── 4. Tutorial Video Block ─── */}
+      {/* ─── 5. Tutorial Video Block ─── */}
       <section className="py-12 lg:py-16">
         <div className="container max-w-3xl">
           <Card className="overflow-hidden">
@@ -244,10 +230,10 @@ export default function Index() {
         </div>
       </section>
 
-      {/* ─── 5. Trust Badges ─── */}
+      {/* ─── 6. Trust Badges ─── */}
       <TrustBadgesStrip />
 
-      {/* ─── 6. Quickstart Guide Teaser ─── */}
+      {/* ─── 7. Quickstart Guide Teaser ─── */}
       <section className="py-12 lg:py-16 bg-muted">
         <div className="container">
           <div className="flex items-end justify-between mb-6">
@@ -276,19 +262,14 @@ export default function Index() {
         </div>
       </section>
 
-      {/* ─── 7. Register CTA ─── */}
+      {/* ─── 8. Register CTA ─── */}
       <section className="py-16 lg:py-20" style={{ background: 'linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%)' }}>
         <div className="container text-center max-w-2xl">
           <Lock className="h-8 w-8 text-primary-foreground/60 mx-auto mb-4" />
           <h2 className="text-3xl lg:text-4xl font-black font-heading text-primary-foreground mb-4">{t.home.registerCtaTitle}</h2>
           <p className="text-primary-foreground/85 mb-6">{t.home.registerCtaDesc}</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Button
-              size="xl"
-              asChild
-              className="rounded-full font-bold"
-              style={{ backgroundColor: 'hsl(var(--card))', color: 'hsl(var(--primary))' }}
-            >
+            <Button size="xl" asChild className="rounded-full font-bold" style={{ backgroundColor: 'hsl(var(--card))', color: 'hsl(var(--primary))' }}>
               <Link to="/register">{t.common.registerNow} <ArrowRight className="h-5 w-5" /></Link>
             </Button>
             <Button variant="heroOutline" size="xl" asChild className="rounded-full font-bold">
@@ -301,7 +282,7 @@ export default function Index() {
         </div>
       </section>
 
-      {/* ─── 8. News & Insights ─── */}
+      {/* ─── 9. News & Insights ─── */}
       <section className="py-12 lg:py-16">
         <div className="container">
           <div className="flex items-end justify-between mb-8">
@@ -331,7 +312,7 @@ export default function Index() {
         </div>
       </section>
 
-      {/* ─── 9. Success Stories ─── */}
+      {/* ─── 10. Success Stories ─── */}
       <section className="py-12 lg:py-16 bg-muted">
         <div className="container">
           <div className="flex items-end justify-between mb-8">
@@ -362,10 +343,10 @@ export default function Index() {
         </div>
       </section>
 
-      {/* ─── 10. Social + Contact Strip ─── */}
+      {/* ─── 11. Social + Contact Strip ─── */}
       <section className="py-12 lg:py-16">
         <div className="container">
-          <h2 className="text-2xl font-extrabold text-foreground text-center mb-8">{t.home.connectTitle || "Connect With Us"}</h2>
+          <h2 className="text-2xl font-extrabold text-foreground text-center mb-8">{t.home.connectTitle}</h2>
           <div className="flex flex-wrap gap-4 justify-center mb-6">
             {[
               { icon: Instagram, label: "Instagram", url: instagramUrl },
@@ -376,9 +357,9 @@ export default function Index() {
                   <Icon className="h-7 w-7" style={{ color: 'hsl(var(--primary))' }} />
                   <p className="font-semibold text-foreground">{label}</p>
                   {url ? (
-                    <a href={url} target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: 'hsl(var(--accent))' }}>Follow Us</a>
+                    <a href={url} target="_blank" rel="noopener noreferrer" className="text-sm hover:underline" style={{ color: 'hsl(var(--accent))' }}>{t.home.followUs}</a>
                   ) : (
-                    <span className="text-xs text-muted-foreground">Coming soon</span>
+                    <span className="text-xs text-muted-foreground">{t.home.comingSoon}</span>
                   )}
                 </CardContent>
               </Card>
