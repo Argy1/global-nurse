@@ -189,9 +189,16 @@ serve(async (req) => {
   }
 
   try {
-    const { messages } = await req.json();
+    const { messages, lang } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
+
+    // Append a language instruction to the system prompt based on chosen lang
+    const langInstruction = lang === "id"
+      ? "\n\nIMPORTANT: The user has selected Indonesian. You MUST respond ONLY in Bahasa Indonesia, regardless of what language the user writes in. Use natural, professional, and friendly Indonesian."
+      : "\n\nIMPORTANT: The user has selected English. You MUST respond ONLY in English, regardless of what language the user writes in. Use natural, professional, and friendly English.";
+
+    const systemPromptWithLang = SYSTEM_PROMPT + langInstruction;
 
     const response = await fetch(
       "https://ai.gateway.lovable.dev/v1/chat/completions",
@@ -204,7 +211,7 @@ serve(async (req) => {
         body: JSON.stringify({
           model: "google/gemini-3-flash-preview",
           messages: [
-            { role: "system", content: SYSTEM_PROMPT },
+            { role: "system", content: systemPromptWithLang },
             ...messages,
           ],
           stream: true,
