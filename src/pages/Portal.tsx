@@ -9,6 +9,7 @@ import StatusTracker from "@/components/portal/StatusTracker";
 import DocumentUpload from "@/components/portal/DocumentUpload";
 import DashboardSummaryCard from "@/components/portal/DashboardSummaryCard";
 import EditProfileForm from "@/components/portal/EditProfileForm";
+import StageChangeNotification from "@/components/portal/StageChangeNotification";
 
 export default function Portal() {
   const { user, signOut } = useAuth();
