@@ -26,6 +26,7 @@ import NCLEX from "./pages/lms/NCLEX";
 import BatchProgram from "./pages/programs/BatchProgram";
 import RequirementCriteria from "./pages/programs/RequirementCriteria";
 import Webinar from "./pages/programs/Webinar";
+import WebinarDetail from "./pages/programs/WebinarDetail";
 import Help from "./pages/Help";
 import Employer from "./pages/Employer";
 import EmployerThanks from "./pages/EmployerThanks";
