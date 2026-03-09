@@ -653,12 +653,12 @@ const id: Translations = {
   // ── Tim ──
   team: {
     title: "Tim Kami",
-    subtitle: "Kenali orang-orang di balik Global Paro — tim beragam dari pemimpin kesehatan, teknologi, dan bisnis yang disatukan oleh misi bersama.",
-    leadership: "Kepemimpinan",
+    subtitle: "Kenali orang-orang di balik Global Paro — tim lintas bidang yang terdiri dari para pemimpin kesehatan, teknologi, dan bisnis, dipersatukan oleh satu misi yang sama.",
+    leadership: "Pimpinan",
     healthcareStrategy: "Strategi Talenta Kesehatan",
-    advisors: "Penasihat & Mitra",
+    advisors: "Dewan Penasihat & Mitra",
     joinMission: "Bergabung dengan Misi Kami",
-    joinMissionDesc: "Kami membangun masa depan rekrutmen perawat yang etis. Jadilah bagian dari itu.",
+    joinMissionDesc: "Kami sedang membangun masa depan rekrutmen perawat yang etis dan berkelanjutan. Jadilah bagian dari perjalanan ini.",
   },
 
   // ── LMS ──
