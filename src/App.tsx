@@ -99,6 +99,7 @@ const App = () => (
             <Route path="/reset-password" element={<ResetPassword />} />
             {/* Candidate Portal */}
             <Route path="/portal" element={<PortalProtectedRoute><Portal /></PortalProtectedRoute>} />
+            <Route path="/account-settings" element={<PortalProtectedRoute><AccountSettings /></PortalProtectedRoute>} />
             {/* Admin (protected) */}
             <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
             <Route path="/admin/candidates" element={<ProtectedRoute><AdminCandidates /></ProtectedRoute>} />
