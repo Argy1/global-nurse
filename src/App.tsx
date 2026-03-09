@@ -41,6 +41,7 @@ import AdminEmployers from "./pages/admin/Employers";
 import AdminContentManager from "./pages/admin/ContentManager";
 import AdminChatEscalations from "./pages/admin/ChatEscalations";
 import AdminSettings from "./pages/admin/Settings";
+import AdminWebinars from "./pages/admin/Webinars";
 import WhyChooseUs from "./pages/WhyChooseUs";
 import NotFound from "./pages/NotFound";
 
