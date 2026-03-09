@@ -49,6 +49,7 @@ const members: Member[] = [
 
 export default function About() {
   const { t, lang } = useTranslation();
+  const icons = [<Globe className="h-7 w-7" />, <Target className="h-7 w-7" />, <TrendingUp className="h-7 w-7" />];
 
   return (
     <Layout>
@@ -62,7 +63,7 @@ export default function About() {
             className="inline-block px-5 py-1.5 rounded-full text-xs font-black tracking-[0.2em] uppercase"
             style={{ backgroundColor: "rgba(255,255,255,0.15)", color: "#fff" }}
           >
-            About Us
+            {t.about.heroBadge}
           </span>
         </div>
 
@@ -84,10 +85,10 @@ export default function About() {
                     </span>
                   </div>
                   <p className="text-base leading-relaxed text-gray-600">
-                    Global PARO empowers every international nurse with the tools, guidance, and global network needed to build a thriving career abroad — ethically, affordably, and with confidence.
+                    {t.about.heroDesc}
                   </p>
                   <div className="flex flex-wrap gap-3 text-sm font-semibold" style={{ color: "#015779" }}>
-                    {["Ethical Recruitment", "AI-Powered Platform", "Global Network"].map((tag) => (
+                    {(lang === "id" ? t.about.heroTagsId : t.about.heroTags).map((tag) => (
                       <span key={tag} className="flex items-center gap-1">
                         <span className="w-2 h-2 rounded-full inline-block" style={{ background: "#03989E" }} />
                         {tag}
@@ -120,7 +121,6 @@ export default function About() {
         </div>
       </section>
 
-
       {/* ── SECTION 2: Vision ── */}
       <section id="vision">
         {/* Vision Hero */}
@@ -134,16 +134,13 @@ export default function About() {
                   </div>
                 </div>
                 <h2 className="font-black text-white leading-none mb-2" style={{ fontSize: "clamp(3.5rem, 8vw, 6rem)", letterSpacing: "-0.03em" }}>
-                  VISION
+                  {t.about.visionSectionTitle}
                 </h2>
                 <div className="w-16 h-1 bg-white/50 rounded-full mt-2" />
               </div>
               <div className="md:w-2/3">
                 <p className="text-white/90 text-lg md:text-xl leading-relaxed mb-6">
-                  To become the leader and the preferred global partner platform — as a bridge between{" "}
-                  <span className="font-bold text-white bg-white/20 px-2 py-0.5 rounded">healthcare talents</span>{" "}
-                  and international opportunities in{" "}
-                  <span className="font-bold text-white bg-white/20 px-2 py-0.5 rounded">healthcare providers</span>.
+                  {t.about.visionStatement}
                 </p>
               </div>
             </div>
@@ -157,9 +154,9 @@ export default function About() {
               <div className="absolute top-0 right-0 w-64 h-64 rounded-full opacity-5" style={{ background: "#03989E", transform: "translate(30%, -30%)" }} />
               <Globe className="h-10 w-10 mb-6 opacity-60" style={{ color: "#03989E" }} />
               <blockquote className="text-2xl md:text-3xl font-bold text-foreground leading-snug mb-6 max-w-3xl italic">
-                "Talent is <span style={{ color: "#03989E" }}>EVERYWHERE</span>, opportunity is not — we're here to change that."
+                "{t.about.visionQuote}"
               </blockquote>
-              <p className="text-muted-foreground text-sm font-semibold uppercase tracking-widest">— Global PARO Founding Vision</p>
+              <p className="text-muted-foreground text-sm font-semibold uppercase tracking-widest">{t.about.visionQuoteAttr}</p>
             </div>
           </div>
         </div>
@@ -167,16 +164,12 @@ export default function About() {
         {/* Vision Pillars */}
         <div className="py-16 px-6" style={{ backgroundColor: "hsl(var(--card))" }}>
           <div className="container max-w-6xl mx-auto">
-            <h3 className="text-2xl md:text-3xl font-black text-center mb-12 text-foreground">What Our Vision Looks Like</h3>
+            <h3 className="text-2xl md:text-3xl font-black text-center mb-12 text-foreground">{t.about.visionPillarsTitle}</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
-                { icon: <Globe className="h-7 w-7" />, title: "Global Reach", desc: "Connecting Indonesian nurses with healthcare employers in the UK, Europe, the Middle East, Australia, and beyond." },
-                { icon: <Target className="h-7 w-7" />, title: "Equal Opportunity", desc: "Breaking down barriers of geography, language, and access so every qualified nurse can pursue their international career." },
-                { icon: <TrendingUp className="h-7 w-7" />, title: "Sustainable Growth", desc: "Building a long-term ecosystem where nurses, employers, and communities all thrive together." },
-              ].map((p) => (
+              {t.about.visionPillars.map((p, i) => (
                 <div key={p.title} className="rounded-xl p-6 border border-border hover:shadow-md transition-shadow">
                   <div className="w-12 h-12 rounded-full flex items-center justify-center mb-4" style={{ backgroundColor: "#03989E20", color: "#03989E" }}>
-                    {p.icon}
+                    {icons[i]}
                   </div>
                   <h4 className="font-bold text-lg text-foreground mb-2">{p.title}</h4>
                   <p className="text-muted-foreground text-sm leading-relaxed">{p.desc}</p>
@@ -190,7 +183,7 @@ export default function About() {
         <div className="py-14 px-6 bg-background">
           <div className="container max-w-6xl mx-auto">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              {[{ value: "10+", label: "Countries Reached" }, { value: "500+", label: "Nurses Supported" }, { value: "50+", label: "Partner Hospitals" }, { value: "95%", label: "Satisfaction Rate" }].map((s) => (
+              {t.about.visionStats.map((s) => (
                 <div key={s.label}>
                   <div className="text-4xl font-black mb-1" style={{ color: "#03989E" }}>{s.value}</div>
                   <div className="text-sm text-muted-foreground font-medium">{s.label}</div>
@@ -206,13 +199,13 @@ export default function About() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="rounded-2xl p-8 text-white" style={{ background: "linear-gradient(135deg, #03989E, #015779)" }}>
                 <Star className="h-8 w-8 mb-4 opacity-80" />
-                <h4 className="text-xl font-bold mb-3">For Nurses</h4>
-                <p className="text-white/85 leading-relaxed">A world where every Indonesian nurse can access world-class training, certification support, and placement into their dream international role.</p>
+                <h4 className="text-xl font-bold mb-3">{t.about.visionForNurses}</h4>
+                <p className="text-white/85 leading-relaxed">{t.about.visionForNursesCard}</p>
               </div>
               <div className="rounded-2xl p-8 border-2 border-foreground/10">
                 <Users className="h-8 w-8 mb-4" style={{ color: "#03989E" }} />
-                <h4 className="text-xl font-bold mb-3 text-foreground">For Healthcare</h4>
-                <p className="text-muted-foreground leading-relaxed">A sustainable global ecosystem where international healthcare institutions gain access to skilled, well-prepared Indonesian nursing professionals.</p>
+                <h4 className="text-xl font-bold mb-3 text-foreground">{t.about.visionForHealthcare}</h4>
+                <p className="text-muted-foreground leading-relaxed">{t.about.visionForHealthcareCard}</p>
               </div>
             </div>
           </div>
@@ -224,12 +217,12 @@ export default function About() {
         <div className="container max-w-6xl mx-auto">
           <div className="mb-10">
             <h2 className="font-black leading-none" style={{ fontSize: "clamp(3rem, 7vw, 5rem)", letterSpacing: "-0.03em", color: "#03989E" }}>
-              MISSION
+              {t.about.missionSectionTitle}
             </h2>
             <div className="w-16 h-1 rounded-full mt-3" style={{ backgroundColor: "#03989E" }} />
           </div>
           <div className="w-full min-h-[220px] sm:min-h-[300px] md:min-h-[380px]">
-            <img src={missionCards} alt="Mission cards: Providing, Accelerating, Empowering" className="w-full h-full object-contain" style={{ minHeight: "220px" }} />
+            <img src={missionCards} alt={t.about.missionImgAlt} className="w-full h-full object-contain" style={{ minHeight: "220px" }} />
           </div>
         </div>
       </section>
@@ -239,20 +232,22 @@ export default function About() {
         <div className="container max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="flex flex-col items-start">
-              <img src={checkmarkIcon} alt="Core Values checkmark" className="w-48 h-48 object-contain mb-4" />
-              <img src={valuesTitle} alt="Core VALUES" className="w-full max-w-sm object-contain mb-4" />
+              <img src={checkmarkIcon} alt={t.about.valuesImgAlt} className="w-48 h-48 object-contain mb-4" />
+              <img src={valuesTitle} alt={t.about.valuesImgAlt} className="w-full max-w-sm object-contain mb-4" />
               <p className="text-foreground text-base">
-                Talent is <span className="underline font-semibold">EVERYWHERE,</span> opportunity is not.
+                {t.about.valuesTagline}
+                <span className="underline font-semibold">{t.about.valuesTaglineHighlight}</span>
+                {t.about.valuesTaglineEnd}
               </p>
             </div>
             <div className="flex items-center justify-center">
-              <img src={valuesList} alt="P.A.R.O. Values: Passion, Accountability, Resilience, Opportunity" className="w-full max-w-md object-contain" />
+              <img src={valuesList} alt={t.about.valuesListImgAlt} className="w-full max-w-md object-contain" />
             </div>
           </div>
         </div>
       </section>
       <div className="w-full">
-        <img src={valuesBanner} alt="Nurses Are The Heart Of Healthcare" className="w-full object-cover" style={{ maxHeight: "80px" }} />
+        <img src={valuesBanner} alt={t.about.valuesBannerAlt} className="w-full object-cover" style={{ maxHeight: "80px" }} />
       </div>
 
       {/* ── SECTION 5: Team ── */}

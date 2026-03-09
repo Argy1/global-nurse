@@ -72,7 +72,7 @@ export default function Auth() {
           {view === "signup" && (
             <div className="space-y-1">
               <Label htmlFor="displayName">{t.auth.displayName}</Label>
-              <Input id="displayName" value={displayName} onChange={(e) => setDisplayName(e.target.value)} placeholder="Your name" />
+              <Input id="displayName" value={displayName} onChange={(e) => setDisplayName(e.target.value)} placeholder={t.auth.displayName} />
             </div>
           )}
           <div className="space-y-1">
