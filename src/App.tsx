@@ -92,6 +92,7 @@ const App = () => (
             <Route path="/programs/batch" element={<BatchProgram />} />
             <Route path="/programs/requirements" element={<RequirementCriteria />} />
             <Route path="/programs/webinar" element={<Webinar />} />
+            <Route path="/programs/webinar/:slug" element={<WebinarDetail />} />
             <Route path="/help" element={<Help />} />
             <Route path="/employer" element={<Employer />} />
             <Route path="/employer/thanks" element={<EmployerThanks />} />

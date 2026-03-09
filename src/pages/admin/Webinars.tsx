@@ -232,6 +232,7 @@ export default function AdminWebinars() {
   const upsert = useMutation({
     mutationFn: async (w: Partial<Webinar>) => {
       const payload = {
+        slug: w.slug || null,
         title: w.title,
         subtitle: w.subtitle || null,
         description: w.description || null,
@@ -246,6 +247,9 @@ export default function AdminWebinars() {
         cover_image_url: w.cover_image_url || null,
         event_date: w.event_date || null,
         order_index: w.order_index ?? 0,
+        speaker_name: w.speaker_name || null,
+        speaker_bio: w.speaker_bio || null,
+        speaker_photo_url: w.speaker_photo_url || null,
       };
       if (w.id) {
         const { error } = await supabase.from("webinars" as any).update(payload).eq("id", w.id);
