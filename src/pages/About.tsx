@@ -4,6 +4,8 @@ import { useTranslation } from "@/i18n/LanguageContext";
 import { JoinMissionBanner } from "@/components/about/JoinMissionBanner";
 import logoIcon from "@/assets/logo-icon.png";
 import nursesPair from "@/assets/nurses-pair.png";
+import aboutNursesHero from "@/assets/about-nurses-hero.png";
+import aboutLogoFull from "@/assets/about-logo-full.png";
 import missionCards from "@/assets/mission-cards.png";
 import checkmarkIcon from "@/assets/values-checkmark.png";
 import valuesTitle from "@/assets/values-title.png";
