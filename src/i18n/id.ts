@@ -860,6 +860,14 @@ const id: Translations = {
     returnHome: "Kembali ke Beranda",
   },
 
+  // ── Bab Panduan Cepat ──
+  quickstartChapter: {
+    backToGuide: "Kembali ke Panduan Cepat",
+    notFound: "Bab tidak ditemukan",
+    notFoundBack: "Kembali ke Panduan Cepat",
+    registerNow: "Daftar Sekarang",
+  },
+
   // ── Bahasa ──
   language: {
     en: "English",
