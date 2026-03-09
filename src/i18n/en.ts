@@ -385,6 +385,9 @@ const en = {
     phone: "Phone",
     faqTitle: "Frequently Asked Questions",
     stillHaveQuestions: "Still have questions?",
+    loadingFaqs: "Loading FAQs...",
+    faqError: "Failed to load FAQ items. Please refresh or contact us directly.",
+    filterAll: "All",
     faqs: [
       { q: "Is there a fee for nurses?", a: "No. We never charge nurses any fees. Our services are free for candidates." },
       { q: "How long does the process take?", a: "Timelines vary by country and individual readiness. We provide transparent guidance on expected timelines during your review." },
