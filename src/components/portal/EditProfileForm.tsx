@@ -67,9 +67,17 @@ export default function EditProfileForm({ candidate }: Props) {
     setValue("target_countries", updated, { shouldValidate: true });
   };
 
+  // ── Edit mode — cast availability to the correct enum type
   const onSubmit = (data: FormValues) => {
     updateProfile.mutate(
-      { id: candidate.id, updates: { ...data, target_countries: data.target_countries } },
+      {
+        id: candidate.id,
+        updates: {
+          ...data,
+          availability: data.availability as "0-3 months" | "3-6 months" | "6-12 months" | undefined,
+          target_countries: data.target_countries,
+        },
+      },
       {
         onSuccess: () => {
           toast({ title: t.portal.profileSaved });

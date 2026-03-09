@@ -107,7 +107,7 @@ export function useUpdateCandidateProfile() {
         city_country: string;
         whatsapp_number: string;
         specialty: string;
-        availability: string;
+        availability: "0-3 months" | "3-6 months" | "6-12 months";
         target_countries: string[];
       }>;
     }) => {
