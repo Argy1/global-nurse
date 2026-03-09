@@ -9,6 +9,8 @@ import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { useTranslation } from "@/i18n/LanguageContext";
 import type { Lang } from "@/i18n/LanguageContext";
 import { useAuth } from "@/hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 interface DropdownItem {
   href: string;

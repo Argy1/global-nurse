@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,6 +17,8 @@ import {
   ChevronLeft,
   Loader2,
   CheckCircle2,
+  Camera,
+  ImageIcon,
 } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -43,21 +45,81 @@ export default function AccountSettings() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [avatarUploading, setAvatarUploading] = useState(false);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
 
-  // Fetch current display name from profiles table
+  // Fetch current profile (display_name + avatar_url)
   const { data: profile } = useQuery({
     queryKey: ["profile", user?.id],
     enabled: !!user,
     queryFn: async () => {
       const { data, error } = await supabase
         .from("profiles")
-        .select("display_name")
+        .select("display_name, avatar_url")
         .eq("user_id", user!.id)
         .maybeSingle();
       if (error) throw error;
       return data;
     },
   });
+
+  // ── Avatar upload ─────────────────────────────────────────────────────────
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !user) return;
+
+    // Validate type & size (max 2 MB)
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please upload an image file.");
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      toast.error("Image must be smaller than 2 MB.");
+      return;
+    }
+
+    // Local preview
+    const objectUrl = URL.createObjectURL(file);
+    setAvatarPreview(objectUrl);
+
+    setAvatarUploading(true);
+    try {
+      const ext = file.name.split(".").pop() ?? "jpg";
+      const filePath = `${user.id}/avatar.${ext}`;
+
+      // Upload to storage
+      const { error: uploadError } = await supabase.storage
+        .from("avatars")
+        .upload(filePath, file, { upsert: true, contentType: file.type });
+      if (uploadError) throw uploadError;
+
+      // Get public URL
+      const { data: urlData } = supabase.storage.from("avatars").getPublicUrl(filePath);
+      const publicUrl = urlData.publicUrl + `?t=${Date.now()}`; // cache-bust
+
+      // Save to profiles table
+      const { error: updateError } = await supabase
+        .from("profiles")
+        .update({ avatar_url: publicUrl })
+        .eq("user_id", user.id);
+      if (updateError) throw updateError;
+
+      queryClient.invalidateQueries({ queryKey: ["profile", user.id] });
+      toast.success(t.accountSettings.avatarSaved);
+    } catch (err: any) {
+      toast.error(err.message ?? t.accountSettings.saveError);
+      setAvatarPreview(null);
+    } finally {
+      setAvatarUploading(false);
+    }
+  };
+
+  // Determine displayed avatar: local preview → saved url → initials fallback
+  const displayedAvatar = avatarPreview || profile?.avatar_url || null;
+  const initials = (profile?.display_name || user?.email || "U")
+    .charAt(0)
+    .toUpperCase();
 
   // ── Display Name form ─────────────────────────────────────────────────────
   const nameForm = useForm<DisplayNameForm>({
@@ -113,6 +175,61 @@ export default function AccountSettings() {
           <h1 className="text-2xl font-extrabold text-foreground">{t.accountSettings.title}</h1>
           <p className="text-sm text-muted-foreground mt-1">{user?.email}</p>
         </div>
+
+        {/* ── Avatar Card ───────────────────────────────────────────────── */}
+        <section className="bg-card border border-border rounded-2xl p-6 space-y-5">
+          <div className="flex items-center gap-2">
+            <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+              <ImageIcon className="h-4 w-4 text-primary" />
+            </div>
+            <h2 className="text-base font-semibold text-foreground">{t.accountSettings.avatarTitle}</h2>
+          </div>
+
+          <div className="flex items-center gap-6">
+            {/* Avatar circle */}
+            <div className="relative shrink-0">
+              {displayedAvatar ? (
+                <img
+                  src={displayedAvatar}
+                  alt="Avatar"
+                  className="h-20 w-20 rounded-full object-cover border-2 border-primary/20"
+                />
+              ) : (
+                <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center text-2xl font-bold text-primary border-2 border-primary/20">
+                  {initials}
+                </div>
+              )}
+              {avatarUploading && (
+                <div className="absolute inset-0 rounded-full bg-background/70 flex items-center justify-center">
+                  <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                </div>
+              )}
+            </div>
+
+            {/* Upload action */}
+            <div className="space-y-2">
+              <p className="text-sm text-muted-foreground">{t.accountSettings.avatarHint}</p>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="gap-2"
+                disabled={avatarUploading}
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <Camera className="h-3.5 w-3.5" />
+                {t.accountSettings.uploadPhoto}
+              </Button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleAvatarChange}
+              />
+            </div>
+          </div>
+        </section>
 
         {/* ── Display Name Card ─────────────────────────────────────────── */}
         <section className="bg-card border border-border rounded-2xl p-6 space-y-5">
