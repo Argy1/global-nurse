@@ -761,6 +761,44 @@ export type Database = {
         }
         Relationships: []
       }
+      webinar_registrations: {
+        Row: {
+          email: string
+          full_name: string
+          id: string
+          notes: string | null
+          registered_at: string
+          webinar_id: string
+          whatsapp: string
+        }
+        Insert: {
+          email: string
+          full_name: string
+          id?: string
+          notes?: string | null
+          registered_at?: string
+          webinar_id: string
+          whatsapp: string
+        }
+        Update: {
+          email?: string
+          full_name?: string
+          id?: string
+          notes?: string | null
+          registered_at?: string
+          webinar_id?: string
+          whatsapp?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "webinar_registrations_webinar_id_fkey"
+            columns: ["webinar_id"]
+            isOneToOne: false
+            referencedRelation: "webinars"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       webinars: {
         Row: {
           contact_email: string | null
@@ -776,6 +814,10 @@ export type Database = {
           order_index: number
           register_link: string | null
           schedule: string | null
+          slug: string | null
+          speaker_bio: string | null
+          speaker_name: string | null
+          speaker_photo_url: string | null
           subtitle: string | null
           title: string
           topic: string | null
@@ -795,6 +837,10 @@ export type Database = {
           order_index?: number
           register_link?: string | null
           schedule?: string | null
+          slug?: string | null
+          speaker_bio?: string | null
+          speaker_name?: string | null
+          speaker_photo_url?: string | null
           subtitle?: string | null
           title: string
           topic?: string | null
@@ -814,6 +860,10 @@ export type Database = {
           order_index?: number
           register_link?: string | null
           schedule?: string | null
+          slug?: string | null
+          speaker_bio?: string | null
+          speaker_name?: string | null
+          speaker_photo_url?: string | null
           subtitle?: string | null
           title?: string
           topic?: string | null
