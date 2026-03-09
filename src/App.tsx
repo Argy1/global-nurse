@@ -26,6 +26,7 @@ import NCLEX from "./pages/lms/NCLEX";
 import BatchProgram from "./pages/programs/BatchProgram";
 import RequirementCriteria from "./pages/programs/RequirementCriteria";
 import Webinar from "./pages/programs/Webinar";
+import WebinarDetail from "./pages/programs/WebinarDetail";
 import Help from "./pages/Help";
 import Employer from "./pages/Employer";
 import EmployerThanks from "./pages/EmployerThanks";
@@ -92,6 +93,7 @@ const App = () => (
             <Route path="/programs/batch" element={<BatchProgram />} />
             <Route path="/programs/requirements" element={<RequirementCriteria />} />
             <Route path="/programs/webinar" element={<Webinar />} />
+            <Route path="/programs/webinar/:slug" element={<WebinarDetail />} />
             <Route path="/help" element={<Help />} />
             <Route path="/employer" element={<Employer />} />
             <Route path="/employer/thanks" element={<EmployerThanks />} />
