@@ -3,11 +3,13 @@ import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { useQuickstartChapterBySlug, useQuickstartChapters } from "@/hooks/useQuickstartChapters";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 export default function QuickstartChapter() {
   const { slug } = useParams<{ slug: string }>();
   const { data: chapter, isLoading } = useQuickstartChapterBySlug(slug || "");
   const { data: allChapters } = useQuickstartChapters();
+  const { t } = useTranslation();
 
   const currentIndex = allChapters?.findIndex((c) => c.slug === slug) ?? -1;
   const prevChapter = currentIndex > 0 ? allChapters?.[currentIndex - 1] : null;
@@ -18,7 +20,16 @@ export default function QuickstartChapter() {
   }
 
   if (!chapter) {
-    return <Layout><div className="container py-32 text-center"><h1 className="text-2xl font-bold">Chapter not found</h1><Link to="/quickstart" className="text-primary hover:underline mt-4 inline-block">Back to Quickstart</Link></div></Layout>;
+    return (
+      <Layout>
+        <div className="container py-32 text-center">
+          <h1 className="text-2xl font-bold">{t.quickstartChapter.notFound}</h1>
+          <Link to="/quickstart" className="text-primary hover:underline mt-4 inline-block">
+            {t.quickstartChapter.notFoundBack}
+          </Link>
+        </div>
+      </Layout>
+    );
   }
 
   return (
@@ -26,7 +37,7 @@ export default function QuickstartChapter() {
       <section className="py-8 bg-card border-b border-border">
         <div className="container">
           <Link to="/quickstart" className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1">
-            <ArrowLeft className="h-4 w-4" /> Back to Quickstart Guide
+            <ArrowLeft className="h-4 w-4" /> {t.quickstartChapter.backToGuide}
           </Link>
         </div>
       </section>
@@ -39,12 +50,18 @@ export default function QuickstartChapter() {
           {/* Chapter navigation */}
           <div className="flex justify-between mt-12 pt-8 border-t border-border">
             {prevChapter ? (
-              <Button variant="outline" asChild><Link to={`/quickstart/${prevChapter.slug}`}><ArrowLeft className="h-4 w-4" /> {prevChapter.title}</Link></Button>
+              <Button variant="outline" asChild>
+                <Link to={`/quickstart/${prevChapter.slug}`}><ArrowLeft className="h-4 w-4" /> {prevChapter.title}</Link>
+              </Button>
             ) : <div />}
             {nextChapter ? (
-              <Button variant="cta" asChild><Link to={`/quickstart/${nextChapter.slug}`}>{nextChapter.title} <ArrowRight className="h-4 w-4" /></Link></Button>
+              <Button variant="cta" asChild>
+                <Link to={`/quickstart/${nextChapter.slug}`}>{nextChapter.title} <ArrowRight className="h-4 w-4" /></Link>
+              </Button>
             ) : (
-              <Button variant="cta" asChild><Link to="/register">Register Now <ArrowRight className="h-4 w-4" /></Link></Button>
+              <Button variant="cta" asChild>
+                <Link to="/register">{t.quickstartChapter.registerNow} <ArrowRight className="h-4 w-4" /></Link>
+              </Button>
             )}
           </div>
         </div>
