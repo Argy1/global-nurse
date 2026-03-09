@@ -1093,6 +1093,23 @@ const en = {
     lastSeenAt: "Since your last visit",
   },
 
+  // ── Account Settings ──
+  accountSettings: {
+    title: "Account Settings",
+    backToPortal: "Back to Portal",
+    displayNameTitle: "Display Name",
+    displayNameLabel: "Your name",
+    displayNamePlaceholder: "e.g. Budi Santoso",
+    saveName: "Save Name",
+    nameSaved: "Display name updated!",
+    passwordTitle: "Change Password",
+    newPassword: "New Password",
+    confirmPassword: "Confirm Password",
+    updatePassword: "Update Password",
+    passwordSaved: "Password changed successfully!",
+    saveError: "Failed to save. Please try again.",
+  },
+
   // ── Register Success ──
   registerSuccess: {
     title: "Thanks — We Received Your Profile!",
