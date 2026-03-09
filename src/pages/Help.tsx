@@ -120,13 +120,13 @@ export default function Help() {
             {isLoading && (
               <div className="flex items-center justify-center py-16 text-muted-foreground gap-2">
                 <Loader2 className="h-5 w-5 animate-spin" />
-                <span className="text-sm">Loading FAQs...</span>
+                <span className="text-sm">{t.help.loadingFaqs}</span>
               </div>
             )}
 
             {isError && (
               <p className="text-sm text-destructive text-center py-8">
-                Failed to load FAQ items. Please refresh or contact us directly.
+                {t.help.faqError}
               </p>
             )}
 
@@ -143,7 +143,7 @@ export default function Help() {
                         : "bg-muted text-muted-foreground hover:bg-primary/10 hover:text-primary"
                     )}
                   >
-                    {lang === "id" ? "Semua" : "All"}
+                    {t.help.filterAll}
                   </button>
                   {categories.map((cat) => {
                     const meta = CATEGORY_LABELS[cat];
