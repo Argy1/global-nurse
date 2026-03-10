@@ -421,7 +421,7 @@ const en = {
     webinarBadge: "Coming Soon",
     webinarDesc: "Join our live information session about the Singapore Nurse program, requirements, and application process.",
     webinarRegister: "Register Interest",
-    requirementsCriteriaTitle: "Requirement Criteria",
+    requirementsCriteriaTitle: "Global Job Opportunities Now",
     requirementsCriteriaDesc: "We welcome applications from nurses meeting the following criteria.",
     requirementRN: "Registered Nurse (RN)",
     requirementEN: "Enrolled Nurse (EN)",

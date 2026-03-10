@@ -422,7 +422,7 @@ const id: Translations = {
     webinarBadge: "Segera Hadir",
     webinarDesc: "Ikuti sesi informasi langsung tentang program Perawat Singapura, persyaratan, dan proses pendaftaran.",
     webinarRegister: "Daftar Minat",
-    requirementsCriteriaTitle: "Kriteria Persyaratan",
+    requirementsCriteriaTitle: "Global Job Opportunities Now",
     requirementsCriteriaDesc: "Kami menerima lamaran dari perawat yang memenuhi kriteria berikut.",
     requirementRN: "Perawat Terdaftar (RN)",
     requirementEN: "Perawat Terdaftar (EN)",
