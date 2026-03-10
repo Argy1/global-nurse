@@ -42,15 +42,6 @@ const members: Member[] = [
     qr: qrDuma,
   },
   {
-    firstName: "ANN",
-    lastName: "Marie C",
-    role_en: "Workplace Culture Nurse Expert",
-    role_id: "Ahli Budaya Kerja Keperawatan",
-    photo: annPhoto,
-    hasPhoto: true,
-    qr: qrAnn,
-  },
-  {
     firstName: "MEGAWATI",
     lastName: "Santoso",
     role_en: "Strategic Business",
