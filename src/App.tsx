@@ -52,68 +52,66 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
       <LanguageProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            {/* Public */}
-            <Route path="/" element={<Index />} />
-            <Route path="/about" element={<About />} />
-            {/* About sub-pages → redirect to About with anchor */}
-            <Route path="/about/vision" element={<Navigate to="/about#vision" replace />} />
-            <Route path="/about/mission" element={<Navigate to="/about#mission" replace />} />
-            <Route path="/about/values" element={<Navigate to="/about#values" replace />} />
-            
-            {/* What We Do */}
-            <Route path="/what-we-do" element={<WhatWeDoMain />} />
-            <Route path="/what-we-do/candidates" element={<Navigate to="/what-we-do#candidates" replace />} />
-            <Route path="/what-we-do/employers" element={<WhatWeDoForEmployers />} />
-            <Route path="/what-we-do/dont-do" element={<Navigate to="/what-we-do" replace />} />
-            {/* How We Do It */}
-            <Route path="/how-we-do-it" element={<HowWeDoIt />} />
-            <Route path="/how-we-do-it/approach" element={<Navigate to="/how-we-do-it#approach" replace />} />
-            <Route path="/how-we-do-it/difference" element={<Navigate to="/how-we-do-it#difference" replace />} />
-            <Route path="/how-we-do-it/journey" element={<Navigate to="/how-we-do-it#journey" replace />} />
-            <Route path="/why-choose-us" element={<WhyChooseUs />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/register/success" element={<RegisterSuccess />} />
-            <Route path="/quickstart" element={<Quickstart />} />
-            <Route path="/quickstart/:slug" element={<QuickstartChapter />} />
-            <Route path="/news" element={<News />} />
-            <Route path="/news/:slug" element={<NewsDetail />} />
-            <Route path="/success-stories" element={<SuccessStories />} />
-            <Route path="/success-stories/:slug" element={<SuccessStoryDetail />} />
-            <Route path="/lms" element={<LMS />} />
-            <Route path="/lms/ielts" element={<IELTSPrep />} />
-            <Route path="/lms/certified" element={<CertifiedGlobalNurse />} />
-            <Route path="/lms/nclex" element={<NCLEX />} />
-            <Route path="/programs" element={<BatchProgram />} />
-            <Route path="/programs/batch" element={<BatchProgram />} />
-            <Route path="/programs/requirements" element={<RequirementCriteria />} />
-            <Route path="/programs/webinar" element={<Webinar />} />
-            <Route path="/programs/webinar/:slug" element={<WebinarDetail />} />
-            <Route path="/help" element={<Help />} />
-            <Route path="/employer" element={<Employer />} />
-            <Route path="/employer/thanks" element={<EmployerThanks />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-            {/* Candidate Portal */}
-            <Route path="/portal" element={<PortalProtectedRoute><Portal /></PortalProtectedRoute>} />
-            <Route path="/account-settings" element={<PortalProtectedRoute><AccountSettings /></PortalProtectedRoute>} />
-            {/* Admin (protected) */}
-            <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
-            <Route path="/admin/candidates" element={<ProtectedRoute><AdminCandidates /></ProtectedRoute>} />
-            <Route path="/admin/employers" element={<ProtectedRoute><AdminEmployers /></ProtectedRoute>} />
-            <Route path="/admin/content" element={<ProtectedRoute><AdminContentManager /></ProtectedRoute>} />
-            <Route path="/admin/webinars" element={<ProtectedRoute><AdminWebinars /></ProtectedRoute>} />
-            <Route path="/admin/chat-escalations" element={<ProtectedRoute><AdminChatEscalations /></ProtectedRoute>} />
-            <Route path="/admin/settings" element={<ProtectedRoute><AdminSettings /></ProtectedRoute>} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              {/* Public */}
+              <Route path="/" element={<Index />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/about/vision" element={<Navigate to="/about#vision" replace />} />
+              <Route path="/about/mission" element={<Navigate to="/about#mission" replace />} />
+              <Route path="/about/values" element={<Navigate to="/about#values" replace />} />
+              {/* What We Do */}
+              <Route path="/what-we-do" element={<WhatWeDoMain />} />
+              <Route path="/what-we-do/candidates" element={<Navigate to="/what-we-do#candidates" replace />} />
+              <Route path="/what-we-do/employers" element={<WhatWeDoForEmployers />} />
+              <Route path="/what-we-do/dont-do" element={<Navigate to="/what-we-do" replace />} />
+              {/* How We Do It */}
+              <Route path="/how-we-do-it" element={<HowWeDoIt />} />
+              <Route path="/how-we-do-it/approach" element={<Navigate to="/how-we-do-it#approach" replace />} />
+              <Route path="/how-we-do-it/difference" element={<Navigate to="/how-we-do-it#difference" replace />} />
+              <Route path="/how-we-do-it/journey" element={<Navigate to="/how-we-do-it#journey" replace />} />
+              <Route path="/why-choose-us" element={<WhyChooseUs />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/register/success" element={<RegisterSuccess />} />
+              <Route path="/quickstart" element={<Quickstart />} />
+              <Route path="/quickstart/:slug" element={<QuickstartChapter />} />
+              <Route path="/news" element={<News />} />
+              <Route path="/news/:slug" element={<NewsDetail />} />
+              <Route path="/success-stories" element={<SuccessStories />} />
+              <Route path="/success-stories/:slug" element={<SuccessStoryDetail />} />
+              <Route path="/lms" element={<LMS />} />
+              <Route path="/lms/ielts" element={<IELTSPrep />} />
+              <Route path="/lms/certified" element={<CertifiedGlobalNurse />} />
+              <Route path="/lms/nclex" element={<NCLEX />} />
+              <Route path="/programs" element={<BatchProgram />} />
+              <Route path="/programs/batch" element={<BatchProgram />} />
+              <Route path="/programs/requirements" element={<RequirementCriteria />} />
+              <Route path="/programs/webinar" element={<Webinar />} />
+              <Route path="/programs/webinar/:slug" element={<WebinarDetail />} />
+              <Route path="/help" element={<Help />} />
+              <Route path="/employer" element={<Employer />} />
+              <Route path="/employer/thanks" element={<EmployerThanks />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              {/* Candidate Portal */}
+              <Route path="/portal" element={<PortalProtectedRoute><Portal /></PortalProtectedRoute>} />
+              <Route path="/account-settings" element={<PortalProtectedRoute><AccountSettings /></PortalProtectedRoute>} />
+              {/* Admin (protected) */}
+              <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+              <Route path="/admin/candidates" element={<ProtectedRoute><AdminCandidates /></ProtectedRoute>} />
+              <Route path="/admin/employers" element={<ProtectedRoute><AdminEmployers /></ProtectedRoute>} />
+              <Route path="/admin/content" element={<ProtectedRoute><AdminContentManager /></ProtectedRoute>} />
+              <Route path="/admin/webinars" element={<ProtectedRoute><AdminWebinars /></ProtectedRoute>} />
+              <Route path="/admin/chat-escalations" element={<ProtectedRoute><AdminChatEscalations /></ProtectedRoute>} />
+              <Route path="/admin/settings" element={<ProtectedRoute><AdminSettings /></ProtectedRoute>} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
       </LanguageProvider>
     </AuthProvider>
   </QueryClientProvider>
