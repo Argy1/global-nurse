@@ -92,7 +92,7 @@ export function Navbar() {
         { href: "/about#vision", label: "Our Vision" },
         { href: "/about#mission", label: "Our Mission" },
         { href: "/about#values", label: "Our Value" },
-        { href: "/about#team", label: "Our Team" },
+        
       ],
     },
     {

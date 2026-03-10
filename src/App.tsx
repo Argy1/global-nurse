@@ -44,7 +44,6 @@ import AdminChatEscalations from "./pages/admin/ChatEscalations";
 import AdminSettings from "./pages/admin/Settings";
 import AdminWebinars from "./pages/admin/Webinars";
 import WhyChooseUs from "./pages/WhyChooseUs";
-import Team from "./pages/Team";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -65,7 +64,7 @@ const App = () => (
             <Route path="/about/vision" element={<Navigate to="/about#vision" replace />} />
             <Route path="/about/mission" element={<Navigate to="/about#mission" replace />} />
             <Route path="/about/values" element={<Navigate to="/about#values" replace />} />
-            <Route path="/team" element={<Team />} />
+            
             {/* What We Do */}
             <Route path="/what-we-do" element={<WhatWeDoMain />} />
             <Route path="/what-we-do/candidates" element={<Navigate to="/what-we-do#candidates" replace />} />
