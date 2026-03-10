@@ -364,7 +364,7 @@ const id: Translations = {
     batchCtaRequirements: "Lihat Persyaratan",
     // ── Halaman Persyaratan ──
     reqPageLabel: "Singapura Batch #1",
-    reqPageTitle: "Kriteria Persyaratan",
+    reqPageTitle: "Global Job Opportunities Now",
     reqPageDesc: "Periksa kategori mana yang Anda penuhi dan mulai pendaftaran Anda hari ini.",
     reqRequirement: "Persyaratan",
     reqNote: "Catatan: Semua kandidat harus memiliki STR (Surat Tanda Registrasi) aktif dan mampu berkomunikasi dalam bahasa Inggris secara fungsional sebelum penempatan.",

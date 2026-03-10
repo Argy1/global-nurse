@@ -68,19 +68,6 @@ export default function About() {
               className="w-full rounded-2xl overflow-hidden shadow-2xl relative"
               style={{ background: "rgba(255,255,255,0.97)", minHeight: "320px" }}
             >
-              {/* Nurse photo as full-card background, fading from left */}
-              <div className="absolute inset-0 z-0">
-                <img
-                  src={nursesPair}
-                  alt="Global PARO Nurses"
-                  className="absolute right-0 top-0 h-full w-[55%] md:w-[50%] object-cover object-left-top"
-                />
-                {/* Fade gradient from white (left) to transparent (right) */}
-                <div
-                  className="absolute inset-0"
-                  style={{ background: "linear-gradient(to right, rgba(255,255,255,1) 35%, rgba(255,255,255,0.85) 52%, rgba(255,255,255,0.3) 70%, rgba(255,255,255,0) 100%)" }}
-                />
-              </div>
 
               {/* Content — left side only */}
               <div className="relative z-10 flex flex-col justify-center gap-5 p-8 md:p-12 lg:p-14 max-w-xl">

@@ -363,7 +363,7 @@ const en = {
     batchCtaRequirements: "View Requirements",
     // ── Requirements page ──
     reqPageLabel: "Singapore Batch #1",
-    reqPageTitle: "Requirement Criteria",
+    reqPageTitle: "Global Job Opportunities Now",
     reqPageDesc: "Check which category you qualify for and start your application today.",
     reqRequirement: "Requirement",
     reqNote: "Note: All candidates must hold an active STR (Surat Tanda Registrasi) and demonstrate functional English proficiency before deployment.",
