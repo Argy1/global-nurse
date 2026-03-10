@@ -89,27 +89,6 @@ export default function IELTSPrep() {
         </div>
       </section>
 
-      {/* Score requirements */}
-      <section className="py-10 lg:py-14">
-        <div className="container max-w-4xl mx-auto">
-          <h2 className="text-xl font-extrabold mb-6" style={{ color: "#015779" }}>
-            {lms.ieltsScoreTitle}
-          </h2>
-          <div className="grid sm:grid-cols-5 gap-4">
-            {lms.ieltsTips.map((tip) => (
-              <div
-                key={tip.label}
-                className="bg-card rounded-xl p-5 border border-border text-center shadow-sm"
-              >
-                <p className="text-xs text-muted-foreground mb-1">{tip.label}</p>
-                <p className="font-extrabold text-sm" style={{ color: "#03989E" }}>
-                  {tip.value}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* CTA */}
       <section
