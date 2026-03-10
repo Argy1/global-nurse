@@ -44,7 +44,6 @@ import AdminChatEscalations from "./pages/admin/ChatEscalations";
 import AdminSettings from "./pages/admin/Settings";
 import AdminWebinars from "./pages/admin/Webinars";
 import WhyChooseUs from "./pages/WhyChooseUs";
-import Team from "./pages/Team";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
