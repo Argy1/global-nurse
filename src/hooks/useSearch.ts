@@ -22,7 +22,7 @@ const staticPages: SearchResult[] = [
   { id: "how-we-do-it", title: "How We Do It", excerpt: "Our approach and your journey step by step.", url: "/how-we-do-it", category: "Page" },
   { id: "why-choose-us", title: "Why Choose Us", excerpt: "The P.A.R.O. advantage: Personalized, Accessible, Reputable, One-stop.", url: "/why-choose-us", category: "Page" },
   { id: "batch", title: "Batch Program", excerpt: "Join our structured batch program for international nurses.", url: "/programs/batch", category: "Program" },
-  { id: "requirements", title: "Requirement Criteria", excerpt: "Check eligibility and document requirements.", url: "/programs/requirements", category: "Program" },
+  { id: "requirements", title: "Global Job Opportunities Now", excerpt: "Check eligibility and document requirements.", url: "/programs/requirements", category: "Program" },
   { id: "webinar", title: "Webinars", excerpt: "Free and paid webinars for nurse career development.", url: "/programs/webinar", category: "Program" },
   { id: "lms", title: "LMS – Learning Management System", excerpt: "Courses: IELTS prep, Certified Global Nurse, NCLEX 2026.", url: "/lms", category: "Learning" },
   { id: "ielts", title: "IELTS Preparation", excerpt: "Prepare for your IELTS exam with Global PARO resources.", url: "/lms/ielts", category: "Learning" },
