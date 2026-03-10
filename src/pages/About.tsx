@@ -81,19 +81,19 @@ export default function About() {
                 />
               </div>
 
-              {/* Content — left side only */}
-              <div className="relative z-10 flex flex-col justify-center gap-5 p-8 md:p-12 lg:p-14 max-w-xl">
+              {/* Content — left side only, fills ~50% so heading can scale large */}
+              <div className="relative z-10 flex flex-col justify-center gap-5 p-8 md:p-12 lg:p-14 w-full md:w-[52%]">
                 {/* Logo: icon + text */}
-                <div className="flex items-center gap-4 md:gap-5">
+                <div className="flex items-center gap-3 md:gap-4">
                   <img
                     src={logoIcon}
                     alt="Global PARO Icon"
                     className="object-contain shrink-0"
-                    style={{ width: "clamp(3rem, 8vw, 6rem)", height: "clamp(3rem, 8vw, 6rem)" }}
+                    style={{ width: "clamp(3.5rem, 7vw, 7rem)", height: "clamp(3.5rem, 7vw, 7rem)" }}
                   />
                   <h1
-                    className="font-black font-heading leading-none tracking-tight"
-                    style={{ fontSize: "clamp(3rem, 8vw, 6rem)" }}
+                    className="font-black font-heading leading-none tracking-tight whitespace-nowrap"
+                    style={{ fontSize: "clamp(3.5rem, 7vw, 7rem)" }}
                   >
                     <span style={{ color: "#015779" }}>Global </span>
                     <span style={{ color: "#03989E" }}>PARO</span>
