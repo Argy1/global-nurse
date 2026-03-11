@@ -77,7 +77,7 @@ export default function About() {
       </section>
 
       {/* ── SECTION 2: Vision ── */}
-      <section id="vision">
+      <section id="vision" style={{ scrollMarginTop: "80px" }}>
         <div className="py-20 px-6" style={{ background: "linear-gradient(135deg, #03989E 0%, #015779 100%)" }}>
           <div className="container max-w-6xl mx-auto">
             <div className="flex flex-col md:flex-row items-center gap-12">
@@ -163,7 +163,7 @@ export default function About() {
       </section>
 
       {/* ── SECTION 3: Mission ── */}
-      <section id="mission" className="py-16 px-6 bg-background">
+      <section id="mission" className="py-16 px-6 bg-background" style={{ scrollMarginTop: "80px" }}>
         <div className="container max-w-6xl mx-auto">
           <div className="mb-10">
             <h2 className="font-black leading-none" style={{ fontSize: "clamp(3rem, 7vw, 5rem)", letterSpacing: "-0.03em", color: "#03989E" }}>
@@ -178,7 +178,7 @@ export default function About() {
       </section>
 
       {/* ── SECTION 4: Values ── */}
-      <section id="values" className="py-16 px-6 bg-background">
+      <section id="values" className="py-16 px-6 bg-background" style={{ scrollMarginTop: "80px" }}>
         <div className="container max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="flex flex-col items-start">
