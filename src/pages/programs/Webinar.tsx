@@ -7,6 +7,7 @@ import shareIcon from "@/assets/share-icon.png";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { SUPPORT_EMAIL } from "@/lib/contact";
 
 interface Webinar {
   id: string;
@@ -124,8 +125,8 @@ export default function Webinar() {
                     <div className="flex items-center gap-2">
                       <Mail className="h-4 w-4" />
                       {t.programs.webinarContactLabel}{" "}
-                      <a href={`mailto:${featured.contact_email || "hello@globalparo.com"}`} className="underline font-bold">
-                        {featured.contact_email || "hello@globalparo.com"}
+                      <a href={`mailto:${SUPPORT_EMAIL}`} className="underline font-bold">
+                        {SUPPORT_EMAIL}
                       </a>
                     </div>
                   </div>

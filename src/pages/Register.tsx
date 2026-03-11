@@ -12,9 +12,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Layout } from "@/components/layout/Layout";
 import { useCreateCandidate, CandidateInsert } from "@/hooks/useCandidates";
-import { useSetting } from "@/hooks/useSiteSettings";
 import { toast } from "@/hooks/use-toast";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { WHATSAPP_URL } from "@/lib/contact";
 
 const englishOptions = ["Basic", "Intermediate", "Fluent"] as const;
 
@@ -36,8 +36,7 @@ interface FormData {
 
 export default function Register() {
   const createCandidate = useCreateCandidate();
-  const { value: whatsappLink } = useSetting("whatsapp_direct_chat_link");
-  const whatsappHref = whatsappLink ?? "mailto:hello@globalparo.com";
+  const whatsappHref = WHATSAPP_URL;
   const { t } = useTranslation();
 
   const [step, setStep] = useState(1);

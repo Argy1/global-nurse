@@ -3,9 +3,9 @@ import { ArrowLeft, ArrowRight, Calendar, Loader2, MessageCircle } from "lucide-
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { useContentBySlug, useContent } from "@/hooks/useContent";
-import { useSetting } from "@/hooks/useSiteSettings";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { useArticleSEO } from "@/hooks/useSEO";
+import { WHATSAPP_URL } from "@/lib/contact";
 
 export default function NewsDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -15,7 +15,6 @@ export default function NewsDetail() {
   // Dynamic per-article SEO (includes og:image for social previews)
   useArticleSEO({ title: article?.title, excerpt: article?.excerpt, coverImage: article?.cover_image_url, type: "news" });
   const { data: allArticles } = useContent("News");
-  const { value: whatsappLink } = useSetting("whatsapp_link");
 
   const related = allArticles?.filter((a) => a.slug !== slug).slice(0, 3);
 
@@ -74,11 +73,9 @@ export default function NewsDetail() {
                 <Button variant="outline" className="w-full" asChild>
                   <Link to="/help">{t.newsDetail.chatWithUs} <MessageCircle className="h-4 w-4" /></Link>
                 </Button>
-                {whatsappLink && (
-                  <Button variant="outline" className="w-full" asChild>
-                    <a href={whatsappLink} target="_blank" rel="noopener noreferrer">{t.newsDetail.whatsappSupport}</a>
-                  </Button>
-                )}
+                <Button variant="outline" className="w-full" asChild>
+                  <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">{t.newsDetail.whatsappSupport}</a>
+                </Button>
               </div>
 
               {related && related.length > 0 && (

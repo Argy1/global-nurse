@@ -17,6 +17,7 @@ import { toast } from "sonner";
 import webinarIcon from "@/assets/webinar-icon.png";
 import gratisBadge from "@/assets/gratis-badge.png";
 import shareIcon from "@/assets/share-icon.png";
+import { SUPPORT_EMAIL } from "@/lib/contact";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface Webinar {
@@ -316,8 +317,8 @@ export default function WebinarDetail() {
               {/* Teal bar: contact */}
               <div className="px-6 py-3 text-white text-sm font-semibold flex items-center gap-2" style={{ background: "#03989E" }}>
                 <Mail className="h-4 w-4 shrink-0" />
-                <a href={`mailto:${webinar.contact_email || "hello@globalparo.com"}`} className="underline truncate">
-                  {webinar.contact_email || "hello@globalparo.com"}
+                <a href={`mailto:${SUPPORT_EMAIL}`} className="underline truncate">
+                  {SUPPORT_EMAIL}
                 </a>
               </div>
 

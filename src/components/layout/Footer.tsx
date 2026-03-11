@@ -4,6 +4,7 @@ import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { useTranslation } from "@/i18n/LanguageContext";
 import logoIcon3d from "@/assets/logo-icon-3d.png";
 import logoText from "@/assets/logo-text.png";
+import { INSTAGRAM_URL, SUPPORT_EMAIL, WHATSAPP_NUMBER_DISPLAY, WHATSAPP_TEL } from "@/lib/contact";
 
 const TikTokIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
@@ -15,8 +16,8 @@ export function Footer() {
   const { data: settings } = useSiteSettings();
   const { t } = useTranslation();
   const isValid = (url?: string) => url && url !== "UPDATE_ME" && url.startsWith("http");
-  const helpEmail = settings?.support_email || "hello@globalparo.com";
-  const helpMobile = settings?.help_mobile;
+  const helpEmail = SUPPORT_EMAIL;
+  const helpMobile = WHATSAPP_NUMBER_DISPLAY;
 
   const exploreLinks = [
     { href: "/about", label: "About Global Paro" },
@@ -57,7 +58,7 @@ export function Footer() {
             {/* Social Icons */}
             <div className="flex items-center gap-3">
               {[
-                { url: settings?.instagram_url, icon: <Instagram className="h-4 w-4" />, label: "Instagram" },
+                { url: INSTAGRAM_URL, icon: <Instagram className="h-4 w-4" />, label: "Instagram" },
                 { url: settings?.linkedin_url, icon: <Linkedin className="h-4 w-4" />, label: "LinkedIn" },
                 { url: settings?.tiktok_url, icon: <TikTokIcon className="h-4 w-4" />, label: "TikTok" },
               ].map((social) => (
@@ -120,15 +121,13 @@ export function Footer() {
                 <Mail className="h-4 w-4 shrink-0" />
                 {helpEmail}
               </a>
-              {helpMobile && helpMobile !== "UPDATE_ME" && (
-                <a
-                  href={`tel:${helpMobile}`}
-                  className="flex items-center gap-2 text-sm text-primary-foreground/75 hover:text-primary-foreground transition-colors"
-                >
-                  <Phone className="h-4 w-4 shrink-0" />
-                  {helpMobile}
-                </a>
-              )}
+              <a
+                href={WHATSAPP_TEL}
+                className="flex items-center gap-2 text-sm text-primary-foreground/75 hover:text-primary-foreground transition-colors"
+              >
+                <Phone className="h-4 w-4 shrink-0" />
+                {helpMobile}
+              </a>
             </div>
           </div>
         </div>

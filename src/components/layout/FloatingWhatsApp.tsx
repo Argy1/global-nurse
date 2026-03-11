@@ -1,21 +1,9 @@
 import { MessageCircle } from "lucide-react";
-import { useSiteSettings } from "@/hooks/useSiteSettings";
-import { toast } from "@/hooks/use-toast";
+import { WHATSAPP_URL } from "@/lib/contact";
 
 export function FloatingWhatsApp() {
-  const { data: settings } = useSiteSettings();
-  const link = settings?.whatsapp_direct_chat_link;
-  const isValid = link && link !== "UPDATE_ME" && link.startsWith("http");
-
   const handleClick = () => {
-    if (isValid) {
-      window.open(link, "_blank", "noopener,noreferrer");
-    } else {
-      toast({
-        title: "Coming Soon",
-        description: "WhatsApp support will be available soon. Email: hello@globalparo.com",
-      });
-    }
+    window.open(WHATSAPP_URL, "_blank", "noopener,noreferrer");
   };
 
   return (

@@ -3,6 +3,7 @@ import { Instagram, Linkedin, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSocialLinks } from "@/hooks/useSocialLinks";
 import { toast } from "@/hooks/use-toast";
+import { INSTAGRAM_URL } from "@/lib/contact";
 
 const TikTokIcon = React.forwardRef<SVGSVGElement, { className?: string }>(
   ({ className }, ref) => (
@@ -87,7 +88,7 @@ export function SocialStrip() {
 
         <div className="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
           {socialPlatforms.map((platform) => {
-            const url = socialLinks?.[platform.urlKey];
+            const url = platform.name === "Instagram" ? INSTAGRAM_URL : socialLinks?.[platform.urlKey];
             const isValid = isValidUrl(url);
 
             return (

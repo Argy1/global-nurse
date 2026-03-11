@@ -4,10 +4,10 @@ import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Layout } from "@/components/layout/Layout";
-import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { useFaqItems, FaqItem } from "@/hooks/useFaqItems";
 import { cn } from "@/lib/utils";
+import { SUPPORT_EMAIL, WHATSAPP_NUMBER_DISPLAY, WHATSAPP_TEL, WHATSAPP_URL } from "@/lib/contact";
 
 const CATEGORY_LABELS: Record<FaqItem["category"], { en: string; id: string; emoji: string }> = {
   General:      { en: "General",       id: "Umum",           emoji: "💡" },
@@ -64,16 +64,12 @@ function FaqAccordionItem({ faq, highlight }: { faq: FaqItem; highlight?: string
 }
 
 export default function Help() {
-  const { data: settings } = useSiteSettings();
   const { t, lang } = useTranslation();
   const { data: faqItems, isLoading, isError } = useFaqItems();
   const [searchQuery, setSearchQuery] = useState("");
 
-  const email = settings?.support_email || "hello@globalparo.com";
-  const mobile = settings?.help_mobile;
-  const hasMobile = mobile && mobile !== "UPDATE_ME";
-  const whatsapp = settings?.whatsapp_direct_chat_link;
-  const hasWhatsApp = whatsapp && whatsapp !== "UPDATE_ME" && whatsapp.startsWith("http");
+  const email = SUPPORT_EMAIL;
+  const mobile = WHATSAPP_NUMBER_DISPLAY;
 
   const [activeCategory, setActiveCategory] = useState<FaqItem["category"] | "All">("All");
 
@@ -132,20 +128,12 @@ export default function Help() {
             <div className="bg-card rounded-xl p-6 shadow-card border border-border text-center">
               <MessageCircle className="h-10 w-10 text-accent mx-auto mb-4" />
               <h3 className="font-bold text-foreground mb-2">{t.help.whatsapp}</h3>
-              {hasWhatsApp ? (
-                <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">{t.help.chatOnWhatsApp}</a>
-              ) : (
-                <p className="text-sm text-muted-foreground">{t.common.comingSoon}</p>
-              )}
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">{t.help.chatOnWhatsApp}</a>
             </div>
             <div className="bg-card rounded-xl p-6 shadow-card border border-border text-center">
               <Phone className="h-10 w-10 text-primary mx-auto mb-4" />
               <h3 className="font-bold text-foreground mb-2">{t.help.phone}</h3>
-              {hasMobile ? (
-                <a href={`tel:${mobile}`} className="text-primary hover:underline">{mobile}</a>
-              ) : (
-                <p className="text-sm text-muted-foreground">{t.common.comingSoon}</p>
-              )}
+              <a href={WHATSAPP_TEL} className="text-primary hover:underline">{mobile}</a>
             </div>
           </div>
 

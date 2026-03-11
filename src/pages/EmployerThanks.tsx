@@ -4,12 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/layout/Layout";
 import { useSetting } from "@/hooks/useSiteSettings";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { SUPPORT_EMAIL } from "@/lib/contact";
 
 export default function EmployerThanks() {
   const { value: bookingLink } = useSetting("booking_20min_link");
-  const { value: supportEmail } = useSetting("support_email");
   const { t } = useTranslation();
-  const email = supportEmail ?? "hello@globalparo.com";
+  const email = SUPPORT_EMAIL;
 
   return (
     <Layout>

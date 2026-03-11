@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Clock, CheckCircle, MessageCircle, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { usePathways } from "@/hooks/usePathways";
+import { WHATSAPP_URL } from "@/lib/contact";
 
 const countryFlags: Record<string, string> = {
   "United Kingdom": "🇬🇧",
@@ -42,10 +43,10 @@ export function PathwayCardGrid({ limit, showViewAll = true }: PathwayCardGridPr
                 Join the community for the latest updates on new destination pathways.
               </p>
               <Button variant="whatsapp" asChild>
-                <Link to="/community">
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
                   <MessageCircle className="h-4 w-4" />
                   Join WhatsApp Community
-                </Link>
+                </a>
               </Button>
             </div>
           </div>

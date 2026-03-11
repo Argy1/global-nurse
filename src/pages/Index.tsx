@@ -9,11 +9,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Layout } from "@/components/layout/Layout";
 import { TrustBadgesStrip } from "@/components/campaign/TrustBadgesStrip";
 import { TutorialModal } from "@/components/home/TutorialModal";
-import { useSiteSettings, useSetting } from "@/hooks/useSiteSettings";
+import { useSetting } from "@/hooks/useSiteSettings";
 import { useContent } from "@/hooks/useContent";
 import { useSuccessStories } from "@/hooks/useSuccessStories";
 import { useTranslation } from "@/i18n/LanguageContext";
 import heroBanner from "@/assets/hero-banner.png";
+import { INSTAGRAM_URL, SUPPORT_EMAIL, WHATSAPP_NUMBER_DISPLAY, WHATSAPP_TEL, WHATSAPP_URL } from "@/lib/contact";
 
 const quickstartTopics = [
   { title_en: "Is Working Abroad Right for You?", title_id: "Apakah Bekerja di Luar Negeri Tepat untuk Anda?", slug: "is-working-abroad-right" },
@@ -56,10 +57,6 @@ function VideoOrPlaceholder({ url, className = "" }: { url: string | null; class
 
 export default function Index() {
   const { value: tutorialVideo } = useSetting("site_tutorial_video_url");
-  const { value: whatsappLink } = useSetting("whatsapp_direct_chat_link");
-  const { value: supportEmail } = useSetting("support_email");
-  const { value: helpMobile } = useSetting("help_mobile");
-  const { value: instagramUrl } = useSetting("instagram_url");
   const { value: linkedinUrl } = useSetting("linkedin_url");
   const { lang, t } = useTranslation();
 
@@ -69,7 +66,7 @@ export default function Index() {
   const publishedNews = (newsItems ?? []).filter((n) => n.published).slice(0, 4);
   const publishedStories = (stories ?? []).filter((s) => s.is_published).slice(0, 3);
 
-  const whatsappHref = whatsappLink ?? "mailto:hello@globalparo.com";
+  const whatsappHref = WHATSAPP_URL;
 
   const paroItems = [
     { letter: "P", title: t.home.paroP, desc: t.home.paroPDesc, icon: Sparkles },
@@ -349,7 +346,7 @@ export default function Index() {
           <h2 className="text-2xl font-extrabold text-foreground text-center mb-8">{t.home.connectTitle}</h2>
           <div className="flex flex-wrap gap-4 justify-center mb-6">
             {[
-              { icon: Instagram, label: "Instagram", url: instagramUrl },
+              { icon: Instagram, label: "Instagram", url: INSTAGRAM_URL },
               { icon: Linkedin, label: "LinkedIn", url: linkedinUrl },
             ].map(({ icon: Icon, label, url }) => (
               <Card key={label} className="flex-1 min-w-[140px] max-w-[200px]">
@@ -366,16 +363,12 @@ export default function Index() {
             ))}
           </div>
           <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
-            {supportEmail && (
-              <a href={`mailto:${supportEmail}`} className="flex items-center gap-2 hover:text-primary transition-colors">
-                <Mail className="h-4 w-4" /> {supportEmail}
-              </a>
-            )}
-            {helpMobile && (
-              <a href={`tel:${helpMobile}`} className="flex items-center gap-2 hover:text-primary transition-colors">
-                <Phone className="h-4 w-4" /> {helpMobile}
-              </a>
-            )}
+            <a href={`mailto:${SUPPORT_EMAIL}`} className="flex items-center gap-2 hover:text-primary transition-colors">
+              <Mail className="h-4 w-4" /> {SUPPORT_EMAIL}
+            </a>
+            <a href={WHATSAPP_TEL} className="flex items-center gap-2 hover:text-primary transition-colors">
+              <Phone className="h-4 w-4" /> {WHATSAPP_NUMBER_DISPLAY}
+            </a>
           </div>
         </div>
       </section>

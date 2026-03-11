@@ -4,9 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useMutation } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useSetting } from "@/hooks/useSiteSettings";
 import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import { SUPPORT_EMAIL, WHATSAPP_URL } from "@/lib/contact";
 
 /* ── Types ── */
 interface ChatMsg {
@@ -192,10 +192,8 @@ export function ChatWidget() {
   const [handoffForm, setHandoffForm] = useState({ name: "", email: "", whatsapp: "", issue_summary: "" });
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const { value: whatsappLink } = useSetting("whatsapp_direct_chat_link");
-  const { value: supportEmail } = useSetting("support_email");
-  const whatsappHref = whatsappLink ?? "mailto:hello@globalparo.com";
-  const emailAddr = supportEmail ?? "hello@globalparo.com";
+  const whatsappHref = WHATSAPP_URL;
+  const emailAddr = SUPPORT_EMAIL;
 
   const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 

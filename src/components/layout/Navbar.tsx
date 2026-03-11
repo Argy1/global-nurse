@@ -5,13 +5,13 @@ import { Button } from "@/components/ui/button";
 import logoIcon3d from "@/assets/logo-icon-3d.png";
 import logoText from "@/assets/logo-text.png";
 import { cn } from "@/lib/utils";
-import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { useTranslation } from "@/i18n/LanguageContext";
 import type { Lang } from "@/i18n/LanguageContext";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { SearchBar } from "@/components/layout/SearchBar";
+import { SUPPORT_EMAIL, WHATSAPP_TEL } from "@/lib/contact";
 
 interface DropdownItem {
   href: string;
@@ -31,7 +31,6 @@ export function Navbar() {
   const userMenuRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const navigate = useNavigate();
-  const { data: settings } = useSiteSettings();
   const { lang, setLang, t } = useTranslation();
   const { user, signOut } = useAuth();
 
@@ -66,39 +65,56 @@ export function Navbar() {
     navigate("/auth");
   };
 
-  const helpEmail = settings?.support_email || "hello@globalparo.com";
+  const helpEmail = SUPPORT_EMAIL;
 
   // Handle anchor links: navigate to page then scroll to section
   const handleAnchorLink = (href: string) => {
     const [path, hash] = href.split("#");
+    const targetPath = path || location.pathname;
+
+    const getHeaderOffset = () => {
+      const stickyHeader = document.querySelector("header.sticky") as HTMLElement | null;
+      return stickyHeader?.offsetHeight ?? 80;
+    };
 
     const scrollToHash = (id: string) => {
       if (id === "global-paro") {
         window.scrollTo({ top: 0, behavior: "smooth" });
-        return;
+        return true;
       }
+
       const el = document.getElementById(id);
       if (el) {
-        const navbarHeight = 80;
-        const top = el.getBoundingClientRect().top + window.scrollY - navbarHeight;
+        const top = el.getBoundingClientRect().top + window.scrollY - getHeaderOffset();
         window.scrollTo({ top, behavior: "smooth" });
+        return true;
       }
+      return false;
     };
 
     if (hash) {
-      if (location.pathname === path || (path === "" && location.pathname === "/about")) {
-        scrollToHash(hash);
+      if (location.pathname !== targetPath) {
+        navigate(`${targetPath}#${hash}`);
       } else {
-        navigate(path || "/");
-        // Wait for page to fully render before scrolling
-        setTimeout(() => scrollToHash(hash), 500);
+        navigate(`${targetPath}#${hash}`, { replace: true });
       }
+
+      if (scrollToHash(hash)) {
+        return;
+      }
+
+      let attempts = 0;
+      const maxAttempts = 20;
+      const timer = window.setInterval(() => {
+        attempts += 1;
+        if (scrollToHash(hash) || attempts >= maxAttempts) {
+          window.clearInterval(timer);
+        }
+      }, 100);
     } else {
       navigate(href);
     }
   };
-  const helpMobile = settings?.help_mobile;
-
   const navItems: NavItem[] = [
     {
       label: "About Us",
@@ -106,7 +122,8 @@ export function Navbar() {
         { href: "/about#global-paro", label: "Global Paro" },
         { href: "/about#vision", label: "Our Vision" },
         { href: "/about#mission", label: "Our Mission" },
-        { href: "/about#values", label: "Our Value" },
+        { href: "/about#values", label: "Our Values" },
+        { href: "/about#team", label: "Our Team" },
         
       ],
     },
@@ -169,11 +186,9 @@ export function Navbar() {
             <Link to="/help" className="flex items-center gap-1 text-xs text-primary-foreground/90 hover:text-primary-foreground transition-colors">
               Help
             </Link>
-            {helpMobile && helpMobile !== "UPDATE_ME" && (
-              <a href={`tel:${helpMobile}`} className="text-primary-foreground/90 hover:text-primary-foreground transition-colors">
-                <Phone className="h-3.5 w-3.5" />
-              </a>
-            )}
+            <a href={WHATSAPP_TEL} className="text-primary-foreground/90 hover:text-primary-foreground transition-colors">
+              <Phone className="h-3.5 w-3.5" />
+            </a>
             <a href={`mailto:${helpEmail}`} className="text-primary-foreground/90 hover:text-primary-foreground transition-colors">
               <Mail className="h-3.5 w-3.5" />
             </a>
@@ -275,7 +290,7 @@ export function Navbar() {
                 <button
                   className={cn(
                     "flex items-center gap-1 px-3 py-2 text-sm font-semibold rounded-md transition-colors whitespace-nowrap",
-                    item.dropdown?.some(d => location.pathname === d.href)
+                    item.dropdown?.some((d) => d.href.split("#")[0] === location.pathname)
                       ? "text-accent"
                       : "text-foreground hover:text-accent group-hover:text-accent"
                   )}

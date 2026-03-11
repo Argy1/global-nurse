@@ -7,8 +7,8 @@ import {
   Globe, Languages, FileCheck, Heart, Shield, Users, BriefcaseMedical,
   GraduationCap, AlertTriangle, Handshake,
 } from "lucide-react";
-import { useSetting } from "@/hooks/useSiteSettings";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { WHATSAPP_URL } from "@/lib/contact";
 
 const chapterIcons = [Globe, Languages, BriefcaseMedical, GraduationCap, FileCheck, Heart, AlertTriangle, Shield, Handshake, Users];
 const chapterIds = [
@@ -22,8 +22,7 @@ export default function Quickstart() {
   const [activeId, setActiveId] = useState(chapterIds[0]);
   const [tocOpen, setTocOpen] = useState(false);
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
-  const { value: whatsappLink } = useSetting("whatsapp_direct_chat_link");
-  const whatsappHref = whatsappLink ?? "mailto:hello@globalparo.com";
+  const whatsappHref = WHATSAPP_URL;
 
   const chapters = t.quickstart.chapters.map((ch, i) => ({
     ...ch,

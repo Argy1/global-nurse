@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, MessageCircle, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-nurses.jpg";
+import { WHATSAPP_URL } from "@/lib/contact";
 
 interface HeroCampaignProps {
   headline?: React.ReactNode;
@@ -66,10 +67,10 @@ export function HeroCampaign({
                 </Link>
               </Button>
               <Button variant="heroOutline" size="xl" asChild>
-                <Link to="/community">
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
                   <MessageCircle className="h-5 w-5" />
                   Join WhatsApp
-                </Link>
+                </a>
               </Button>
             </div>
           </div>

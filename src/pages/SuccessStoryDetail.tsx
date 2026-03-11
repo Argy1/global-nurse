@@ -3,9 +3,9 @@ import { ArrowLeft, ArrowRight, Globe, Calendar, Loader2, MessageCircle } from "
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { useContentBySlug, useContent } from "@/hooks/useContent";
-import { useSetting } from "@/hooks/useSiteSettings";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { useArticleSEO } from "@/hooks/useSEO";
+import { WHATSAPP_URL } from "@/lib/contact";
 
 export default function SuccessStoryDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -15,7 +15,6 @@ export default function SuccessStoryDetail() {
   // Dynamic per-article SEO (includes og:image for social previews)
   useArticleSEO({ title: story?.title, excerpt: story?.excerpt, coverImage: story?.cover_image_url, type: "success-story" });
   const { data: allStories } = useContent("SuccessStory");
-  const { value: whatsappLink } = useSetting("whatsapp_link");
 
   const related = allStories?.filter((s) => s.slug !== slug).slice(0, 3);
 
@@ -83,11 +82,9 @@ export default function SuccessStoryDetail() {
                 <Button variant="outline" className="w-full" asChild>
                   <Link to="/help">{t.storyDetail.chatWithUs} <MessageCircle className="h-4 w-4" /></Link>
                 </Button>
-                {whatsappLink && (
-                  <Button variant="outline" className="w-full" asChild>
-                    <a href={whatsappLink} target="_blank" rel="noopener noreferrer">{t.storyDetail.whatsappSupport}</a>
-                  </Button>
-                )}
+                <Button variant="outline" className="w-full" asChild>
+                  <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">{t.storyDetail.whatsappSupport}</a>
+                </Button>
               </div>
 
               {related && related.length > 0 && (

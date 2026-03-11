@@ -3,14 +3,10 @@ import { Link } from "react-router-dom";
 import { MessageCircle, ArrowRight, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useSiteSettings } from "@/hooks/useSiteSettings";
-import { toast } from "@/hooks/use-toast";
+import { WHATSAPP_URL } from "@/lib/contact";
 
 export function StickyBottomCTA() {
   const [isVisible, setIsVisible] = useState(false);
-  const { data: settings } = useSiteSettings();
-  const whatsappLink = settings?.whatsapp_direct_chat_link;
-  const hasWhatsApp = whatsappLink && whatsappLink !== "UPDATE_ME" && whatsappLink.startsWith("http");
 
   useEffect(() => {
     const handleScroll = () => setIsVisible(window.scrollY > 250);
@@ -19,11 +15,7 @@ export function StickyBottomCTA() {
   }, []);
 
   const handleWhatsApp = () => {
-    if (hasWhatsApp) {
-      window.open(whatsappLink, "_blank", "noopener,noreferrer");
-    } else {
-      toast({ title: "Coming Soon", description: "WhatsApp support link will be available soon." });
-    }
+    window.open(WHATSAPP_URL, "_blank", "noopener,noreferrer");
   };
 
   return (

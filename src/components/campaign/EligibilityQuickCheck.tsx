@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Link } from "react-router-dom";
 import { Constants } from "@/integrations/supabase/types";
+import { WHATSAPP_URL } from "@/lib/contact";
 
 const professionOptions = Constants.public.Enums.profession_type;
 const licenseStatusOptions = Constants.public.Enums.license_status_type;
@@ -264,10 +265,10 @@ export function EligibilityQuickCheck() {
                 ) : (
                   <>
                     <Button variant="whatsapp" size="lg" asChild>
-                      <Link to="/community">
+                      <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
                         <MessageCircle className="h-4 w-4" />
                         Join WhatsApp Community
-                      </Link>
+                      </a>
                     </Button>
                     <Button variant="outline" size="lg" onClick={resetQuiz}>
                       Check Again

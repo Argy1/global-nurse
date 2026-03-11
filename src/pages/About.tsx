@@ -2,6 +2,7 @@ import { Globe, Target, TrendingUp, Users, Star, Eye } from "lucide-react";
 import { Layout } from "@/components/layout/Layout";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { JoinMissionBanner } from "@/components/about/JoinMissionBanner";
+import { OurTeamSection } from "@/components/about/OurTeamSection";
 import logoIcon from "@/assets/logo-icon-3d.png";
 import nursesPair from "@/assets/nurses-pair.png";
 import missionCards from "@/assets/mission-cards.png";
@@ -51,10 +52,10 @@ export default function About() {
                   />
                   <h1
                     className="font-black font-heading leading-none tracking-tight whitespace-nowrap"
-                    style={{ fontSize: "clamp(3.5rem, 7vw, 7rem)" }}
+                    style={{ fontSize: "clamp(2.4rem, 4.8vw, 4.2rem)" }}
                   >
-                    <span style={{ color: "#015779" }}>Global </span>
-                    <span style={{ color: "#03989E" }}>PARO</span>
+                    <strong className="font-black" style={{ color: "#015779" }}>Global </strong>
+                    <strong className="font-black" style={{ color: "#03989E" }}>PARO</strong>
                   </h1>
                 </div>
 
@@ -199,6 +200,8 @@ export default function About() {
       <div className="w-full">
         <img src={valuesBanner} alt={t.about.valuesBannerAlt} className="w-full object-cover" style={{ maxHeight: "80px" }} />
       </div>
+
+      <OurTeamSection />
 
       <JoinMissionBanner />
     </Layout>
