@@ -347,7 +347,7 @@ const en = {
     batchHeroTitle: "Nurse in Singapore",
     batchHeroBatch: "Batch #1",
     batchHeroDeployment: "Deployment timeline: 31st May 2026",
-    batchHeroRegistration: "Registration open until 15th March 2026",
+    batchHeroRegistration: "Registration open until 15th April 2026",
     batchHeroApply: "Apply Now",
     batchPageTitle: "Programs",
     batchPageSubtitle: "Join 1000+ Indonesian Nurses Building Their Global Healthcare Careers",
