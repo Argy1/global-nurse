@@ -338,7 +338,7 @@ const en = {
   programs: {
     title: "Programs & Pricing",
     subtitle: "Join 1000+ Indonesian Nurses Building Their Global Healthcare Careers",
-    batchInfo: "🚀 Batch #1 — Deployment timeline: 31st May 2026 | Registration open until 15th March 2026",
+    batchInfo: "🚀 Batch #1 — Deployment timeline: 31st May 2026 | Registration open until 15th April 2026",
     fiftyNursesOnly: "50 NURSES ONLY",
     fiftyNursesDesc: "Limited spots available for Batch #1. Secure your place now.",
     batchTitle: "Batch Program",
