@@ -17,7 +17,7 @@ export default function About() {
   return (
     <Layout>
       {/* ── SECTION 1: Global Paro Hero ── */}
-      <section id="global-paro" className="relative overflow-hidden">
+      <section id="global-paro" className="relative overflow-hidden" style={{ scrollMarginTop: "80px" }}>
         <div className="absolute inset-0 z-0 flex">
           <div className="w-[55%] h-full" style={{ backgroundColor: "#015779" }} />
           <div className="w-[45%] h-full" style={{ backgroundColor: "#03989E" }} />
