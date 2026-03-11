@@ -355,7 +355,7 @@ const en = {
     batchRoleLabel: "Role",
     batchContractLabel: "Contract",
     batchEmployerLabel: "Employer",
-    batchDeploymentBadge: "📅 Deployment: 31st May 2026   |   📝 Registration closes: 15th March 2026",
+    batchDeploymentBadge: "📅 Deployment: 31st May 2026   |   📝 Registration closes: 15th April 2026",
     batchCareerPath: "📈 Career path: HCA → Enrolled Nurse → Registered Nurse opportunities available",
     batchCtaTitle: "Ready to Secure Your Spot?",
     batchCtaDesc: "Only 50 nurses will be selected for Batch #1. Don't miss your chance.",
