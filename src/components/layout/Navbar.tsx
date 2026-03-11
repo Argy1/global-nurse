@@ -71,12 +71,27 @@ export function Navbar() {
   // Handle anchor links: navigate to page then scroll to section
   const handleAnchorLink = (href: string) => {
     const [path, hash] = href.split("#");
+
+    const scrollToHash = (id: string) => {
+      if (id === "global-paro") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
+      const el = document.getElementById(id);
+      if (el) {
+        const navbarHeight = 80;
+        const top = el.getBoundingClientRect().top + window.scrollY - navbarHeight;
+        window.scrollTo({ top, behavior: "smooth" });
+      }
+    };
+
     if (hash) {
-      if (location.pathname === path) {
-        document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
+      if (location.pathname === path || (path === "" && location.pathname === "/about")) {
+        scrollToHash(hash);
       } else {
-        navigate(href);
-        setTimeout(() => document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" }), 300);
+        navigate(path || "/");
+        // Wait for page to fully render before scrolling
+        setTimeout(() => scrollToHash(hash), 500);
       }
     } else {
       navigate(href);
