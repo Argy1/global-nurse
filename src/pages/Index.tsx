@@ -14,6 +14,8 @@ import { useContent } from "@/hooks/useContent";
 import { useSuccessStories } from "@/hooks/useSuccessStories";
 import { useTranslation } from "@/i18n/LanguageContext";
 import heroBanner from "@/assets/hero-banner.png";
+import heroNurses from "@/assets/hero-nurses.jpg";
+import logoIcon from "@/assets/logo-icon.png";
 import { INSTAGRAM_URL, SUPPORT_EMAIL, WHATSAPP_NUMBER_DISPLAY, WHATSAPP_TEL, WHATSAPP_URL } from "@/lib/contact";
 
 const quickstartTopics = [
@@ -76,7 +78,7 @@ export default function Index() {
   ];
 
   const stats = [
-    { num: "500+", label: t.home.statsNurses },
+    { num: "1000+", label: t.home.statsNurses },
     { num: "3", label: t.home.statsCountries },
     { num: "AI+Human", label: t.home.statsSupportModel },
     { num: "0 Fee", label: t.home.statsFee },
@@ -86,29 +88,75 @@ export default function Index() {
     <Layout>
       <TutorialModal />
 
-      {/* ─── 1. HERO ─── */}
-      <section className="relative overflow-hidden" style={{ height: "clamp(320px, 55vw, 520px)" }}>
-        <img
-          src={heroBanner}
-          alt="Global PARO - Global Career Gateway for Nurses"
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ objectPosition: "center 20%" }}
-          loading="eager"
-        />
-        <div className="absolute bottom-6 md:bottom-8 left-0 right-0 md:left-[33%] md:right-auto flex justify-center md:justify-start gap-3 md:gap-4 px-4">
-          <Link
-            to="/register"
-            className="inline-flex items-center gap-2 px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold text-sm md:text-base text-white shadow-lg transition-all hover:opacity-90"
-            style={{ backgroundColor: "#03989E" }}
-          >
-            {t.common.getStarted} <ArrowRight className="h-4 w-4" />
-          </Link>
-          <Link
-            to="/programs"
-            className="inline-flex items-center px-6 py-2.5 md:px-8 md:py-3 rounded-full font-bold text-sm md:text-base text-white border-2 border-white transition-all hover:bg-white/20"
-          >
-            {t.common.learnMore}
-          </Link>
+      {/* 1. HERO */}
+      <section className="bg-[#ECEFF1] py-2 md:py-0">
+        <div className="w-full px-2 md:px-0">
+          <div className="relative hidden md:block">
+            <img
+              src={heroBanner}
+              alt="Global PARO - Global Career Gateway for Nurses"
+              className="w-full h-auto"
+              loading="eager"
+            />
+            <div className="absolute inset-x-0 bottom-[8.5%] flex justify-center">
+              <div className="flex items-center gap-4 lg:gap-6">
+                <Link
+                  to="/register"
+                  className="inline-flex h-12 lg:h-16 min-w-[190px] lg:min-w-[270px] items-center justify-center gap-2.5 rounded-full px-7 lg:px-10 text-base lg:text-[30px] font-bold text-white shadow-[0_10px_24px_rgba(0,0,0,0.22)] transition-all duration-200 hover:translate-y-[-1px] hover:shadow-[0_12px_28px_rgba(0,0,0,0.28)]"
+                  style={{ background: "linear-gradient(135deg, #50A8B1 0%, #4C9EAB 100%)" }}
+                >
+                  {t.common.getStarted}
+                  <ArrowRight className="h-5 w-5 lg:h-9 lg:w-9" strokeWidth={2.5} />
+                </Link>
+                <Link
+                  to="/programs"
+                  className="inline-flex h-12 lg:h-16 min-w-[190px] lg:min-w-[270px] items-center justify-center rounded-full border-[3px] border-white/95 bg-white/5 px-7 lg:px-10 text-base lg:text-[30px] font-bold text-white shadow-[0_8px_22px_rgba(0,0,0,0.2)] backdrop-blur-[2px] transition-all duration-200 hover:bg-white/12 hover:translate-y-[-1px]"
+                >
+                  {t.common.learnMore}
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          <div className="relative overflow-hidden rounded-2xl border border-[#B7CED7] bg-[#0EA0A6] md:hidden">
+            <img
+              src={heroNurses}
+              alt="Global PARO - Global Career Gateway for Nurses"
+              className="absolute inset-0 h-full w-full object-cover"
+              style={{ objectPosition: "70% center" }}
+              loading="eager"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0C5F7F]/90 via-[#0C5F7F]/60 to-[#0C5F7F]/25" />
+            <div className="relative z-10 p-5">
+              <div className="mb-5 flex items-center gap-3">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-md">
+                  <img src={logoIcon} alt="Global PARO Logo" className="h-10 w-10 object-contain" />
+                </div>
+                <div>
+                  <h1 className="font-heading text-4xl font-black leading-none text-white">Global PARO</h1>
+                  <p className="text-sm font-semibold text-white/95">Global Career Gateway for Nurses</p>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  to="/register"
+                  className="inline-flex items-center rounded-lg px-5 py-2.5 text-sm font-semibold text-white shadow-md"
+                  style={{ backgroundColor: "#529FAA" }}
+                >
+                  {t.common.getStarted}
+                </Link>
+                <Link
+                  to="/programs"
+                  className="inline-flex items-center rounded-lg px-5 py-2.5 text-sm font-semibold text-white shadow-md"
+                  style={{ backgroundColor: "#529FAA" }}
+                >
+                  {t.common.learnMore}
+                </Link>
+              </div>
+            </div>
+            <div className="pt-[66%]" />
+          </div>
         </div>
       </section>
 

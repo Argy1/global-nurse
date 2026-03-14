@@ -1,10 +1,10 @@
-import { Globe, Target, TrendingUp, Users, Star, Eye } from "lucide-react";
+import { Users, Star, Eye } from "lucide-react";
 import { Layout } from "@/components/layout/Layout";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { JoinMissionBanner } from "@/components/about/JoinMissionBanner";
 import { OurTeamSection } from "@/components/about/OurTeamSection";
 import logoIcon from "@/assets/logo-icon-3d.png";
-import nursesPair from "@/assets/nurses-pair.png";
+import nursesHero from "@/assets/hero-nurses.jpg";
 import missionCards from "@/assets/mission-cards.png";
 import checkmarkIcon from "@/assets/values-checkmark.png";
 import valuesTitle from "@/assets/values-title.png";
@@ -12,12 +12,11 @@ import valuesList from "@/assets/values-list.png";
 import valuesBanner from "@/assets/values-banner.png";
 
 export default function About() {
-  const { t, lang } = useTranslation();
-  const icons = [<Globe className="h-7 w-7" />, <Target className="h-7 w-7" />, <TrendingUp className="h-7 w-7" />];
+  const { t } = useTranslation();
 
   return (
     <Layout>
-      {/* ── SECTION 1: Global Paro Hero ── */}
+      {/* SECTION 1: Global Paro Hero */}
       <section id="global-paro" className="relative overflow-hidden" style={{ scrollMarginTop: "80px" }}>
         <div className="absolute inset-0 z-0 flex">
           <div className="w-[55%] h-full" style={{ backgroundColor: "#015779" }} />
@@ -32,9 +31,11 @@ export default function About() {
             >
               <div className="absolute inset-0 z-0">
                 <img
-                  src={nursesPair}
+                  src={nursesHero}
                   alt="Global PARO Nurses"
-                  className="absolute right-0 top-0 h-full w-[55%] md:w-[50%] object-cover object-left-top"
+                  className="absolute right-0 top-0 h-full w-[55%] md:w-[50%] object-cover"
+                  style={{ objectPosition: "78% center" }}
+                  loading="eager"
                 />
                 <div
                   className="absolute inset-0"
@@ -59,25 +60,16 @@ export default function About() {
                   </h1>
                 </div>
 
-                <p className="text-base md:text-lg leading-loose text-gray-600 text-justify" style={{ maxWidth: "480px" }}>
+                <p className="text-base md:text-lg leading-loose text-gray-700 text-justify" style={{ maxWidth: "480px" }}>
                   {t.about.heroDesc}
                 </p>
-
-                <div className="flex flex-wrap gap-x-4 gap-y-2">
-                  {(lang === "id" ? t.about.heroTagsId : t.about.heroTags).map((tag) => (
-                    <span key={tag} className="flex items-center gap-1.5 text-sm font-semibold" style={{ color: "#03989E" }}>
-                      <span className="w-2.5 h-2.5 rounded-full inline-block shrink-0" style={{ background: "#03989E" }} />
-                      {tag}
-                    </span>
-                  ))}
-                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── SECTION 2: Vision ── */}
+      {/* SECTION 2: Vision */}
       <section id="vision" style={{ scrollMarginTop: "80px" }}>
         <div className="py-20 px-6" style={{ background: "linear-gradient(135deg, #03989E 0%, #015779 100%)" }}>
           <div className="container max-w-6xl mx-auto">
@@ -98,36 +90,6 @@ export default function About() {
                   {t.about.visionStatement}
                 </p>
               </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="py-16 px-6 bg-background">
-          <div className="container max-w-6xl mx-auto">
-            <div className="rounded-2xl p-8 md:p-12 border-l-4 relative overflow-hidden" style={{ borderColor: "#03989E", backgroundColor: "hsl(var(--muted))" }}>
-              <div className="absolute top-0 right-0 w-64 h-64 rounded-full opacity-5" style={{ background: "#03989E", transform: "translate(30%, -30%)" }} />
-              <Globe className="h-10 w-10 mb-6 opacity-60" style={{ color: "#03989E" }} />
-              <blockquote className="text-2xl md:text-3xl font-bold text-foreground leading-snug mb-6 max-w-3xl italic">
-                "{t.about.visionQuote}"
-              </blockquote>
-              <p className="text-muted-foreground text-sm font-semibold uppercase tracking-widest">{t.about.visionQuoteAttr}</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="py-16 px-6" style={{ backgroundColor: "hsl(var(--card))" }}>
-          <div className="container max-w-6xl mx-auto">
-            <h3 className="text-2xl md:text-3xl font-black text-center mb-12 text-foreground">{t.about.visionPillarsTitle}</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {t.about.visionPillars.map((p, i) => (
-                <div key={p.title} className="rounded-xl p-6 border border-border hover:shadow-md transition-shadow">
-                  <div className="w-12 h-12 rounded-full flex items-center justify-center mb-4" style={{ backgroundColor: "#03989E20", color: "#03989E" }}>
-                    {icons[i]}
-                  </div>
-                  <h4 className="font-bold text-lg text-foreground mb-2">{p.title}</h4>
-                  <p className="text-muted-foreground text-sm leading-relaxed">{p.desc}</p>
-                </div>
-              ))}
             </div>
           </div>
         </div>
@@ -163,7 +125,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* ── SECTION 3: Mission ── */}
+      {/* SECTION 3: Mission */}
       <section id="mission" className="py-16 px-6 bg-background" style={{ scrollMarginTop: "80px" }}>
         <div className="container max-w-6xl mx-auto">
           <div className="mb-10">
@@ -178,7 +140,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* ── SECTION 4: Values ── */}
+      {/* SECTION 4: Values */}
       <section id="values" className="py-16 px-6 bg-background" style={{ scrollMarginTop: "80px" }}>
         <div className="container max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
@@ -202,9 +164,7 @@ export default function About() {
       </div>
 
       <OurTeamSection />
-
       <JoinMissionBanner />
     </Layout>
   );
 }
-
