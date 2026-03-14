@@ -98,19 +98,19 @@ export default function Index() {
               className="w-full h-auto"
               loading="eager"
             />
-            <div className="absolute inset-x-0 bottom-[8.5%] flex justify-center">
-              <div className="flex items-center gap-4 lg:gap-6">
+            <div className="absolute bottom-[9%] left-[39%] -translate-x-1/2">
+              <div className="flex items-center gap-3 lg:gap-4">
                 <Link
                   to="/register"
-                  className="inline-flex h-12 lg:h-16 min-w-[190px] lg:min-w-[270px] items-center justify-center gap-2.5 rounded-full px-7 lg:px-10 text-base lg:text-[30px] font-bold text-white shadow-[0_10px_24px_rgba(0,0,0,0.22)] transition-all duration-200 hover:translate-y-[-1px] hover:shadow-[0_12px_28px_rgba(0,0,0,0.28)]"
+                  className="inline-flex h-11 lg:h-14 min-w-[170px] lg:min-w-[220px] items-center justify-center gap-2 rounded-full px-6 lg:px-8 text-sm lg:text-xl font-bold text-white shadow-[0_8px_20px_rgba(0,0,0,0.2)] transition-all duration-200 hover:translate-y-[-1px] hover:shadow-[0_10px_24px_rgba(0,0,0,0.26)]"
                   style={{ background: "linear-gradient(135deg, #50A8B1 0%, #4C9EAB 100%)" }}
                 >
                   {t.common.getStarted}
-                  <ArrowRight className="h-5 w-5 lg:h-9 lg:w-9" strokeWidth={2.5} />
+                  <ArrowRight className="h-4 w-4 lg:h-6 lg:w-6" strokeWidth={2.5} />
                 </Link>
                 <Link
                   to="/programs"
-                  className="inline-flex h-12 lg:h-16 min-w-[190px] lg:min-w-[270px] items-center justify-center rounded-full border-[3px] border-white/95 bg-white/5 px-7 lg:px-10 text-base lg:text-[30px] font-bold text-white shadow-[0_8px_22px_rgba(0,0,0,0.2)] backdrop-blur-[2px] transition-all duration-200 hover:bg-white/12 hover:translate-y-[-1px]"
+                  className="inline-flex h-11 lg:h-14 min-w-[170px] lg:min-w-[220px] items-center justify-center rounded-full border-[2px] border-white/95 bg-white/5 px-6 lg:px-8 text-sm lg:text-xl font-bold text-white shadow-[0_7px_18px_rgba(0,0,0,0.18)] backdrop-blur-[2px] transition-all duration-200 hover:bg-white/12 hover:translate-y-[-1px]"
                 >
                   {t.common.learnMore}
                 </Link>
